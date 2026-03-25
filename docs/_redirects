@@ -1,0 +1,10 @@
+# Redirects from what the browser requests to what we serve
+# Rewrite a path and change the URL. ! for forcing
+# Learn more: https://docs.netlify.com/routing/redirects/redirect-options
+# Rewrite a path without changing the URL
+
+/home                              / 301!
+http://ast305.netlify.app/*        https://ast305.netlify.app/:splat  301!
+
+https://ast305.netlify.app/spreadsheet         https://docs.google.com/spreadsheets/d/1-b8sGN44cN14jDP1CcDliSTQJmO_Ls_H/edit?usp=sharing&ouid=102573764075752577860&rtpof=true&sd=true
+

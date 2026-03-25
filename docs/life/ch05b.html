@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Md Rasel Biswas">
+<title>Chapter 5B – Lifetime Data Analysis I</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../life/ch05a.html" rel="prev">
+<link href="../style/favicon-305.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7ef368ce27ca25031ef31c838a764c5c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-eeca75137c9ecfab76bf624b15b559e8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-7ef368ce27ca25031ef31c838a764c5c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+<meta property="og:title" content="Chapter 5B – Lifetime Data Analysis I">
+<meta property="og:description" content="(AST305) Lifetime Data Analysis I">
+<meta property="og:image" content="https://ast305.netlify.app/life/ch05b_files/figure-html/unnamed-chunk-21-1.png">
+<meta property="og:site_name" content="Lifetime Data Analysis I">
+<meta property="og:image:height" content="595">
+<meta property="og:image:width" content="1056">
+<meta name="twitter:title" content="Chapter 5B – Lifetime Data Analysis I">
+<meta name="twitter:description" content="(AST305) Lifetime Data Analysis I">
+<meta name="twitter:image" content="https://ast305.netlify.app/life/ch05b_files/figure-html/unnamed-chunk-21-1.png">
+<meta name="twitter:image-height" content="595">
+<meta name="twitter:image-width" content="1056">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../life/ch05b.html">5B Inference Procedures for Log-location-scale Distributions</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Lifetime Data Analysis I</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/00-course-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1 Basic Concepts and Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2 Observed Schemes, Censoring, and Likelihood</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3 Some Nonparametric and Graphical Procedures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/rsurvival.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">{survival} package</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4 Inference Procedures for Parametric Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch05a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5A Inference Procedures for Log-location-scale Distributions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch05b.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">5B Inference Procedures for Log-location-scale Distributions</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#inference-procedures-for-log-location-scale-distributions" id="toc-inference-procedures-for-log-location-scale-distributions" class="nav-link active" data-scroll-target="#inference-procedures-for-log-location-scale-distributions"><span class="header-section-number">5</span> Inference Procedures for Log-location-scale Distributions</a>
+  <ul class="collapse">
+<li>
+<a href="#log-normal-and-normal-distributions" id="toc-log-normal-and-normal-distributions" class="nav-link" data-scroll-target="#log-normal-and-normal-distributions"><span class="header-section-number">5.1</span> Log-normal and normal distributions</a>
+  <ul class="collapse">
+<li><a href="#log-normal-distribution" id="toc-log-normal-distribution" class="nav-link" data-scroll-target="#log-normal-distribution">Log-normal distribution</a></li>
+  <li><a href="#likelihood-function-normal-distribution" id="toc-likelihood-function-normal-distribution" class="nav-link" data-scroll-target="#likelihood-function-normal-distribution">Likelihood function normal distribution</a></li>
+  <li><a href="#estimate-of-survivor-function" id="toc-estimate-of-survivor-function" class="nav-link" data-scroll-target="#estimate-of-survivor-function">Estimate of survivor function</a></li>
+  <li><a href="#quantiles" id="toc-quantiles" class="nav-link" data-scroll-target="#quantiles">Quantiles</a></li>
+  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">Homework</a></li>
+  <li><a href="#example-5.3.1" id="toc-example-5.3.1" class="nav-link" data-scroll-target="#example-5.3.1">Example 5.3.1</a></li>
+  <li><a href="#estimated-variance-operatornamevhatmu-hatsigma-from-operatornamevhatmu-loghatsigma" id="toc-estimated-variance-operatornamevhatmu-hatsigma-from-operatornamevhatmu-loghatsigma" class="nav-link" data-scroll-target="#estimated-variance-operatornamevhatmu-hatsigma-from-operatornamevhatmu-loghatsigma">Estimated variance <span class="math inline">\(\operatorname{V}(\hat\mu, \hat\sigma)\)</span> from <span class="math inline">\(\operatorname{V}(\hat\mu, \log\hat\sigma)\)</span></a></li>
+  <li><a href="#quantiles-1" id="toc-quantiles-1" class="nav-link" data-scroll-target="#quantiles-1">Quantiles</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#log-logistic-and-logistic-distributions" id="toc-log-logistic-and-logistic-distributions" class="nav-link" data-scroll-target="#log-logistic-and-logistic-distributions"><span class="header-section-number">5.2</span> Log-logistic and logistic distributions</a>
+  <ul class="collapse">
+<li><a href="#log-logistic-distribution" id="toc-log-logistic-distribution" class="nav-link" data-scroll-target="#log-logistic-distribution">Log-logistic distribution</a></li>
+  <li><a href="#logistic-distribution" id="toc-logistic-distribution" class="nav-link" data-scroll-target="#logistic-distribution">Logistic distribution</a></li>
+  <li><a href="#estimate-of-survivor-function-1" id="toc-estimate-of-survivor-function-1" class="nav-link" data-scroll-target="#estimate-of-survivor-function-1">Estimate of survivor function</a></li>
+  <li><a href="#quantiles-2" id="toc-quantiles-2" class="nav-link" data-scroll-target="#quantiles-2">Quantiles</a></li>
+  <li><a href="#homework-1" id="toc-homework-1" class="nav-link" data-scroll-target="#homework-1">Homework</a></li>
+  <li><a href="#example-5.3.1-1" id="toc-example-5.3.1-1" class="nav-link" data-scroll-target="#example-5.3.1-1">Example 5.3.1</a></li>
+  <li><a href="#quantiles-3" id="toc-quantiles-3" class="nav-link" data-scroll-target="#quantiles-3">Quantiles</a></li>
+  <li><a href="#homework-2" id="toc-homework-2" class="nav-link" data-scroll-target="#homework-2">Homework</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#comparison-of-distributions" id="toc-comparison-of-distributions" class="nav-link" data-scroll-target="#comparison-of-distributions"><span class="header-section-number">5.3</span> Comparison of distributions</a>
+  <ul class="collapse">
+<li><a href="#survivor-functions" id="toc-survivor-functions" class="nav-link" data-scroll-target="#survivor-functions">Survivor functions</a></li>
+  <li><a href="#quantile" id="toc-quantile" class="nav-link" data-scroll-target="#quantile">Quantile</a></li>
+  <li><a href="#equality-of-two-populations" id="toc-equality-of-two-populations" class="nav-link" data-scroll-target="#equality-of-two-populations">Equality of two populations</a></li>
+  <li><a href="#wald-type-statistic" id="toc-wald-type-statistic" class="nav-link" data-scroll-target="#wald-type-statistic">Wald-type statistic</a></li>
+  <li><a href="#lrt-based-inference" id="toc-lrt-based-inference" class="nav-link" data-scroll-target="#lrt-based-inference">LRT based inference</a></li>
+  <li><a href="#case-1" id="toc-case-1" class="nav-link" data-scroll-target="#case-1">Case 1</a></li>
+  <li><a href="#case-2" id="toc-case-2" class="nav-link" data-scroll-target="#case-2">Case 2</a></li>
+  <li><a href="#case-3" id="toc-case-3" class="nav-link" data-scroll-target="#case-3">Case 3</a></li>
+  <li><a href="#case-4" id="toc-case-4" class="nav-link" data-scroll-target="#case-4">Case 4</a></li>
+  <li><a href="#case-5" id="toc-case-5" class="nav-link" data-scroll-target="#case-5">Case 5</a></li>
+  <li><a href="#comparison-of-weibull-or-extreme-value-distributions" id="toc-comparison-of-weibull-or-extreme-value-distributions" class="nav-link" data-scroll-target="#comparison-of-weibull-or-extreme-value-distributions">Comparison of Weibull or extreme value distributions</a></li>
+  <li><a href="#example-5.4.1" id="toc-example-5.4.1" class="nav-link" data-scroll-target="#example-5.4.1">Example 5.4.1</a></li>
+  <li><a href="#lrt-case-1" id="toc-lrt-case-1" class="nav-link" data-scroll-target="#lrt-case-1">LRT (Case 1)</a></li>
+  <li><a href="#confidence-interval-of-b_1b_2-case-2" id="toc-confidence-interval-of-b_1b_2-case-2" class="nav-link" data-scroll-target="#confidence-interval-of-b_1b_2-case-2">Confidence interval of <span class="math inline">\((b_1/b_2)\)</span> (Case 2)</a></li>
+  <li><a href="#case-3-1" id="toc-case-3-1" class="nav-link" data-scroll-target="#case-3-1">Case 3</a></li>
+  <li><a href="#case-4-1" id="toc-case-4-1" class="nav-link" data-scroll-target="#case-4-1">Case 4</a></li>
+  <li><a href="#case-5-1" id="toc-case-5-1" class="nav-link" data-scroll-target="#case-5-1">Case 5</a></li>
+  <li><a href="#homework-3" id="toc-homework-3" class="nav-link" data-scroll-target="#homework-3">Homework</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  </ul><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ch05b.pdf"><i class="bi bi-file-pdf"></i>Beamer</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Chapter 5B</h1>
+<p class="subtitle lead">(AST305) Lifetime Data Analysis I</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Md Rasel Biswas </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="inference-procedures-for-log-location-scale-distributions" class="level1" data-number="5"><h1 data-number="5">
+<span class="header-section-number">5</span> Inference Procedures for Log-location-scale Distributions</h1>
+<section id="log-normal-and-normal-distributions" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="log-normal-and-normal-distributions">
+<span class="header-section-number">5.1</span> Log-normal and normal distributions</h2>
+<section id="log-normal-distribution" class="level3"><h3 class="anchored" data-anchor-id="log-normal-distribution">Log-normal distribution</h3>
+<ul>
+<li><p><span class="math inline">\(T\)</span> follows a log-normal distribution with location parameter <span class="math inline">\(\mu\)</span> and scale parameter <span class="math inline">\(\sigma\)</span> if <span class="math inline">\(Y=\log T\sim\mathcal{N}(\mu, \sigma^2)\)</span></p></li>
+<li>
+<p>The pdf and survivor function of log-normal distribution <span class="math display">\[\begin{aligned}
+f(t; \mu, \sigma) &amp;= \frac{1}{\sigma t \sqrt{2\pi}}\exp\bigg[-\frac{1}{2}\bigg(\frac{\log t -\mu}{\sigma}\bigg)^2\bigg]\\[.35em]
+S(t; \mu, \sigma) &amp; = 1 - \Phi\bigg(\frac{\log t -\mu}{\sigma}\bigg)
+\end{aligned}\]</span></p>
+<ul>
+<li><p><span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> are the parameters of both normal and log-normal distributions</p></li>
+<li><p><span class="math inline">\(\Phi(\cdot)\,\rightarrow\)</span> cumulative distribution function of standard normal distribution</p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Log-normal distribution is a member of the log-location-scale family of distributions and the corresponding location-scale distribution is normal with <span class="math display">\[\begin{aligned}
+S_0(z) &amp; = 1 - \Phi(z) \\
+f_0(z) &amp; = \frac{1}{\sqrt{2\pi}}e^{-z^2/2}=\phi(z)
+\end{aligned}\]</span>
+<ul>
+<li><p><span class="math inline">\(\phi(\cdot)\,\rightarrow\)</span> pdf of standard normal distribution</p></li>
+<li><p><span class="math inline">\(z=(y-\mu)/\sigma\)</span></p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>Density function of log-lifetime <span class="math display">\[\begin{aligned}
+f(y; \mu, \sigma) &amp;= \frac{1}{\sigma}f_0\Big(\frac{y-\mu}{\sigma}\Big) \\
+&amp;=\frac{1}{\sigma\sqrt{2\pi}}\exp\Big[-\frac{1}{2}\Big(\frac{y-\mu}{\sigma}\Big)^2\Big]
+\end{aligned}\]</span></p></li>
+<li><p>Survivor function of log-lifetime <span class="math display">\[\begin{aligned}
+S(y; \mu, \sigma) = S_0\bigg(\frac{y-\mu}{\sigma}\bigg) = 1 - \Phi\bigg(\frac{y-\mu}{\sigma}\bigg)
+\end{aligned}\]</span></p></li>
+</ul></section><section id="likelihood-function-normal-distribution" class="level3"><h3 class="anchored" data-anchor-id="likelihood-function-normal-distribution">Likelihood function normal distribution</h3>
+<ul>
+<li><p>Data <span class="math display">\[
+\big\{(t_i, \delta_i), \;i=1, \ldots, n\big\}
+\]</span></p></li>
+<li>
+<p>Log-likelihood function <span class="math display">\[\begin{aligned}
+\ell(\mu, \sigma) &amp; = \log \prod_{i=1}^n\Big[({1}/{\sigma})\,f_0(z_i)\Big]^{\delta_i}\,\Big[S_0(z_i)\Big]^{1-\delta_i}\\
+&amp;=-r\log \sigma + \sum_{i=1}^n \delta_i\log f_0(z_i) + \sum_{i=1}^n(1-\delta_i)\log S_0(z_i) \\
+&amp;= -r\log \sigma -\frac{1}{2}\sum_{i=1}^n \delta_iz_i^2 + \sum_{i=1}^n(1-\delta_i)\log S_0(z_i)
+\end{aligned}\]</span></p>
+<ul>
+<li><p><span class="math inline">\(z_i=(y_i - \mu)/\sigma\)</span> and <span class="math inline">\(y_i=\log t_i\)</span></p></li>
+<li><p><span class="math inline">\(r = \sum_{i=1}^n \delta_i\)</span></p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Elements of hessian matrix and score function depend on the followings <span class="math display">\[\begin{aligned}
+\frac{\partial \log f_0(z)}{\partial z} &amp;= -z  \\
+\frac{\partial^2 \log f_0(z)}{\partial z^2} &amp;= -1  \\
+\frac{\partial \log S_0(z)}{\partial z} &amp;= -\frac{f_0(z)}{S_0(z)}  \\
+\frac{\partial^2 \log S_0(z)}{\partial z^2} &amp;= \frac{zf_0(z)}{S_0(z)} - \bigg[\frac{f_0(z)}{S_0(z)}\bigg]^2  
+\end{aligned}\]</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>MLEs <span class="math display">\[\begin{aligned}
+(\hat\mu, \hat\sigma)'  = {\arg\,\max}_{\Theta} \;\ell(\mu, \sigma)
+\end{aligned}\]</span></p>
+<ul>
+<li>Sampling distribution <span class="math display">\[\begin{aligned}
+(\hat\mu, \hat\sigma)' \sim \mathcal{N}\Big((\mu, \sigma)', V\Big)
+\end{aligned}\]</span> where <span class="math display">\[
+\hat V = \Big[-H(\hat \mu, \hat \sigma)\Big]^{-1}
+\]</span>
+</li>
+</ul>
+</li>
+<li><p>Confidence intervals of parameters, quantiles, and survival probabilities can be obtained using the methods described for Weibull models</p></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>Estimate of survivor function (Log-normal distribution) <span class="math display">\[\begin{aligned}
+S(t; \hat\mu, \hat\sigma) &amp;= 1 - \Phi\Big(\frac{\log t - \hat\mu}{\hat\sigma}\Big)\notag\\
+&amp;=1 - \Phi(\hat\psi)
+\end{aligned}\]</span> where <span class="math display">\[
+\hat\psi = \Phi^{-1} \Big(1-S(t; \hat\mu, \hat\sigma)\Big)= \frac{\log t - \hat\mu}{\hat\sigma}
+\]</span></p>
+<ul>
+<li>Standard error of <span class="math inline">\(\hat\psi\)</span> <span class="math display">\[
+se(\hat\psi) = \sqrt{\mathbf{a}'\hat V\mathbf{a}}
+\]</span> where <span class="math display">\[
+\mathbf{a} = (-1/\hat\sigma, -\hat\psi/\hat\sigma)'
+\]</span>
+</li>
+</ul>
+</li>
+</ul></section><section id="estimate-of-survivor-function" class="level3"><h3 class="anchored" data-anchor-id="estimate-of-survivor-function">Estimate of survivor function</h3>
+<ul>
+<li>
+<span class="math inline">\((1-\alpha)100\%\)</span> CI of <span class="math inline">\(S(t)\)</span> <span class="math display">\[\begin{aligned}
+L&amp;&lt;\psi &lt; U\\
+L &amp;&lt;\Phi^{-1}\big(1 - S(t;\mu, \sigma)\big) &lt; U\\
+\Phi(L) &amp;&lt;1 - S(t;\mu, \sigma)&lt;\Phi(U)\\
+1-\Phi(U) &amp;&lt;S(t;\mu, \sigma)&lt;1-\Phi(L)
+\end{aligned}\]</span> where <span class="math display">\[\begin{aligned}
+L &amp; = \hat\psi -z_{1-\alpha/2}\,se(\hat\psi) \\
+U &amp; = \hat\psi +z_{1-\alpha/2}\,se(\hat\psi)
+\end{aligned}\]</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>LRT statistics based method of obtaining CI for survivor function is described with <span class="math display">\[H_0: S(y_0) = S(\log t_0)=s_0\]</span></p></li>
+<li><p>The <span class="math inline">\(100(1-\alpha)\%\)</span> CI for <span class="math inline">\(S(t)\)</span> can be obtained from the values of <span class="math inline">\(s_0\)</span> that satisfy <span class="math display">\[
+\Lambda(s_0)=2\ell(\hat\mu, \hat\sigma) - 2\ell(\tilde \mu, \tilde \sigma)\leq \chi^2_{(1), 1-\alpha}
+\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>Unrestricted and unrestricted MLEs are obtained as <span class="math display">\[\begin{aligned}
+\text{unrestricted}\;\;\;(\hat\mu, \hat\sigma)'&amp;={\arg\,\max}_{\Theta}\,\ell(\mu, \sigma) \\
+\text{restricted}\;\;\;(\tilde\mu, \tilde\sigma)'&amp;={\arg\,\max}_{\Theta}\,\ell(y_0-\sigma\Phi^{-1}(1-s_0), \sigma)
+\end{aligned}\]</span> where under <span class="math inline">\(H_0\)</span>, we can show <span class="math display">\[
+S(y_0) = 1 - \Phi\Big(\frac{y_0 - \mu}{\sigma}\Big) = s_0\;\;\Rightarrow\;\;\mu = y_0 - \sigma\Phi^{-1}(1-s_0)
+\]</span>
+</li>
+</ul></section><section id="quantiles" class="level3"><h3 class="anchored" data-anchor-id="quantiles">Quantiles</h3>
+<ul>
+<li>The expression of estimate of <span class="math inline">\(y_p\)</span> <span class="math display">\[
+\hat y_p = \hat\mu + \hat \sigma w_p
+\]</span> where for normal distribution <span class="math display">\[
+w_p = S_0^{-1}(1-p) = \Phi^{-1}(p)
+\]</span>
+</li>
+<li>Standard error of <span class="math inline">\(\hat y_p\)</span><br><span class="math display">\[
+se(\hat y_p) = \sqrt{\mathbf{a}'\hat V\mathbf{a}}
+\]</span> where <span class="math display">\[
+\mathbf{a} = (1, w_p)'
+\]</span>
+</li>
+</ul></section><section id="homework" class="level3"><h3 class="anchored" data-anchor-id="homework">Homework</h3>
+<ul>
+<li>Obtain the expressions of Wald-type and LRT based <span class="math inline">\(100(1-\alpha)\%\)</span> confidence intervals of <span class="math inline">\(y_p\)</span>
+</li>
+</ul></section><section id="example-5.3.1" class="level3"><h3 class="anchored" data-anchor-id="example-5.3.1">Example 5.3.1</h3>
+<ul>
+<li><p>Data are available on lifetimes (in thousand miles) of 96 locomotive controls, of which were failed.</p></li>
+<li><p>The test was terminated after <span class="math inline">\(135K\)</span> miles, so 59 lifetimes were censored at <span class="math inline">\(135K\)</span>.</p></li>
+</ul>
+<hr>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_ex531</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 96 × 2
+    time status
+   &lt;dbl&gt;  &lt;int&gt;
+ 1  22.5      1
+ 2  37.5      1
+ 3  46        1
+ 4  48.5      1
+ 5  51.5      1
+ 6  53        1
+ 7  54.5      1
+ 8  57.5      1
+ 9  66.5      1
+10  68        1
+# ℹ 86 more rows</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_ex531</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">count</span><span class="op">(</span><span class="va">status</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  status     n
+   &lt;int&gt; &lt;int&gt;
+1      0    59
+2      1    37</code></pre>
+</div>
+</div>
+<hr>
+<p><strong>Log-normal and normal model fit</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_LN</span> <span class="op">&lt;-</span> <span class="fu">survreg</span><span class="op">(</span><span class="fu">Surv</span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, </span>
+<span>                  dist <span class="op">=</span> <span class="st">"lognormal"</span>,</span>
+<span>                  data <span class="op">=</span> <span class="va">dat_ex531</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_N</span> <span class="op">&lt;-</span> <span class="fu">survreg</span><span class="op">(</span><span class="fu">Surv</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, </span>
+<span>                dist <span class="op">=</span> <span class="st">"gaussian"</span>,</span>
+<span>                data <span class="op">=</span> <span class="va">dat_ex531</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><strong>MLEs <span class="math inline">\((\hat\mu, \log\hat\sigma)\)</span> and corresponding standard errors</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">tidy</span><span class="op">(</span><span class="va">mod_LN</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)    5.19      0.129     40.3    0    
+2 Log(scale)    -0.136     0.131     -1.04   0.297</code></pre>
+</div>
+</div>
+<hr>
+<p><strong>Estimated variance of <span class="math inline">\((\hat\mu, \log\hat\sigma)\)</span></strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_LN</span><span class="op">$</span><span class="va">var</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            (Intercept) Log(scale)
+(Intercept)  0.01657557 0.00983969
+Log(scale)   0.00983969 0.01703353</code></pre>
+</div>
+</div>
+</section><section id="estimated-variance-operatornamevhatmu-hatsigma-from-operatornamevhatmu-loghatsigma" class="level3"><h3 class="anchored" data-anchor-id="estimated-variance-operatornamevhatmu-hatsigma-from-operatornamevhatmu-loghatsigma">Estimated variance <span class="math inline">\(\operatorname{V}(\hat\mu, \hat\sigma)\)</span> from <span class="math inline">\(\operatorname{V}(\hat\mu, \log\hat\sigma)\)</span>
+</h3>
+<ul>
+<li><span class="math inline">\(G\,V(\hat\mu, \log\hat\sigma)\,G'\)</span></li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]       [,2]
+[1,] 0.01657557 0.00858735
+[2,] 0.00858735 0.01297359</code></pre>
+</div>
+</div>
+<p><span class="math display">\[G = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; \exp(\sigma)\end{bmatrix}\]</span></p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>95% Confidence intervals for <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>
+</caption>
+<thead><tr class="header">
+<th style="text-align: left;">par</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\mu\)</span></td>
+<td style="text-align: right;">4.942</td>
+<td style="text-align: right;">5.447</td>
+<td style="text-align: right;">5.000</td>
+<td style="text-align: right;">5.400</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\sigma\)</span></td>
+<td style="text-align: right;">0.676</td>
+<td style="text-align: right;">1.127</td>
+<td style="text-align: right;">0.709</td>
+<td style="text-align: right;">1.109</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<ul>
+<li>
+<p>Estimate of <span class="math inline">\(S(80)\)</span> <span class="math display">\[\begin{aligned}
+S(80; \hat\mu, \hat\sigma) &amp;= 1 - \Phi\Big(\frac{\log 80 - \hat\mu}{\hat\sigma}\Big)\\
+&amp;=0.824
+\end{aligned}\]</span></p>
+<ul>
+<li><span class="math inline">\(\hat\mu = 5.195 \;\;\text{and}\;\;  \hat\sigma = 0.873\)</span></li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch05b_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Comparison of the estimates of survivor function</figcaption></figure>
+</div>
+</div>
+</div>
+<p>`</p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Estimate and confidence interval of <span class="math inline">\(S(80)\)</span>
+</caption>
+<thead><tr class="header">
+<th style="text-align: left;">parameter</th>
+<th style="text-align: right;">est</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(S(80)\)</span></td>
+<td style="text-align: right;">0.824</td>
+<td style="text-align: right;">0.667</td>
+<td style="text-align: right;">0.924</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<ul>
+<li>Obtain LRT based 95% CI for <span class="math inline">\(S(80)\)</span>
+</li>
+</ul></section><section id="quantiles-1" class="level3"><h3 class="anchored" data-anchor-id="quantiles-1">Quantiles</h3>
+<ul>
+<li>General expression of <span class="math inline">\(p\)</span>th quantile of log-lifetime (<span class="math inline">\(\hat\mu=5.195\)</span> and <span class="math inline">\(\hat \sigma = 0.873\)</span>) <span class="math display">\[
+\hat y_p = \hat\mu + \hat\sigma w_p
+\]</span>
+<ul>
+<li><span class="math inline">\(w_p=\Phi^{-1}(p)\)</span></li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Estimate and confidence intervals of different quantiles of locomotive controls lifetime (normal distribution)</caption>
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(p\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(w_p\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\hat y_p\)</span></th>
+<th style="text-align: right;">se</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">-0.674</td>
+<td style="text-align: right;">4.606</td>
+<td style="text-align: right;">0.105</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">5.195</td>
+<td style="text-align: right;">0.129</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.674</td>
+<td style="text-align: right;">5.783</td>
+<td style="text-align: right;">0.194</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section></section><section id="log-logistic-and-logistic-distributions" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="log-logistic-and-logistic-distributions">
+<span class="header-section-number">5.2</span> Log-logistic and logistic distributions</h2>
+<section id="log-logistic-distribution" class="level3"><h3 class="anchored" data-anchor-id="log-logistic-distribution">Log-logistic distribution</h3>
+<ul>
+<li>
+<span class="math inline">\(T\)</span> follows a log-logistic distribution with parameters <span class="math inline">\(\alpha\)</span> (scale) and <span class="math inline">\(\beta\)</span> (shape) if <span class="math inline">\(Y=\log T\)</span> follows a logistic distribution with parameters <span class="math inline">\(u\)</span> (location) and <span class="math inline">\(b\)</span> (scale)</li>
+</ul>
+<hr>
+<ul>
+<li>The pdf, survivor, and hazard function of log-logistic distribution <span class="math display">\[\begin{aligned}
+f(t; \alpha, \beta) &amp;= \frac{(\beta/\alpha)(t/\alpha)^{\beta-1}}{\big[1+(t/\alpha)^{\beta}\big]^2}\\[.45em]
+S(t; \alpha, \beta) &amp; =\big[1 + (t/\alpha)^{\beta}\big]^{-1} \\[.45em]
+h(t; \alpha, \beta) &amp;= \frac{(\beta/\alpha)(t/\alpha)^{\beta-1}}{\big[1+(t/\alpha)^{\beta}\big]}
+\end{aligned}\]</span>
+</li>
+</ul></section><section id="logistic-distribution" class="level3"><h3 class="anchored" data-anchor-id="logistic-distribution">Logistic distribution</h3>
+<ul>
+<li>
+<p>Log-logistic distribution is a member of the log-location-scale family of distributions and the corresponding location-scale distribution is logistic with <span class="math display">\[\begin{aligned}
+S_0(z) &amp; =\frac{1}{1 + e^z} \\[.25em]
+f_0(z) &amp; =\frac{e^z}{(1 + e^z)^2}
+\end{aligned}\]</span></p>
+<ul>
+<li><span class="math inline">\(z=(y-u)/b\)</span></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>Density function of log-lifetime <span class="math display">\[\begin{aligned}
+f(y; u, b) &amp;= \frac{1}{b}f_0\Big(\frac{y-u}{b}\Big) \\[.3em]
+&amp;=\frac{(1/b)\,\exp\big[{(y-u)/b}\big]}{\big\{1 + \exp\big[(y-u)/b\big]\big\}^2}
+\end{aligned}\]</span></p></li>
+<li><p>Survivor function of log-lifetime <span class="math display">\[\begin{aligned}
+S(y; u, b) &amp;= S_0\bigg(\frac{y-u}{b}\bigg) \\
+&amp; = \frac{1}{1 + \exp\big[(y-u)/b\big]}
+\end{aligned}\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li><p>Data: <span class="math inline">\(\;\;\;\big\{(t_i, \delta_i), \;i=1, \ldots, n\big\}\)</span></p></li>
+<li>
+<p>Log-likelihood function <span class="math display">\[\begin{aligned}
+\ell(\mu, \sigma) &amp; = \log \prod_{i=1}^n\Big[({1}/{b})\,f_0(z_i)\Big]^{\delta_i}\,\Big[S_0(z_i)\Big]^{1-\delta_i}\notag\\
+&amp;=-r\log b + \sum_{i=1}^n \delta_i\log f_0(z_i) + \sum_{i=1}^n(1-\delta_i)\log S_0(z_i)\notag\\
+&amp;=-r\log b + \sum_{i=1}^n\Big[\delta_i\big\{z_i - \log(1+e^{z_i})\big\} - \log(1+e^{z_i})\Big]\notag
+%&amp; = -r\log b + \sum_{i=1}^n\Big[\delta_i z_i + (1 - \delta_i)\log(1+e^{z_i})\Big]
+\end{aligned}\]</span></p>
+<ul>
+<li><p><span class="math inline">\(z_i=(y_i - u)/b\)</span> and <span class="math inline">\(y_i=\log t_i\)</span></p></li>
+<li><p><span class="math inline">\(r = \sum_{i=1}^n \delta_i\)</span></p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Elements of hessian matrix and score function depend on the followings <span class="math display">\[\begin{aligned}
+\frac{\partial \log f_0(z)}{\partial z} &amp;= 1 - \frac{2e^z}{1+e^z}  \\
+\frac{\partial^2 \log f_0(z)}{\partial z^2} &amp;= -2f_0(z)  \\
+\frac{\partial \log S_0(z)}{\partial z} &amp;= \frac{-e^z}{1+e^z}  \\
+\frac{\partial^2 \log S_0(z)}{\partial z^2} &amp;= \frac{-e^z}{(1+e^z)^2}  
+\end{aligned}\]</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>MLEs <span class="math display">\[\begin{aligned}
+(\hat u, \hat b)'  = {\arg\,\max}_{\Theta} \;\ell(u, b)
+\end{aligned}\]</span></p></li>
+<li><p>Sampling distribution <span class="math display">\[\begin{aligned}
+(\hat u, \hat b)' \sim \mathcal{N}\Big((u, b)', V\Big)
+\end{aligned}\]</span> where <span class="math display">\[
+\hat V = \Big[-H(\hat u, \hat b)\Big]^{-1}
+\]</span></p></li>
+<li><p>Confidence intervals of parameters, quantiles, and survival probabilities can be obtained using the methods described for Weibull models</p></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>Estimate of survivor function (logistic distribution) <span class="math display">\[\begin{aligned}
+S_0\Big(\frac{y-\hat u}{\hat b}\Big)=S(y; \hat u, \hat b) &amp;= \frac{1}{1+\exp\big[(y -\hat u)/\hat b\big]} \\[.5em]
+\log\bigg[\frac{1-S(y)}{S(y)}\bigg] &amp; = \frac{y-\hat u}{\hat b} = {\color{purple}\hat\psi} = S_0^{-1}\Big(S(y)\Big)
+\end{aligned}\]</span></p>
+<ul>
+<li>Standard error of <span class="math inline">\(\hat\psi\)</span> <span class="math display">\[
+se(\hat\psi) = \sqrt{\mathbf{a}'\hat V\mathbf{a}},\;\;\;\text{where } \mathbf{a} = (-1/\hat b, -\hat\psi/\hat b)'
+\]</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong><span class="math inline">\((1-\alpha)100\%\)</span> CI of <span class="math inline">\(S(t)\)</span></strong></p>
+<p><span class="math display">\[\begin{aligned}
+L&amp;&lt;\psi &lt; U\\
+L &amp;&lt; \log \frac{1-S(y)}{S(y)} &lt; U\\
+\exp(L) &amp;&lt; \frac{1-S(y)}{S(y)} &lt;\exp(U)\\
+1 + \exp(L)  &amp;&lt; 1 + \frac{1-S(y)}{S(y)} &lt;1 + \exp(L) \\
+\frac{1}{1 + \exp(U)} &amp;&lt;S(y) &lt; \frac{1}{1 + \exp(L)}
+\end{aligned}\]</span> where <span class="math display">\[\begin{aligned}
+L &amp; = \hat\psi -z_{1-\alpha/2}\,se(\hat\psi) \\
+U &amp; = \hat\psi +z_{1-\alpha/2}\,se(\hat\psi)
+\end{aligned}\]</span></p>
+</section><section id="estimate-of-survivor-function-1" class="level3"><h3 class="anchored" data-anchor-id="estimate-of-survivor-function-1">Estimate of survivor function</h3>
+<ul>
+<li><p>LRT statistics based method of obtaining CI for survivor function is described with <span class="math display">\[H_0: S(y_0) = S(\log t_0)=s_0\]</span></p></li>
+<li><p>The <span class="math inline">\(100(1-\alpha)\%\)</span> CI for <span class="math inline">\(S(t)\)</span> can be obtained from the values of <span class="math inline">\(s_0\)</span> that satisfy <span class="math display">\[
+\Lambda(s_0)\leq \chi^2_{(1), 1-\alpha}
+\]</span> where <span class="math display">\[\begin{aligned}
+\Lambda(s_0) = 2\ell(\hat u, \hat b) - 2\ell(\tilde u, \tilde b)
+\end{aligned}\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>Unrestricted and unrestricted MLEs are obtained as <span class="math display">\[\begin{aligned}
+\text{unrestricted}\;\;\;(\hat u, \hat b)'&amp;={\arg\,\max}_{\Theta}\,\ell(u, b) \\
+\text{restricted}\;\;\;(\tilde u, \tilde b)'&amp;={\arg\,\max}_{\Theta}\,\ell\big(y_0-b\log\big\{(1-s_0)/s_0\big\}, b\big)
+\end{aligned}\]</span> where under <span class="math inline">\(H_0\)</span>, we can show <span class="math display">\[
+S(y_0) = s_0\;\;\Rightarrow\;\;u = y_0 - b\log\frac{1-s_0}{s_0}
+\]</span>
+</li>
+</ul></section><section id="quantiles-2" class="level3"><h3 class="anchored" data-anchor-id="quantiles-2">Quantiles</h3>
+<ul>
+<li>The expression of estimate of <span class="math inline">\(y_p\)</span> <span class="math display">\[
+\hat y_p = \hat u + \hat b w_p
+\]</span> where for normal distribution <span class="math display">\[
+w_p = S_0^{-1}(1-p) = \log\frac{p}{1-p}
+\]</span>
+</li>
+<li>Standard error of <span class="math inline">\(\hat y_p\)</span><br><span class="math display">\[
+se(\hat y_p) = \sqrt{\mathbf{a}'\hat V\mathbf{a}}
+\]</span> where <span class="math display">\[
+\mathbf{a} = (1, w_p)'
+\]</span>
+</li>
+</ul></section><section id="homework-1" class="level3"><h3 class="anchored" data-anchor-id="homework-1">Homework</h3>
+<ul>
+<li>Obtain the expressions of Wald-type and LRT based <span class="math inline">\(100(1-\alpha)\%\)</span> confidence intervals of <span class="math inline">\(y_p\)</span>
+</li>
+</ul></section><section id="example-5.3.1-1" class="level3"><h3 class="anchored" data-anchor-id="example-5.3.1-1">Example 5.3.1</h3>
+<ul>
+<li><p>Data are available on lifetimes (in thousand miles) of 96 locomotive controls, of which were failed.</p></li>
+<li><p>The test was terminated after <span class="math inline">\(135K\)</span> miles, so 59 lifetimes were censored at <span class="math inline">\(135K\)</span>.</p></li>
+</ul>
+<hr>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_ex531</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 96 × 2
+    time status
+   &lt;dbl&gt;  &lt;int&gt;
+ 1  22.5      1
+ 2  37.5      1
+ 3  46        1
+ 4  48.5      1
+ 5  51.5      1
+ 6  53        1
+ 7  54.5      1
+ 8  57.5      1
+ 9  66.5      1
+10  68        1
+# ℹ 86 more rows</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">dat_ex531</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">count</span><span class="op">(</span><span class="va">status</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  status     n
+   &lt;int&gt; &lt;int&gt;
+1      0    59
+2      1    37</code></pre>
+</div>
+</div>
+<hr>
+<p><strong>Log-logistic and logistic model fit</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_LL</span> <span class="op">&lt;-</span> <span class="fu">survreg</span><span class="op">(</span><span class="fu">Surv</span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, </span>
+<span>                  dist <span class="op">=</span> <span class="st">"loglogistic"</span>,</span>
+<span>                  data <span class="op">=</span> <span class="va">dat_ex531</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mod_L</span> <span class="op">&lt;-</span> <span class="fu">survreg</span><span class="op">(</span><span class="fu">Surv</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, </span>
+<span>                dist <span class="op">=</span> <span class="st">"logistic"</span>,</span>
+<span>                data <span class="op">=</span> <span class="va">dat_ex531</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p><strong>MLEs <span class="math inline">\((\hat u, \log\hat b)\)</span></strong></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  5.1206418 -0.8266704</code></pre>
+</div>
+</div>
+<p><strong>Estimated variance of <span class="math inline">\((\hat u, \log\hat b)\)</span></strong></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>            (Intercept)  Log(scale)
+(Intercept) 0.010490062 0.007837215
+Log(scale)  0.007837215 0.022515937</code></pre>
+</div>
+</div>
+<hr>
+<p><strong>MLEs of <span class="math inline">\((\hat u, \hat b)\)</span></strong></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.1206418 0.4375036</code></pre>
+</div>
+</div>
+<p><strong>Estimated variance of <span class="math inline">\((\hat u, \hat b)\)</span></strong></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>            [,1]        [,2]
+[1,] 0.010490062 0.003428809
+[2,] 0.003428809 0.004309761</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>95% Confidence intervals for location and scale parameters</caption>
+<thead><tr class="header">
+<th style="text-align: left;">dist</th>
+<th style="text-align: left;">par</th>
+<th style="text-align: right;">est</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Logistic</td>
+<td style="text-align: left;"><span class="math inline">\(u\)</span></td>
+<td style="text-align: right;">5.121</td>
+<td style="text-align: right;">4.920</td>
+<td style="text-align: right;">5.321</td>
+<td style="text-align: right;">5.000</td>
+<td style="text-align: right;">5.300</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"><span class="math inline">\(b\)</span></td>
+<td style="text-align: right;">0.438</td>
+<td style="text-align: right;">0.326</td>
+<td style="text-align: right;">0.587</td>
+<td style="text-align: right;">0.360</td>
+<td style="text-align: right;">0.559</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gaussian</td>
+<td style="text-align: left;"><span class="math inline">\(\mu\)</span></td>
+<td style="text-align: right;">5.195</td>
+<td style="text-align: right;">4.942</td>
+<td style="text-align: right;">5.447</td>
+<td style="text-align: right;">5.000</td>
+<td style="text-align: right;">5.400</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"><span class="math inline">\(\sigma\)</span></td>
+<td style="text-align: right;">0.873</td>
+<td style="text-align: right;">0.676</td>
+<td style="text-align: right;">1.127</td>
+<td style="text-align: right;">0.709</td>
+<td style="text-align: right;">1.109</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<ul>
+<li>
+<p>Estimate of <span class="math inline">\(S(80)\)</span> (log-logistic distribution) <span class="math display">\[\begin{aligned}
+S(80; \hat u, \hat b) &amp;= \frac{1}{1 + \exp\big[(\log 80 - \hat u)/{\hat b}\big]}\\
+&amp;=0.844
+\end{aligned}\]</span></p>
+<ul>
+<li><span class="math inline">\(\hat u = 5.121 \;\;\text{and}\;\;  \hat b = 0.438\)</span></li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch05b_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Comparison of the estimates of survivor function</figcaption></figure>
+</div>
+</div>
+</div>
+<p>`</p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Estimate and corresponding Wald-type confidence interval of the survival probability <span class="math inline">\(S(80)\)</span>
+</caption>
+<thead><tr class="header">
+<th style="text-align: left;">dist</th>
+<th style="text-align: right;">est</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Log-logistic</td>
+<td style="text-align: right;">0.844</td>
+<td style="text-align: right;">0.566</td>
+<td style="text-align: right;">0.957</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Log-normal</td>
+<td style="text-align: right;">0.824</td>
+<td style="text-align: right;">0.667</td>
+<td style="text-align: right;">0.924</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li>Obtain LRT based 95% CI for <span class="math inline">\(S(80)\)</span>
+</li>
+</ul></section><section id="quantiles-3" class="level3"><h3 class="anchored" data-anchor-id="quantiles-3">Quantiles</h3>
+<ul>
+<li>General expression of <span class="math inline">\(p\)</span>th quantile of log-lifetime (<span class="math inline">\(\hat u=5.121\)</span> and <span class="math inline">\(\hat b = 0.438\)</span>) <span class="math display">\[
+\hat y_p = \hat u + \hat b w_p
+\]</span>
+<ul>
+<li><span class="math inline">\(w_p = \log\frac{p}{1-p}\)</span></li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Estimate and confidence intervals of different quantiles</caption>
+<thead><tr class="header">
+<th style="text-align: left;">dist</th>
+<th style="text-align: right;"><span class="math inline">\(p\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(w_p\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\hat y_p\)</span></th>
+<th style="text-align: right;">se</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Logistic</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">-1.099</td>
+<td style="text-align: right;">4.640</td>
+<td style="text-align: right;">0.143</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">5.121</td>
+<td style="text-align: right;">0.102</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">1.099</td>
+<td style="text-align: right;">5.601</td>
+<td style="text-align: right;">0.234</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gaussian</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">-0.674</td>
+<td style="text-align: right;">4.826</td>
+<td style="text-align: right;">0.101</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">5.121</td>
+<td style="text-align: right;">0.102</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.674</td>
+<td style="text-align: right;">5.416</td>
+<td style="text-align: right;">0.177</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section><section id="homework-2" class="level3"><h3 class="anchored" data-anchor-id="homework-2">Homework</h3>
+<ul>
+<li>Analyze the locomotive control lifetimes using Weibull model and compare the results</li>
+</ul></section></section><section id="comparison-of-distributions" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="comparison-of-distributions">
+<span class="header-section-number">5.3</span> Comparison of distributions</h2>
+<ul>
+<li><p>Let <span class="math inline">\(T_{ji}\)</span> be the lifetime of <span class="math inline">\(i\)</span>th subject of the <span class="math inline">\(j\)</span>th group (<span class="math inline">\(i=1, \ldots, n_j\)</span>, <span class="math inline">\(j=1, \ldots, m\)</span>)</p></li>
+<li><p>Assume <span class="math inline">\(T_{ji}\)</span> follows a distribution of log-location-scale family with parameters <span class="math inline">\(\alpha_j\)</span> (scale) and <span class="math inline">\(\beta_j\)</span> (shape)</p></li>
+<li><p>The corresponding distribution of log-lifetime <span class="math inline">\(Y_{ji}=\log T_{ji}\)</span> is of a location-scale family distribution with parameters <span class="math inline">\(u_j\)</span> (location) and <span class="math inline">\(b_j\)</span> (scale) <span class="math display">\[u_j = \log\alpha_j \;\; \text{and} \;\;b_j = (1/\beta_j)\]</span></p></li>
+</ul>
+<section id="survivor-functions" class="level3"><h3 class="anchored" data-anchor-id="survivor-functions">Survivor functions</h3>
+<ul>
+<li><p>The survivor function of <span class="math inline">\(Y_{ji}=\log T_{ji}\)</span> <span class="math display">\[\begin{aligned}
+S_j(y) = S_0\Big(\frac{y-u_j}{b_j}\Big)
+\end{aligned}\]</span></p></li>
+<li>
+<p>The survivor function of <span class="math inline">\(T_{ji}\)</span> <span class="math display">\[\begin{aligned}
+S_j(t) = S_0^\star\big[(t/\alpha_j)^{\beta_j}\big]
+\end{aligned}\]</span></p>
+<ul>
+<li><p><span class="math inline">\(S_0^\star(x) = S_0(\log x)\)</span></p></li>
+<li><p><span class="math inline">\(u_j = \log \alpha_j\)</span></p></li>
+<li><p><span class="math inline">\(b_j = (1/\beta_j)\)</span></p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Comparison of several normal populations is a well-known problem in statistics, where equal population variances are assumed, and the comparisons are performed on the basis of equality of population means</li>
+</ul></section><section id="quantile" class="level3"><h3 class="anchored" data-anchor-id="quantile">Quantile</h3>
+<ul>
+<li>General expression of the <span class="math inline">\(p\)</span>th quantile of the <span class="math inline">\(j\)</span>th population takes the form <span class="math display">\[\begin{aligned}
+y_{jp} = u_j + b_j w_p, \;\;\;j=1, \ldots, m
+\end{aligned}\]</span>
+<ul>
+<li><span class="math inline">\(w_p=S_0^{-1}(1-p)\)</span></li>
+</ul>
+</li>
+</ul></section><section id="equality-of-two-populations" class="level3"><h3 class="anchored" data-anchor-id="equality-of-two-populations">Equality of two populations</h3>
+<ul>
+<li><p>When the scales are <strong>not equal</strong> (i.e.&nbsp;<span class="math inline">\(b_1\neq b_2\)</span>), the difference between the <span class="math inline">\(p\)</span>th quantiles does depend on the probability <span class="math inline">\(p\)</span> <span class="math display">\[\begin{aligned}
+y_{1p} - y_{2p} = u_1 - u_2 + w_p(b_1 - b_2)
+\end{aligned}\]</span></p></li>
+<li><p>Under the assumption of equality of the scales (i.e.&nbsp;<span class="math inline">\(b_1 = b_2\)</span>), difference between <span class="math inline">\(p\)</span>th (log-lifetime) quantile of a pair of populations (say 1 and 2) is constant, i.e.&nbsp;it does not depend on the probability <span class="math inline">\(p\in (0, 1)\)</span> <span class="math display">\[
+\begin{aligned}
+y_{1p} - y_{2p} = u_1 - u_2
+\end{aligned}
+\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li><p>The difference between two log-lifetime quantiles can be expressed in terms of the ratio of lifetime quantiles <span class="math display">\[
+\begin{aligned}
+y_{1p} - y_{2p} &amp;= u_1 - u_2  \\[,25em]
+\log t_{1p} - \log t_{2p} &amp;= \log \alpha_1 - \log \alpha_2 \\[.25em]
+t_{1p}/t_{2p} &amp; = \alpha_1/\alpha_2
+\end{aligned}
+\]</span></p></li>
+<li><p>The ratio of the <span class="math inline">\(p\)</span>th quantiles of two lifetime distributions does not depend on the probability <span class="math inline">\(p\)</span> when the corresponding shape parameters are equal <span class="math inline">\((\beta_1=\beta_2)\)</span></p></li>
+</ul>
+<hr>
+<ul>
+<li><p>Equality of all quantiles of two distributions, i.e.&nbsp;<span class="math display">\[y_{1p}=y_{2p}\;\;\forall\;p\in(0, 1),\]</span> corresponds to equality of two distributions, i.e.&nbsp;<span class="math display">\[S_1(y)=S_2(y)\]</span></p></li>
+<li><p>Under the assumption of common scale (shape for lifetime) parameter, the null hypothesis of equality of two distributions can be expressed as <span class="math display">\[\begin{aligned}
+H_0: u_1-u_2=0\;\;\;\text{or}\;\;\;H_0:(\alpha_1/\alpha_2)=1
+\end{aligned}\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li><p>Equality of two populations with survivor functions (say <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span>) can be expressed in terms of survivor functions</p></li>
+<li><p>Since <span class="math display">\[y_{1p}= y_{2p} + u_1 - u_2 \;\;\text{or}\;\; t_{1p}=t_{2p}(\alpha_1/\alpha_2),\]</span> the corresponding survivor functions can be expressed as <span class="math display">\[\begin{aligned}
+S_1(y + u_1 -u_2) = S_2(y)\\[.25em]
+S_1\big(t(\alpha_1/\alpha_2)\big) = S_2(t)
+\end{aligned}\]</span></p></li>
+<li><p>That is, the survivor functions for <span class="math inline">\(Y\)</span> are translations of one another by an amount <span class="math inline">\((u_1 - u_2)\)</span> along the <span class="math inline">\(y\)</span>-axis</p></li>
+</ul></section><section id="wald-type-statistic" class="level3"><h3 class="anchored" data-anchor-id="wald-type-statistic">Wald-type statistic</h3>
+<ul>
+<li><p>Data <span class="math inline">\(\;\;\;\big\{(t_{ji}, \delta_{ji}), i=1, 2\big\}\)</span> and <span class="math inline">\(y_{ji}=\log t_{ji}\)</span></p></li>
+<li><p>Two populations can be compared in terms of <span class="math inline">\(p\)</span>th quantile <span class="math display">\[
+H_0: y_{1p} = y_{2p}
+\]</span></p></li>
+<li>
+<p>Corresponding pivotal quantity <span class="math display">\[
+Z_p = \frac{(\hat y_{1p}-\hat y_{2p})-(y_{1p}-y_{2p})}{\big[\operatorname{var}(\hat y_{1p}) + \operatorname{var}(y_{2p})\big]^{1/2}}\sim \mathcal{N}(0, 1)\;\;\text{under $H_0$}
+\]</span></p>
+<ul>
+<li>The statistic <span class="math inline">\(Z_p\)</span> can be used to obtain confidence interval for <span class="math inline">\((y_{1p}-y_{2p})\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>To test <span class="math inline">\(H_0: b_1=b_2\)</span>, the following pivotal quantity can be considered <span class="math display">\[
+Z_b = \frac{(\log \hat b_1 - \log \hat b_2) - (\log b_1 - \log b_2)}{[\operatorname{var}(\log \hat b_1) + \operatorname{var}(\log \hat b_2)]^{1/2}}\sim \mathcal{N}(0, 1)\;\;\text{under $H_0$}
+\]</span></p>
+<ul>
+<li>The statistic <span class="math inline">\(Z_b\)</span> can be used to obtain confidence interval for <span class="math inline">\((b_1/b_2)\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>When scales are equal, two populations can be compared with respect their location parameter <span class="math inline">\(H_0: u_1 = u_2\)</span></p></li>
+<li>
+<p>The corresponding pivotal quantity <span class="math display">\[
+Z_u = \frac{( \hat u_1 -  \hat u_2) - ( u_1 -  u_2)}{[\operatorname{var}(\hat u_1) + \operatorname{var}(\hat u_2)]^{1/2}}\sim \mathcal{N}(0, 1)\;\;\text{under $H_0$}
+\]</span></p>
+<ul>
+<li>The statistic <span class="math inline">\(Z_u\)</span> can be used to obtain confidence interval for <span class="math inline">\((u_1 - u_2)\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Wald statistic cannot be used to test <span class="math display">\[
+H_0: u_1=u_2, b_1=b_2
+\]</span>
+</li>
+</ul></section><section id="lrt-based-inference" class="level3"><h3 class="anchored" data-anchor-id="lrt-based-inference">LRT based inference</h3>
+<ul>
+<li><p>Data <span class="math inline">\(\;\;\big\{(t_{ji}, \delta_{ji}), j=1, \ldots, m, i=1,  \ldots, n_j\big\}\)</span> and <span class="math inline">\(y_{ji}=\log t_{ji}\)</span></p></li>
+<li>
+<p>Different tests and confidence intervals of interest</p>
+<ol type="1">
+<li><p><span class="math inline">\(H_0: b_1=\cdots=b_m\)</span></p></li>
+<li><p>Confidence interval for <span class="math inline">\((b_1/b_2)\)</span></p></li>
+<li><p>Equality of several location parameters when scale parameters are equal <span class="math display">\[\begin{aligned}
+  H_0&amp;: u_1=\cdots=u_m, b_1=\cdots=b_m \\
+  H_1&amp;: \text{all  $u_j$'s are not equal}, b_1=\cdots=b_m
+  \end{aligned}\]</span></p></li>
+<li><p>Confident interval for <span class="math inline">\((u_1-u_2)\)</span> when <span class="math inline">\(b_1=b_2\)</span></p></li>
+<li><p>Confidence interval for <span class="math inline">\((y_{1p}-y_{2p})\)</span> when <span class="math inline">\(b_1\neq b_2\)</span></p></li>
+</ol>
+</li>
+</ul></section><section id="case-1" class="level3"><h3 class="anchored" data-anchor-id="case-1">Case 1</h3>
+<ul>
+<li><p>Hypothesis of interest <span id="eq-h0-m-pop"><span class="math display">\[
+H_0: b_1=\cdots = b_m = b \;\;(\text{say})
+\tag{5.1}\]</span></span></p></li>
+<li><p>Log-likelihood function <span class="math display">\[\begin{aligned}
+\ell(u_1, \ldots, u_m, b_1, \ldots, b_m) &amp; = \sum_{j=1}^m\ell_j(u_j, b_j)
+\end{aligned}\]</span></p></li>
+<li>
+<p>Contribution to log-likelihood function for the <span class="math inline">\(j\)</span>th population <span class="math display">\[\begin{aligned}
+\ell_j(u_j, b_j) = -r_j\log b_j + \sum_{i=1}^{n_j}\Big[\delta_i\log f_0(z_{ji}) + (1 - \delta_{ji})\log S_0(z_{ji})\Big]\notag
+\end{aligned}\]</span></p>
+<ul>
+<li><span class="math inline">\(r_j = \sum_i \delta_{ji}\)</span></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>LRT statistic <span class="math display">\[\begin{aligned}
+\Lambda &amp; =2\ell(\hat u_1, \ldots, \hat u_m, \hat b_1, \ldots, \hat b_m) -2\ell(\tilde u_1, \ldots, \tilde u_m, \tilde b, \ldots, \tilde b)
+\end{aligned}\]</span></p>
+<ul>
+<li>
+<span class="math inline">\(\Lambda\sim \chi^2_{(m-1)}\)</span> under the null hypothesis defined in <a href="#eq-h0-m-pop" class="quarto-xref">Equation&nbsp;5.1</a>
+</li>
+</ul>
+</li>
+<li>
+<p>MLEs</p>
+<ul>
+<li><p><span class="math inline">\((\hat u_j, \hat b_j)' = {\arg\,\max}_{\Theta} \;\ell_j(u_j, b_j),\;\;j=1, \ldots, m\)</span></p></li>
+<li><p><span class="math inline">\((\tilde u_1, \ldots, \tilde u_m, \tilde b, \ldots, \tilde b)' = {\arg\,\max}_{\Theta}\,\ell( u_1, \ldots,  u_m, b, \ldots,  b)\)</span></p></li>
+</ul>
+</li>
+</ul></section><section id="case-2" class="level3"><h3 class="anchored" data-anchor-id="case-2">Case 2</h3>
+<ul>
+<li><p>To obtain confidence interval of <span class="math inline">\((b_1/b_2)\)</span>, consider <span class="math display">\[H_0: (b_1/b_2) = a \;\;\Rightarrow\;\;H_0: b_1 =ab_2\]</span></p></li>
+<li>
+<p><span class="math inline">\(100(1-\alpha)\%\)</span> confidence interval of <span class="math inline">\((b_1/b_2)\)</span> can be obtained from the range of <span class="math inline">\(a\)</span> values that satisfy <span class="math display">\[\Lambda(a)\leq \chi^2_{(1), 1-\alpha},\]</span> where the LRT statistic <span class="math display">\[\Lambda(a) = 2\ell(\hat u_1, \hat u_2, \hat b_1, \hat b_2)- 2\ell(\tilde u_1, \tilde u_2, a\tilde b_2,\tilde b_2)\]</span></p>
+<ul>
+<li><p><span class="math inline">\((\hat u_j, \hat b_j)' = {\arg\,\max}_{\Theta} \;\ell_j(u_j, b_j),\;\;j=1, 2\)</span></p></li>
+<li><p><span class="math inline">\((\tilde u_1, \tilde u_2, \tilde b_2)' = {\arg\,\max}_{\Theta}\,\ell( u_1, u_2, ab_2,  b_2)\)</span></p></li>
+</ul>
+</li>
+</ul></section><section id="case-3" class="level3"><h3 class="anchored" data-anchor-id="case-3">Case 3</h3>
+<ul>
+<li>Test equality of several location parameters when scale parameters are equal <span class="math display">\[\begin{aligned}
+H_0 &amp;: u_1= \cdots = u_m, \;b_1 = \cdots = b_m \\[.25em]
+H_1&amp;: \text{all $u_j$'s are not equal}, \;b_1=\cdots = b_m
+\end{aligned}\]</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>MLEs</p>
+<ul>
+<li><p>under <span class="math inline">\(H_0,\;\;\)</span> <span class="math inline">\((u^\star, b^\star) = {\arg\,\max}_{\Theta}\,\ell(u, \ldots, u, b, \ldots, b)\)</span></p></li>
+<li><p>under <span class="math inline">\(H_1,\;\;\)</span> <span class="math inline">\((\tilde u_1, \ldots, \tilde u_m, \tilde b) = {\arg\,\max}_{\Theta}\,\ell(u_1, \ldots, u_m, b, \ldots, b)\)</span></p></li>
+</ul>
+</li>
+<li>
+<p>LRT statistic <span class="math display">\[
+\Lambda = 2\ell(\tilde u_1, \ldots, \tilde u_m, \tilde b, \ldots, \tilde b) - 2\ell(u^\star, \ldots, u^\star, b^\star, \ldots, b^\star)
+\]</span></p>
+<ul>
+<li>Under the null hypothesis, <span class="math inline">\(\Lambda\)</span> follows <span class="math inline">\(\chi^2_{(m-1)}\)</span> distribution</li>
+</ul>
+</li>
+</ul></section><section id="case-4" class="level3"><h3 class="anchored" data-anchor-id="case-4">Case 4</h3>
+<ul>
+<li><p>To obtain a confidence interval of <span class="math inline">\((u_1 - u_2)\)</span> when <span class="math inline">\(b_1=b_2\)</span>, consider the null and alternative hypothesis <span class="math display">\[\begin{aligned}
+H_0: u_1-u_2=\delta, \;b_1=b_2\;\;\;\text{vs}\;\;\;H_1: u_1-u_2\neq \delta, \;b_1=b_2
+\end{aligned}\]</span></p></li>
+<li>
+<p>LRT statistic <span class="math display">\[
+\Lambda(\delta) = 2\ell(\tilde u_1, \tilde u_2, \tilde b, \tilde b) - 2\ell(u_2^\star + \delta, u_2^\star, b^\star, b^\star)
+\]</span></p>
+<ul>
+<li><p>under <span class="math inline">\(H_0,\;\;\)</span> <span class="math inline">\((u^\star, b^\star) = {\arg\,\max}_{\Theta}\,\ell(u, u, b, b)\)</span></p></li>
+<li><p>under <span class="math inline">\(H_1,\;\;\)</span> <span class="math inline">\((\tilde u_1, \tilde u_2, \tilde b) = {\arg\,\max}_{\Theta}\,\ell(u_1, u_2, b, b)\)</span></p></li>
+</ul>
+</li>
+<li><p><span class="math inline">\(100(1-\alpha)%\)</span> confidence interval for <span class="math inline">\((u_1-u_2)\)</span> can be obtained from the set of <span class="math inline">\(\delta\)</span> values that satisfy <span class="math inline">\(\Lambda(\delta) \leq \chi^2_{(1), 1-\alpha}\)</span></p></li>
+</ul></section><section id="case-5" class="level3"><h3 class="anchored" data-anchor-id="case-5">Case 5</h3>
+<ul>
+<li>When <span class="math inline">\(b_1\neq b_2\)</span>, to obtain confidence interval for <span class="math inline">\((y_{1p} - y_{2p})\)</span> consider the following hypothesis <span class="math display">\[
+H_0: y_{1p} - y_{2p} = \Delta\;\;\Rightarrow\;\;H_0: u_1 - u_2 = \Delta + (b_2 -b_1)w_p
+\]</span>
+<ul>
+<li><span class="math inline">\(w_p = S_0^{-1}(1-p)\)</span></li>
+</ul>
+</li>
+<li>LRT statistic <span class="math display">\[
+\Lambda(\Delta) = 2\ell(\hat u_1, \hat u_2, \hat b_1, \hat b_2) - 2\ell(\tilde u_1, \tilde u_2, \tilde b_1, \tilde b_2)
+\]</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>under <span class="math inline">\(H_0\)</span> <span class="math display">\[(\tilde u_1, \tilde u_2, \tilde b_1, \tilde b_2) = {\arg\,\max}_{\Theta}\,\ell(u_2 + \Delta + (b_2-b_1)w_p, u_2, b_1, b_2)\]</span></p></li>
+<li><p>under <span class="math inline">\(H_1\)</span> <span class="math display">\[(\hat u_1, \hat u_2, \hat b_2, \hat b_1) = {\arg\,\max}_{\Theta}\,\ell(u_1, u_2, b_1, b_2)\]</span></p></li>
+<li><p><span class="math inline">\(100(1-\alpha)%\)</span> confidence interval for <span class="math inline">\((y_{1p}-y_{2p})\)</span> can be obtained from the set of <span class="math inline">\(\Delta\)</span> values that satisfy <span class="math inline">\(\Lambda(\Delta) \leq \chi^2_{(1), 1-\alpha}\)</span></p></li>
+</ul></section><section id="comparison-of-weibull-or-extreme-value-distributions" class="level3"><h3 class="anchored" data-anchor-id="comparison-of-weibull-or-extreme-value-distributions">Comparison of Weibull or extreme value distributions</h3>
+<ul>
+<li>
+<p>Assume <span class="math inline">\(T_{ji}\sim \text{Weibull}(\alpha_j, \beta_j)\)</span> <span class="math inline">\((j=1, \ldots, m,\;\;i=1, \ldots, n_j)\)</span></p>
+<ul>
+<li>Data <span class="math inline">\(\big\{(t_{ji}, \delta_{ji}), j=1, \ldots, m,\;\;i=1, \ldots, n_j\big\}\)</span>
+</li>
+</ul>
+</li>
+<li><p>Survivor function of Weibull distribution <span class="math display">\[
+S_j(t) = \exp\big[-(t/\alpha_j)^{\beta_j}\big]
+\]</span></p></li>
+<li>
+<p>Survivor function of extreme value distribution <span class="math display">\[
+S_j(y) = \exp\big[-e^{(y-u_j)/b_j}\big]
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(u_j = \log \alpha_j\)</span></p></li>
+<li><p><span class="math inline">\(b_j = 1/\beta_j\)</span></p></li>
+</ul>
+</li>
+</ul></section><section id="example-5.4.1" class="level3"><h3 class="anchored" data-anchor-id="example-5.4.1">Example 5.4.1</h3>
+<ul>
+<li>Data of the following table are on the time to breakdown of electrical insulating fluid subject to a constant voltage stress in a lifetest experiment</li>
+</ul>
+<p><img src="images/table-1-1.jpg" class="img-fluid"></p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Estimate of voltage-specific extreme value models</caption>
+<thead><tr class="header">
+<th style="text-align: left;">voltage</th>
+<th style="text-align: left;"><span class="math inline">\(\hat u_j \pm se(\hat u_j)\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(\hat b_j \pm se(\hat b_j)\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">26</td>
+<td style="text-align: left;"><span class="math inline">\(6.862 \pm 1.104\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.834 \pm 0.885\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">28</td>
+<td style="text-align: left;"><span class="math inline">\(5.865 \pm 0.486\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.022 \pm 0.474\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30</td>
+<td style="text-align: left;"><span class="math inline">\(4.351 \pm 0.302\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(0.944 \pm 0.303\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">32</td>
+<td style="text-align: left;"><span class="math inline">\(3.256 \pm 0.486\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.781 \pm 0.254\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">34</td>
+<td style="text-align: left;"><span class="math inline">\(2.503 \pm 0.315\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.297 \pm 0.211\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">36</td>
+<td style="text-align: left;"><span class="math inline">\(1.457 \pm 0.309\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(1.125 \pm 0.221\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">38</td>
+<td style="text-align: left;"><span class="math inline">\(0.001 \pm 0.273\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(0.734 \pm 0.367\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch05b_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Comparison of estimated survivor function</figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="lrt-case-1" class="level3"><h3 class="anchored" data-anchor-id="lrt-case-1">LRT (Case 1)</h3>
+<ul>
+<li><p>Null hypothesis <span class="math display">\[
+H_0: b_1 = \cdots = b_7
+\]</span></p></li>
+<li>
+<p>LRT statistic <span class="math display">\[\begin{aligned}
+\Lambda &amp; = 2\ell(\hat u_1, \ldots, \hat u_7, \hat b_1, \ldots, \hat b_7) - 2\ell(\tilde u_1, \ldots, \tilde u_7, \tilde b, \ldots, \tilde b) \\
+&amp; = 2(-132.181) - 2(-136.578) \\
+&amp; = 8.794
+\end{aligned}\]</span></p>
+<ul>
+<li>p-value <span class="math display">\[
+Pr(\chi^2_{(6)} \geq \Lambda) = 0.185
+\]</span> It does not provide enough evidence to reject the null hypothesis of equality of the scale parameters.</li>
+</ul>
+</li>
+</ul></section><section id="confidence-interval-of-b_1b_2-case-2" class="level3"><h3 class="anchored" data-anchor-id="confidence-interval-of-b_1b_2-case-2">Confidence interval of <span class="math inline">\((b_1/b_2)\)</span> (Case 2)</h3>
+<ul>
+<li>
+<p>Wald-type <span class="math display">\[\begin{aligned}
+(\log \hat b_1 - \log \hat b_2) &amp;\pm z_{1-\alpha/2}\,se(\log \hat b_1 - \log \hat b_2) \\[.25em]
+(\hat b_1/\hat b_2)&amp;\;e^{\pm z_{1-\alpha/2}\,se(\log \hat b_1 - \log \hat b_2)}\\[.25em]
+(1.834 / 1.022)&amp;\;e^{\pm\,(1.96)(0.624)}\\[.25em]
+0.529 &amp; &lt; (b_1/b_2) &lt;6.095
+\end{aligned}\]</span></p>
+<ul>
+<li>Similarly confidence intervals for <span class="math inline">\((b_j/b_{j'})\)</span> <span class="math inline">\(j&gt;j'\)</span> can be obtained</li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch05b_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Estimate and 95% confidence interval of pair-wise comparisons of scale parameters <span class="math inline">\((b_j/b_{j'})\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="case-3-1" class="level3"><h3 class="anchored" data-anchor-id="case-3-1">Case 3</h3>
+<ul>
+<li><p>Equality of all location parameters when scales are equal <span class="math display">\[
+H_0: u_1 = \cdots = u_m, \; b_1=\cdots = b_m
+\]</span></p></li>
+<li>
+<p>LRT statistic <span class="math display">\[\begin{aligned}
+\Lambda &amp; = 2\ell(\tilde u_1, \ldots, \tilde u_m, \tilde b, \ldots, \tilde b)-2\ell(u^{\star}, \ldots, u^{\star},  b^{\star}, \ldots,  b^{\star})\\[.25em]
+&amp;= 2(-136.578) - 2(-176.584) \\[.25em]
+&amp;= 80.013
+\end{aligned}\]</span></p>
+<ul>
+<li>p-value <span class="math inline">\(P\big(\chi^2_{(1)} &gt; 80.013\big) &lt; .001\;{\color{purple}\rightarrow}\)</span> There is a strong evidence against the assumption of equality of <span class="math inline">\(m\)</span> location parameters</li>
+</ul>
+</li>
+</ul></section><section id="case-4-1" class="level3"><h3 class="anchored" data-anchor-id="case-4-1">Case 4</h3>
+<ul>
+<li>
+<p>Wald-type confidence interval of <span class="math inline">\((u_1-u_2)\)</span> <span class="math display">\[\begin{aligned}
+(\hat u_1 - \hat u_2) &amp;\pm z_{1-\alpha/2}\;se(\hat u_1 - \hat u_2) \\[.25em]
+(6.862 - 4.351) &amp;\pm (1.96)(1.206) \\[.25em]
+-1.367 &amp;&lt;(u_1 - u_2) &lt; 3.361
+\end{aligned}\]</span></p>
+<ul>
+<li>There is no significant difference between <span class="math inline">\(u_1\)</span> and <span class="math inline">\(u_2\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch05b_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Estimate and 95% confidence interval of pair-wise comparisons of location parameters <span class="math inline">\((u_j - u_{j'})\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="case-5-1" class="level3"><h3 class="anchored" data-anchor-id="case-5-1">Case 5</h3>
+<ul>
+<li><p>General expression of <span class="math inline">\(p\)</span>th quantile of the group <span class="math inline">\(j\)</span> <span class="math display">\[
+y_{jp} = u_j + b_j w_p, \;j=1, \ldots, m
+\]</span></p></li>
+<li>
+<p>Difference of <span class="math inline">\(p\)</span>th quantile between groups 1 and 2 <span class="math display">\[
+y_{1p} - y_{2p} = u_1 - u_2 + (b_1 - b_2)w_p
+\]</span></p>
+<ul>
+<li>95% confidence interval for the difference of median between groups 1 and 2 <span class="math display">\[\begin{aligned}
+\hat{y}_{1m} - \hat{y}_{2m} &amp;\pm z_{1-\alpha/2} se(\hat{y}_{1m} - \hat{y}_{2m}) \\[.25em]
+(6.19 -5.491)&amp; \pm (1.96)(1.291) \\[.25em]
+-1.831 &amp; &lt;(y_{1m}-y_{2m}) &lt;3.231
+\end{aligned}\]</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch05b_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Estimate and 95% confidence interval of pair-wise comparisons of medians <span class="math inline">\((y_{j, .5} - y_{j', .5})\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="homework-3" class="level3"><h3 class="anchored" data-anchor-id="homework-3">Homework</h3>
+<ul>
+<li>Analyse the breakdown time data using log-logistic and log-normal distributions and compare the results with that of Weibull distribution</li>
+</ul>
+
+
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ast305\.netlify\.app");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../life/ch05a.html" class="pagination-link" aria-label="5A Inference Procedures for Log-location-scale Distributions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">5A Inference Procedures for Log-location-scale Distributions</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

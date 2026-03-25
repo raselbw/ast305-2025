@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Md Rasel Biswas">
+<title>Chapter 1 – Lifetime Data Analysis I</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../life/ch02.html" rel="next">
+<link href="../life/00-course-overview.html" rel="prev">
+<link href="../style/favicon-305.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7ef368ce27ca25031ef31c838a764c5c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-eeca75137c9ecfab76bf624b15b559e8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-7ef368ce27ca25031ef31c838a764c5c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+<meta property="og:title" content="Chapter 1 – Lifetime Data Analysis I">
+<meta property="og:description" content="(AST305) Lifetime Data Analysis I">
+<meta property="og:image" content="https://ast305.netlify.app/life/images/censoring-collet.png">
+<meta property="og:site_name" content="Lifetime Data Analysis I">
+<meta property="og:image:height" content="734">
+<meta property="og:image:width" content="1268">
+<meta name="twitter:title" content="Chapter 1 – Lifetime Data Analysis I">
+<meta name="twitter:description" content="(AST305) Lifetime Data Analysis I">
+<meta name="twitter:image" content="https://ast305.netlify.app/life/images/censoring-collet.png">
+<meta name="twitter:image-height" content="734">
+<meta name="twitter:image-width" content="1268">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../life/ch01.html">1 Basic Concepts and Models</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Lifetime Data Analysis I</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/00-course-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch01.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">1 Basic Concepts and Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2 Observed Schemes, Censoring, and Likelihood</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3 Some Nonparametric and Graphical Procedures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/rsurvival.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">{survival} package</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4 Inference Procedures for Parametric Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch05a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5A Inference Procedures for Log-location-scale Distributions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch05b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5B Inference Procedures for Log-location-scale Distributions</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#basic-concepts-and-models" id="toc-basic-concepts-and-models" class="nav-link active" data-scroll-target="#basic-concepts-and-models"><span class="header-section-number">1</span> Basic Concepts and Models</a>
+  <ul class="collapse">
+<li>
+<a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">1.1</span> Introduction</a>
+  <ul class="collapse">
+<li><a href="#lifetime-data" id="toc-lifetime-data" class="nav-link" data-scroll-target="#lifetime-data">Lifetime Data</a></li>
+  <li><a href="#example-1.1.1-engineering" id="toc-example-1.1.1-engineering" class="nav-link" data-scroll-target="#example-1.1.1-engineering">Example 1.1.1 – Engineering</a></li>
+  <li><a href="#example-1.1.2-social-sciences" id="toc-example-1.1.2-social-sciences" class="nav-link" data-scroll-target="#example-1.1.2-social-sciences">Example 1.1.2 – Social Sciences</a></li>
+  <li><a href="#example-1.1.3-medical-studies" id="toc-example-1.1.3-medical-studies" class="nav-link" data-scroll-target="#example-1.1.3-medical-studies">Example 1.1.3 – Medical Studies</a></li>
+  <li><a href="#example-1.1.4-laboratory-experiments" id="toc-example-1.1.4-laboratory-experiments" class="nav-link" data-scroll-target="#example-1.1.4-laboratory-experiments">Example 1.1.4 – Laboratory Experiments</a></li>
+  <li><a href="#time-origin-and-time-scale" id="toc-time-origin-and-time-scale" class="nav-link" data-scroll-target="#time-origin-and-time-scale">Time Origin and Time Scale</a></li>
+  <li><a href="#censoring" id="toc-censoring" class="nav-link" data-scroll-target="#censoring">Censoring</a></li>
+  <li><a href="#example-1.1.5-electrical-insulating-fluid" id="toc-example-1.1.5-electrical-insulating-fluid" class="nav-link" data-scroll-target="#example-1.1.5-electrical-insulating-fluid">Example 1.1.5 – Electrical Insulating Fluid</a></li>
+  <li><a href="#example-1.1.7-clinical-trial-leukemia" id="toc-example-1.1.7-clinical-trial-leukemia" class="nav-link" data-scroll-target="#example-1.1.7-clinical-trial-leukemia">Example 1.1.7 – Clinical Trial (Leukemia)</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#lifetime-distributions" id="toc-lifetime-distributions" class="nav-link" data-scroll-target="#lifetime-distributions"><span class="header-section-number">1.2</span> Lifetime Distributions</a>
+  <ul class="collapse">
+<li><a href="#cumulative-distribution-function-cdf" id="toc-cumulative-distribution-function-cdf" class="nav-link" data-scroll-target="#cumulative-distribution-function-cdf">Cumulative Distribution Function (CDF)</a></li>
+  <li><a href="#survivor-function" id="toc-survivor-function" class="nav-link" data-scroll-target="#survivor-function">Survivor Function</a></li>
+  <li><a href="#quantiles" id="toc-quantiles" class="nav-link" data-scroll-target="#quantiles">Quantiles</a></li>
+  <li><a href="#mortality-rate" id="toc-mortality-rate" class="nav-link" data-scroll-target="#mortality-rate">Mortality Rate</a></li>
+  <li><a href="#hazard-function" id="toc-hazard-function" class="nav-link" data-scroll-target="#hazard-function">Hazard Function</a></li>
+  <li><a href="#relationship-between-different-functions" id="toc-relationship-between-different-functions" class="nav-link" data-scroll-target="#relationship-between-different-functions">Relationship Between Different Functions</a></li>
+  <li><a href="#cumulative-hazard-function" id="toc-cumulative-hazard-function" class="nav-link" data-scroll-target="#cumulative-hazard-function">Cumulative Hazard Function</a></li>
+  <li><a href="#relationship-between-different-functions-1" id="toc-relationship-between-different-functions-1" class="nav-link" data-scroll-target="#relationship-between-different-functions-1">Relationship Between Different Functions</a></li>
+  <li><a href="#example-1.2.1" id="toc-example-1.2.1" class="nav-link" data-scroll-target="#example-1.2.1">Example 1.2.1</a></li>
+  <li><a href="#discrete-models-motivation" id="toc-discrete-models-motivation" class="nav-link" data-scroll-target="#discrete-models-motivation">Discrete Models: Motivation</a></li>
+  <li><a href="#discrete-probability-functions" id="toc-discrete-probability-functions" class="nav-link" data-scroll-target="#discrete-probability-functions">Discrete Probability Functions</a></li>
+  <li><a href="#discrete-hazard-function" id="toc-discrete-hazard-function" class="nav-link" data-scroll-target="#discrete-hazard-function">Discrete Hazard Function</a></li>
+  <li><a href="#some-remarks-on-hazard-functions" id="toc-some-remarks-on-hazard-functions" class="nav-link" data-scroll-target="#some-remarks-on-hazard-functions">Some Remarks on Hazard Functions</a></li>
+  <li><a href="#different-shapes-of-hazard-functions" id="toc-different-shapes-of-hazard-functions" class="nav-link" data-scroll-target="#different-shapes-of-hazard-functions">Different Shapes of Hazard Functions</a></li>
+  <li><a href="#different-shapes-of-density-functions" id="toc-different-shapes-of-density-functions" class="nav-link" data-scroll-target="#different-shapes-of-density-functions">Different Shapes of Density Functions</a></li>
+  <li><a href="#some-remarks-on-hazard-functions-1" id="toc-some-remarks-on-hazard-functions-1" class="nav-link" data-scroll-target="#some-remarks-on-hazard-functions-1">Some Remarks on Hazard Functions</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#some-important-failure-time-models" id="toc-some-important-failure-time-models" class="nav-link" data-scroll-target="#some-important-failure-time-models"><span class="header-section-number">1.3</span> Some Important Failure Time Models</a>
+  <ul class="collapse">
+<li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1">Introduction</a></li>
+  <li><a href="#the-exponential-distribution" id="toc-the-exponential-distribution" class="nav-link" data-scroll-target="#the-exponential-distribution">The Exponential Distribution</a></li>
+  <li><a href="#the-weibull-distribution" id="toc-the-weibull-distribution" class="nav-link" data-scroll-target="#the-weibull-distribution">The Weibull Distribution</a></li>
+  <li><a href="#the-extreme-value-distribution" id="toc-the-extreme-value-distribution" class="nav-link" data-scroll-target="#the-extreme-value-distribution">The Extreme Value Distribution</a></li>
+  <li><a href="#the-log-normal-distribution" id="toc-the-log-normal-distribution" class="nav-link" data-scroll-target="#the-log-normal-distribution">The Log-normal Distribution</a></li>
+  <li><a href="#the-log-logistic-distribution" id="toc-the-log-logistic-distribution" class="nav-link" data-scroll-target="#the-log-logistic-distribution">The Log-logistic distribution</a></li>
+  <li><a href="#the-gamma-distribution" id="toc-the-gamma-distribution" class="nav-link" data-scroll-target="#the-gamma-distribution">The Gamma Distribution</a></li>
+  <li><a href="#log-location-scale-models" id="toc-log-location-scale-models" class="nav-link" data-scroll-target="#log-location-scale-models">Log-Location-scale Models</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#regression-models" id="toc-regression-models" class="nav-link" data-scroll-target="#regression-models"><span class="header-section-number">1.4</span> Regression Models</a>
+  <ul class="collapse">
+<li><a href="#parametric-regression-models" id="toc-parametric-regression-models" class="nav-link" data-scroll-target="#parametric-regression-models">Parametric Regression Models</a></li>
+  <li><a href="#semiparametric-regression-models" id="toc-semiparametric-regression-models" class="nav-link" data-scroll-target="#semiparametric-regression-models">Semiparametric Regression Models</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  </ul><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ch01.pdf"><i class="bi bi-file-pdf"></i>Beamer</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Chapter 1</h1>
+<p class="subtitle lead">(AST305) Lifetime Data Analysis I</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Md Rasel Biswas </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="basic-concepts-and-models" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> Basic Concepts and Models</h1>
+<section id="introduction" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="introduction">
+<span class="header-section-number">1.1</span> Introduction</h2>
+<section id="lifetime-data" class="level3"><h3 class="anchored" data-anchor-id="lifetime-data">Lifetime Data</h3>
+<ul>
+<li><p><strong>Lifetime data</strong> have important use in many research areas, including health sciences, engineering, social sciences, etc.</p></li>
+<li><p>Applications range from investigating the <strong>durability of manufactured products</strong> to studying <strong>human diseases and their treatments</strong>.</p></li>
+<li><p>Lifetime data are also known as “<strong>survival time data</strong>” or “<strong>failure time data</strong>”</p></li>
+</ul></section><section id="example-1.1.1-engineering" class="level3"><h3 class="anchored" data-anchor-id="example-1.1.1-engineering">Example 1.1.1 – Engineering</h3>
+<ul>
+<li>Manufactured items (mechanical or electronic) are often tested for durability.</li>
+<li>Items are operated under controlled conditions and observed until they fail.</li>
+<li>Here, lifetimes are referred to as <strong>“failure times.”</strong>
+</li>
+</ul></section><section id="example-1.1.2-social-sciences" class="level3"><h3 class="anchored" data-anchor-id="example-1.1.2-social-sciences">Example 1.1.2 – Social Sciences</h3>
+<ul>
+<li>Demographers study the duration of human life “states.”</li>
+<li>Example: The <strong>duration of marriage</strong> formed in 1980 in a country.</li>
+<li>Marriage ends with <strong>annulment, divorce, or death.</strong>
+</li>
+</ul></section><section id="example-1.1.3-medical-studies" class="level3"><h3 class="anchored" data-anchor-id="example-1.1.3-medical-studies">Example 1.1.3 – Medical Studies</h3>
+<ul>
+<li>For patients with potentially fatal diseases, the key outcome is <strong>survival time</strong>, usually measured from diagnosis or treatment.</li>
+<li>Treatments are often compared using the <strong>distribution of survival times.</strong>
+</li>
+</ul></section><section id="example-1.1.4-laboratory-experiments" class="level3"><h3 class="anchored" data-anchor-id="example-1.1.4-laboratory-experiments">Example 1.1.4 – Laboratory Experiments</h3>
+<ul>
+<li>In carcinogenic studies, laboratory animals are exposed to substances and followed until tumors appear.</li>
+<li>The primary outcome is <strong>time to tumor appearance</strong>.</li>
+</ul></section><section id="time-origin-and-time-scale" class="level3"><h3 class="anchored" data-anchor-id="time-origin-and-time-scale">Time Origin and Time Scale</h3>
+<section id="time-origin" class="level4"><h4 class="anchored" data-anchor-id="time-origin">Time Origin</h4>
+<ul>
+<li>The <strong>zero point</strong> from which survival time is measured for each subject.</li>
+<li>Marks the <strong>start of follow-up</strong>.</li>
+<li>
+<strong>Examples:</strong> In a medical study, time origin can be the <em>date of diagnosis</em>; in a clinical trial, the <em>date of randomization</em>; and in an employment study, the <em>date of recruitment</em>, all marking when the follow-up clock starts.</li>
+<li>
+<strong>Key Points</strong>
+<ul>
+<li><strong>Must be clearly defined</strong></li>
+<li>
+<strong>Can differ between individuals</strong> (rolling recruitment)</li>
+</ul>
+</li>
+</ul>
+<hr></section><section id="time-scale" class="level4"><h4 class="anchored" data-anchor-id="time-scale">Time Scale</h4>
+<ul>
+<li>The <strong>metric used to measure time</strong> from the time origin.</li>
+<li>Determines the unit and meaning of “time” in the model.</li>
+<li>
+<strong>Common Time Scales:</strong>
+<ul>
+<li>
+<em>Time since study entry</em> (follow-up duration from study start, in hours, minutes, seconds etc.)</li>
+<li>
+<em>Attained age</em> (participant’s actual age at each point in follow-up).</li>
+</ul>
+</li>
+<li>Time need not always be chronological:
+<ul>
+<li>
+<strong>Miles driven</strong> for a vehicle until breakdown.</li>
+<li>
+<strong>Number of pages printed</strong> for a printer or photocopier.</li>
+</ul>
+</li>
+</ul></section></section><section id="censoring" class="level3"><h3 class="anchored" data-anchor-id="censoring">Censoring</h3>
+<ul>
+<li>In practice, full observation of lifetimes may not be feasible.</li>
+<li>If we only know a subject’s lifetime <strong>exceeds a certain value</strong>, it is a <strong>censored observation</strong>.</li>
+<li>
+<strong>Example:</strong> A life test stops after 28 days. If an item has not failed, its lifetime is known only as <strong>“greater than 28 days.”</strong>
+</li>
+<li>
+<strong>Types of censoring:</strong> right, left, and interval censoring (details in next chapter).</li>
+</ul>
+<hr>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/censoring-collet.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Lifetime of eight subjects in a survival study. D=Death, L=Lost, A=Alive</figcaption></figure>
+</div>
+</section><section id="example-1.1.5-electrical-insulating-fluid" class="level3"><h3 class="anchored" data-anchor-id="example-1.1.5-electrical-insulating-fluid">Example 1.1.5 – Electrical Insulating Fluid</h3>
+<ul>
+<li>
+<span class="citation" data-cites="nelson1972graphical">Nelson (<a href="#ref-nelson1972graphical" role="doc-biblioref">1972</a>)</span> studied electrical insulating fluid under constant voltage stress.</li>
+<li>Failure time (time to breakdown) was recorded.</li>
+<li>Specimens were tested at different voltages (26–38 kV).</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/table-1-1.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<ul>
+<li>Key result: <strong>Higher voltage <span class="math inline">\(\rightarrow\)</span> shorter breakdown times.</strong>
+</li>
+<li>If testing had stopped at 180 minutes, some observations would have been <strong>censored</strong> (true failure times unknown but &gt;180 minutes).</li>
+</ul></section><section id="example-1.1.7-clinical-trial-leukemia" class="level3"><h3 class="anchored" data-anchor-id="example-1.1.7-clinical-trial-leukemia">Example 1.1.7 – Clinical Trial (Leukemia)</h3>
+<ul>
+<li>
+<span class="citation" data-cites="gehan1965generalized">Gehan (<a href="#ref-gehan1965generalized" role="doc-biblioref">1965</a>)</span> compared <strong>6-mercaptopurine (6-MP)</strong> with placebo in acute leukemia patients.</li>
+<li>Outcome: <strong>remission time</strong> – the duration patients remained in remission (a state where symptoms reduce or disappear, but the disease may return later).</li>
+<li>Two groups of 21 patients each (placebo vs.&nbsp;6-MP).</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/table-1-3.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</section></section><section id="lifetime-distributions" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="lifetime-distributions">
+<span class="header-section-number">1.2</span> Lifetime Distributions</h2>
+<section id="cumulative-distribution-function-cdf" class="level3"><h3 class="anchored" data-anchor-id="cumulative-distribution-function-cdf">Cumulative Distribution Function (CDF)</h3>
+<ul>
+<li><p>Let <span class="math inline">\(T\)</span> be a <strong>nonnegative random variable</strong> representing lifetimes of individuals in a population.</p></li>
+<li><p>The probability density function (<em>pdf</em>) of <span class="math inline">\(T\)</span> is denoted by <span class="math inline">\(f(t)\)</span>, and the <strong>cumulative distribution function</strong> (<em>cdf</em>) of <span class="math inline">\(T\)</span> is defined as</p></li>
+</ul>
+<p><span class="math display">\[
+F(t) = \Pr(T \leq t) = \int_0^t f(x)\,dx, \quad t \geq 0
+\]</span></p>
+</section><section id="survivor-function" class="level3"><h3 class="anchored" data-anchor-id="survivor-function">Survivor Function</h3>
+<ul>
+<li><p>The probability that an individual survives <strong>beyond</strong> time <span class="math inline">\(t\)</span> is <span class="math display">\[
+S(t) = \Pr(T &gt; t) = \int_t^\infty f(x)\,dx
+\]</span></p></li>
+<li><p>In reliability engineering (e.g., lifetimes of machines), <span class="math inline">\(S(t)\)</span> is also called the <strong>reliability function</strong>.</p></li>
+<li>
+<p>Properties of <span class="math inline">\(S(t)\)</span>:</p>
+<ul>
+<li>
+<span class="math inline">\(S(0)=1\)</span> (everyone is alive at the start).</li>
+<li>
+<span class="math inline">\(S(t)\)</span> is monotone decreasing.</li>
+<li>
+<span class="math inline">\(\lim_{t\to\infty} S(t) = 0\)</span>.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>A useful relationship between mean survival and the survivor function:</li>
+</ul>
+<p><span class="math display">\[
+E(T) = \int_0^\infty S(x)\,dx
+\]</span></p>
+<p>This shows that the <strong>mean survival time</strong> equals the area under the survivor curve.</p>
+</section><section id="quantiles" class="level3"><h3 class="anchored" data-anchor-id="quantiles">Quantiles</h3>
+<ul>
+<li><p>The <span class="math inline">\(p^\text{th}\)</span> quantile of <span class="math inline">\(T\)</span> is the time <span class="math inline">\(t_p\)</span> such that <span class="math display">\[
+F(t_p) = \Pr(T \leq t_p) = p \quad {\color{red}\Rightarrow} \quad t_p = F^{-1}(p) = S^{-1}(1-p)
+\]</span></p></li>
+<li>
+<p>Special cases:</p>
+<ul>
+<li>
+<span class="math inline">\(t_p\)</span> is also the <span class="math inline">\(100p^\text{th}\)</span> percentile.</li>
+<li>The 0.5 quantile (<span class="math inline">\(t_{0.5}\)</span>) is the <strong>median lifetime</strong>.</li>
+</ul>
+</li>
+</ul></section><section id="mortality-rate" class="level3"><h3 class="anchored" data-anchor-id="mortality-rate">Mortality Rate</h3>
+<ul>
+<li>In life tables, the <strong>mortality rate</strong> at time <span class="math inline">\(t\)</span> is the probability of dying between <span class="math inline">\(t\)</span> and <span class="math inline">\(t+1\)</span> among those alive at time <span class="math inline">\(t\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+q_t = \Pr(t \leq T &lt; t+1 \,\vert\, T \geq t)
+\]</span></p>
+<ul>
+<li>
+<p>Properties:</p>
+<ul>
+<li>Mortality rate is a probability, so <span class="math inline">\(0 \leq q_t \leq 1\)</span>.</li>
+<li>As the interval shrinks, mortality rate leads to the <strong>hazard function</strong>.</li>
+</ul>
+</li>
+</ul></section><section id="hazard-function" class="level3"><h3 class="anchored" data-anchor-id="hazard-function">Hazard Function</h3>
+<ul>
+<li>Defined as the <strong>instantaneous failure rate</strong> at time <span class="math inline">\(t\)</span>, conditional on survival up to <span class="math inline">\(t\)</span>:</li>
+</ul>
+<p><span class="math display">\[
+h(t) = \lim_{\Delta t\to 0} \frac{\Pr(t \leq T &lt; t+\Delta t \mid T \geq t)}{\Delta t} = \frac{f(t)}{S(t)}
+\]</span></p>
+<ul>
+<li>
+<p>Key points:</p>
+<ul>
+<li>Hazard is a <strong>rate, not a probability</strong> → it can take values from <span class="math inline">\(0\)</span> to <span class="math inline">\(\infty\)</span>.</li>
+<li>It represents the <strong>instantaneous risk of failure</strong> at time <span class="math inline">\(t\)</span>.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Approximation:</li>
+</ul>
+<p><span class="math display">\[\Pr(t\le T&lt;t+\Delta t\mid T\ge t)\approx h(t)\Delta t\]</span></p>
+<ul>
+<li><p>Alternative interpretation: for small <span class="math inline">\(\Delta t\)</span>, <span class="math inline">\(h(t)\,\Delta t\)</span> approximates the <strong>conditional failure probability</strong> over <span class="math inline">\([t, t+\Delta t)\)</span>.</p></li>
+<li><p>Other names: <em>force of mortality</em>, <em>conditional failure rate</em>.</p></li>
+</ul>
+<hr>
+<ul>
+<li><p>Suppose we are told that for a certain interval of length <span class="math inline">\(\Delta t\)</span>, the probability of failure is <span class="math display">\[
+P = \Pr(t \leq T &lt; t+\Delta t \mid T \geq t) = \tfrac{1}{4}.
+\]</span></p></li>
+<li><p>To get the corresponding <strong>hazard rate</strong>, divide by <span class="math inline">\(\Delta t\)</span>: <span class="math display">\[
+h(t) \approx \frac{P}{\Delta t}
+\]</span></p></li>
+</ul>
+<p>Then the hazard depends on the interval length:</p>
+<table class="caption-top table">
+<thead><tr class="header">
+<th><span class="math inline">\(P\)</span></th>
+<th><span class="math inline">\(\Delta t\)</span></th>
+<th>
+<span class="math inline">\(P/\Delta t\)</span> (rate)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>1/4</td>
+<td>1/3 day</td>
+<td>
+<span class="math inline">\(0.75\)</span>/day</td>
+</tr>
+<tr class="even">
+<td>1/4</td>
+<td>1/21 week</td>
+<td>
+<span class="math inline">\(5.25\)</span>/week</td>
+</tr>
+</tbody>
+</table></section><section id="relationship-between-different-functions" class="level3"><h3 class="anchored" data-anchor-id="relationship-between-different-functions">Relationship Between Different Functions</h3>
+<ul>
+<li><p>The four functions <span class="math inline">\(f(t)\)</span>, <span class="math inline">\(F(t)\)</span>, <span class="math inline">\(S(t)\)</span>, and <span class="math inline">\(h(t)\)</span> are mathematically equivalent ways of describing the distribution of <span class="math inline">\(T\)</span>.</p></li>
+<li><p>From a given expression of one function, say hazard function, expressions of other functions (e.g.&nbsp;density function) can be derived</p></li>
+</ul>
+<hr>
+<p><strong>Expressing <span class="math inline">\(S(t)\)</span> in terms of <span class="math inline">\(h(t)\)</span></strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+  h(x) &amp;= \frac{f(x)}{S(x)} = -\frac{d}{dx}\log S(x) \\
+  \int_0^t h(x)  \,dx &amp; = \int_0^t \Big[ -\frac{d}{dx}\log S(x) \Big]dx \\
+  -\int_0^t h(x) \,dx &amp; = \log S(x) \bigg \vert_0^t \\
+  -\int_0^t h(x) \,dx &amp; = \log S(t) - \log S(0)
+\end{aligned}
+\]</span></p>
+<p>Since <span class="math inline">\(S(0)=1\)</span>,</p>
+<p><span class="math display">\[
+S(t) = \exp\Big(-\int_0^t h(x)\,dx \Big)
+\]</span></p>
+</section><section id="cumulative-hazard-function" class="level3"><h3 class="anchored" data-anchor-id="cumulative-hazard-function">Cumulative Hazard Function</h3>
+<ul>
+<li><p>It is useful to define the <em>cumulative hazard function</em> as <span class="math display">\[
+H(t) = \int_0^t h(x)\,dx
+\]</span></p></li>
+<li><p>Relationship with survivor function: <span class="math display">\[
+S(t) = \exp[-H(t)] \quad \Rightarrow \quad H(t) = -\log S(t)
+\]</span></p></li>
+<li>
+<p>Notes:</p>
+<ul>
+<li>
+<span class="math inline">\(S(\infty)=0 \Rightarrow H(\infty)=\infty\)</span>.</li>
+<li>It is possible for <span class="math inline">\(H(t)&gt;1\)</span> (since it is not a probability).</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>For a given time <span class="math inline">\(t\)</span>, the greater the risk, the smaller <span class="math inline">\(S(t)\)</span>, and hence the shorter mean survival time <span class="math inline">\(E(T)\)</span>, and vice verse</p></li>
+<li><p>It is possible for the cumulative hazard function to exceed unity <span class="math display">\[
+  \begin{aligned}
+  H(t) \geq 1 \;\Rightarrow\; -\log\,S(t) \geq 1 \;\Rightarrow\; S(t) \leq e^{-1} = 0.368
+  \end{aligned}
+  \]</span></p></li>
+<li><p>The cumulative hazard is then greater than unity when the probability of an event occurring after time <span class="math inline">\(t\)</span> is less than 0.37</p></li>
+</ul></section><section id="relationship-between-different-functions-1" class="level3"><h3 class="anchored" data-anchor-id="relationship-between-different-functions-1">Relationship Between Different Functions</h3>
+<section id="expressing-ft-in-terms-of-ht" class="level4"><h4 class="anchored" data-anchor-id="expressing-ft-in-terms-of-ht">Expressing <span class="math inline">\(f(t)\)</span> in terms of <span class="math inline">\(h(t)\)</span>
+</h4>
+<p><span class="math display">\[
+\begin{aligned}
+h(t) &amp; = \frac{f(t)}{S(t)} \\
+f(t) &amp; = h(t) S(t) = h(t)\, \exp\Big(-\int_0^t h(x) \,dx \Big)
+\end{aligned}
+\]</span></p>
+</section></section><section id="example-1.2.1" class="level3"><h3 class="anchored" data-anchor-id="example-1.2.1">Example 1.2.1</h3>
+<ul>
+<li>
+<p>Suppose <span class="math inline">\(T\)</span> has pdf <span class="math display">\[
+f(t) = \beta t^{\beta-1} \exp(-t^\beta), \quad t &gt; 0
+\]</span></p>
+<ul>
+<li>Obtain survivor function and hazard function of <span class="math inline">\(T\)</span>
+</li>
+</ul>
+</li>
+</ul></section><section id="discrete-models-motivation" class="level3"><h3 class="anchored" data-anchor-id="discrete-models-motivation">Discrete Models: Motivation</h3>
+<ul>
+<li>Sometimes lifetimes are measured in <strong>cycles or intervals</strong> (e.g., weeks, months, visits).</li>
+<li>Then <span class="math inline">\(T\)</span> is a <strong>discrete random variable</strong>.</li>
+<li>Possible values: <span class="math inline">\(t_1, t_2, \dots\)</span>, with <span class="math inline">\(0 = t_0 &lt; t_1 &lt; t_2 &lt; \cdots\)</span>.</li>
+</ul></section><section id="discrete-probability-functions" class="level3"><h3 class="anchored" data-anchor-id="discrete-probability-functions">Discrete Probability Functions</h3>
+<ul>
+<li><p><strong>Probability mass function (pmf):</strong> <span class="math display">\[
+f(t_j) = \Pr(T = t_j), \quad j=1,2,\dots
+\]</span></p></li>
+<li><p><strong>Survivor function:</strong> <span class="math display">\[
+S(t) = \Pr(T \geq t) = \sum_{j: t_j \geq t} f(t_j)
+\]</span></p></li>
+<li>
+<p>Properties:</p>
+<ul>
+<li>Step function (non-increasing).</li>
+<li>Left-continuous.</li>
+<li>
+<span class="math inline">\(S(0)=1,\; S(\infty)=0\)</span>.</li>
+</ul>
+</li>
+</ul>
+<p><em>Note:</em> In continuous-time settings we often write <span class="math inline">\(S(t)=\Pr(T&gt;t)\)</span> (right-continuous); here, with discrete times, <span class="math inline">\(S(t)=\Pr(T\ge t)\)</span> is left-continuous.</p>
+</section><section id="discrete-hazard-function" class="level3"><h3 class="anchored" data-anchor-id="discrete-hazard-function">Discrete Hazard Function</h3>
+<ul>
+<li>Defined as <span class="math display">\[
+h(t_j) = \Pr(T = t_j \mid T \geq t_j) = \frac{f(t_j)}{S(t_j)}.
+\]</span>
+</li>
+<li>Interpretation: probability of failing <strong>at time <span class="math inline">\(t_j\)</span></strong> given survival up to that time.</li>
+<li>Range: <span class="math inline">\(0 \leq h(t_j) \leq 1\)</span>.</li>
+<li>Unlike continuous hazard, this is a <strong>probability, not rate</strong>.</li>
+</ul>
+<hr>
+<ul>
+<li>Connection to survivor:</li>
+</ul>
+<p><span class="math display">\[
+h(t_j) = 1 - \frac{S(t_{j+1})}{S(t_j)}.
+\]</span> - since <span class="math inline">\(f(t_j) = S(t_j) - S(t_{j+1})\)</span></p>
+<ul>
+<li>Survivor in terms of hazards:</li>
+</ul>
+<p><span class="math display">\[
+S(t) = \prod_{t_j &lt; t} [1 - h(t_j)].
+\]</span></p>
+<section id="intuition" class="level4"><h4 class="anchored" data-anchor-id="intuition">Intuition</h4>
+<p>To survive until <span class="math inline">\(t_j\)</span>: must “not fail” at earlier times <span class="math inline">\([1-h(t_1)], [1-h(t_2)], \dots, [1-h(t_{j-1})]\)</span>.</p>
+<hr>
+<ul>
+<li>pmf in terms of hazards:</li>
+</ul>
+<p><span class="math display">\[
+f(t_j) = h(t_j) \prod_{i=1}^{j-1} [1 - h(t_i)].
+\]</span></p>
+</section><section id="intuition-1" class="level4"><h4 class="anchored" data-anchor-id="intuition-1">Intuition</h4>
+<p>To fail exactly at <span class="math inline">\(t_j\)</span>: multiply survival so far by hazard at <span class="math inline">\(t_j\)</span>.</p>
+</section></section><section id="some-remarks-on-hazard-functions" class="level3"><h3 class="anchored" data-anchor-id="some-remarks-on-hazard-functions">Some Remarks on Hazard Functions</h3>
+<ul>
+<li><p>The hazard function is an important characteristic of a lifetime distribution that indicates the way the risk of failure varies with age or time, and this is of interest in most applications.</p></li>
+<li><p>In many instances, information is available on how failure rates change with time and such prior information about the shape of the hazard function can help guide model selection.</p></li>
+<li><p>The model/information for hazard function can easily be translated for survivor and density functions using the formulas derived earlier</p></li>
+</ul></section><section id="different-shapes-of-hazard-functions" class="level3"><h3 class="anchored" data-anchor-id="different-shapes-of-hazard-functions">Different Shapes of Hazard Functions</h3>
+<ul>
+<li>
+<p>The shapes of hazard functions could be different, such as</p>
+<ul>
+<li><p>monotone increasing (e.g.&nbsp;positive aging) <code>(a)</code></p></li>
+<li><p>monotone decreasing (e.g.&nbsp;negative aging) <code>(b)</code></p></li>
+<li><p>bathtub-shaped or U-shaped (e.g.&nbsp;age at death of human populations, lifetime of manufactured items, etc.) <code>(c)</code></p></li>
+<li><p>inverse bathtub-shaped (e.g.&nbsp;survival after treatment for cancer, duration of marriage, etc.) <code>(d)</code></p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/fig-1-2a.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</section><section id="different-shapes-of-density-functions" class="level3"><h3 class="anchored" data-anchor-id="different-shapes-of-density-functions">Different Shapes of Density Functions</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/fig-1-2b.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</section><section id="some-remarks-on-hazard-functions-1" class="level3"><h3 class="anchored" data-anchor-id="some-remarks-on-hazard-functions-1">Some Remarks on Hazard Functions</h3>
+<ul>
+<li><p>Shapes of density function could be different corresponding to the shapes of hazard functions</p></li>
+<li><p>Although different survivor functions can have the same basic shape, their hazard functions can differ dramatically</p></li>
+<li><p>The hazard function is usually more informative about the underlying mechanism of failure than the survivor function.</p></li>
+<li><p>Modelling the hazard function is an important method for summarizing survival data</p></li>
+</ul></section></section><section id="some-important-failure-time-models" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="some-important-failure-time-models">
+<span class="header-section-number">1.3</span> Some Important Failure Time Models</h2>
+<section id="introduction-1" class="level3"><h3 class="anchored" data-anchor-id="introduction-1">Introduction</h3>
+<ul>
+<li><p>In survival analysis, <strong>parametric models</strong> are often used to describe lifetime data.</p></li>
+<li><p>Only a few distributions have proven useful across many applications.</p></li>
+<li>
+<p>The most common univariate models are:</p>
+<ul>
+<li>Exponential<br>
+</li>
+<li>Weibull<br>
+</li>
+<li>Log-normal<br>
+</li>
+<li>Log-logistic</li>
+</ul>
+</li>
+<li>
+<p>Notations</p>
+<ul>
+<li><p><span class="math inline">\(T\,\rightarrow\)</span> lifetime, takes only nonnegative values, i.e.&nbsp;from 0 to <span class="math inline">\(\infty\)</span></p></li>
+<li><p><span class="math inline">\(Y = \log T\,\rightarrow\)</span> log-lifetime, takes any value on the real line, i.e.&nbsp;from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(\infty\)</span></p></li>
+</ul>
+</li>
+</ul></section><section id="the-exponential-distribution" class="level3"><h3 class="anchored" data-anchor-id="the-exponential-distribution">The Exponential Distribution</h3>
+<ul>
+<li>
+<p>The exponential distribution is characterized by a constant <strong>hazard function</strong> <span class="math display">\[h(t) = \lambda, \;t\geq 0
+  \]</span></p>
+<ul>
+<li><span class="math inline">\(\lambda &gt;0\)</span></li>
+</ul>
+</li>
+<li><p>The <strong>cumulative hazard function</strong> <span class="math display">\[
+  H(t) = \int_0^t h(x)\,dx = \int_0^t \lambda\,dx = \lambda t
+  \]</span></p></li>
+<li><p>The <strong>survivor function</strong> <span class="math display">\[
+  \begin{aligned}
+  S(t) &amp;= \exp(- H(t)) \\
+  &amp; = \exp(-\lambda t)
+  \end{aligned}
+  \]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li><p>The <strong>probability density function</strong> <span class="math display">\[
+  \begin{aligned}
+  f(t) &amp; = {\color{red} h(t)}\,{\color{blue} S(t)} = {\color{red}\lambda}\,{\color{blue}\exp(-\lambda t)}
+  \end{aligned}
+  \]</span></p></li>
+<li><p>Reparameterization <span class="math inline">\(\theta = \lambda^{-1}\)</span> Then, <span class="math inline">\(T\sim \text{Exp}(\text{scale}=\theta)\)</span>, where</p></li>
+</ul>
+<p><span class="math display">\[
+    f(t) = (1/\theta)\,\exp(-t/\theta), \;\;t\geq 0
+\]</span></p>
+<hr>
+<ul>
+<li>
+<p>Properties</p>
+<ul>
+<li><p><span class="math inline">\(E(T) = \theta\)</span></p></li>
+<li><p><span class="math inline">\(V(T) = \theta^2\)</span></p></li>
+</ul>
+</li>
+<li>
+<p><strong>Quantiles</strong>, the <span class="math inline">\(p\)</span>th quantile <span class="math display">\[
+  \begin{aligned}
+  F(t_p) = p &amp; \;\Rightarrow \;1 - \exp(-t_p/\theta) = p \; \\
+  &amp; \; \Rightarrow {\color{purple} t_p = -\theta \log(1-p)}
+  \end{aligned}
+  \]</span></p>
+<ul>
+<li>The median, <span class="math inline">\(.5th\)</span> quantile <span class="math display">\[
+      t_{.5} = -\theta\log(.5)
+      \]</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>The exponential distribution with <span class="math inline">\(\theta = 1\)</span> is known as standard exponential distribution</p></li>
+<li>
+<p>If <span class="math inline">\(T\sim \text{Exp}(\theta)\)</span> then <span class="math display">\[
+  (T/\theta)\sim \text{Exp}(1)
+  \]</span></p>
+<ul>
+<li><p>The mean and variance of <span class="math inline">\(\text{Exp}(1)\)</span> is 1</p></li>
+<li><p>The median of the <span class="math inline">\(\text{Exp}(1)\)</span> is <span class="math inline">\(-\log(.5)=0.6931\)</span></p></li>
+<li><p>The density function of <span class="math inline">\(\text{Exp}(1)\)</span> is positively skewed</p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>Density function of exponential distribution</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li>
+<p>Historically, the exponential was the first widely discussed lifetime distribution model</p>
+<ul>
+<li>This was in part because of the availability of simple statistical methods for it</li>
+</ul>
+</li>
+<li><p>The assumption of a constant hazard function is very restrictive, so the model’s applicability is fairly limited</p></li>
+</ul></section><section id="the-weibull-distribution" class="level3"><h3 class="anchored" data-anchor-id="the-weibull-distribution">The Weibull Distribution</h3>
+<ul>
+<li><p>The Weibull distribution is the most widely used lifetime distribution model.</p></li>
+<li>
+<p>It has applications to the lifetimes or durability of manufactured</p>
+<ul>
+<li>It is used as a model with diverse types of items, such as ball bearings, automobile components, and electrical insulation.</li>
+</ul>
+</li>
+<li><p>It is also used in biological and medical applications, for example, in studies on the time to the occurrence of tumors in human populations or in laboratory animals.</p></li>
+</ul>
+<hr>
+<ul>
+<li><p>The hazard function of Weibull distribution <span class="math display">\[
+  h(t)=\lambda\beta(\lambda t)^{\beta-1},\;\lambda&gt;0,\;\beta&gt;0.
+  \]</span></p></li>
+<li>
+<p>Show that <span class="math inline">\(h(t)\)</span> is</p>
+<ol type="1">
+<li><p>monotone increasing for <span class="math inline">\(\beta&gt;1\)</span></p></li>
+<li><p>monotone decreasing for <span class="math inline">\(\beta&lt;1\)</span></p></li>
+<li><p>constant for <span class="math inline">\(\beta=1\)</span></p></li>
+</ol>
+</li>
+<li>
+<p>Exponential distribution is a special case</p>
+<ul>
+<li>For <span class="math inline">\(\beta=1\)</span>, Weibull distribution reduces to exponential distribution with <span class="math inline">\(h(t)=\lambda\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>Hazard function of Weibull distribution <span class="math inline">\((\lambda=1.0)\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li><p>The cumulative hazard function <span class="math display">\[
+  H(t)=\int_0^t \,h(x)\,dx= \int_0^t \lambda\beta\, (\lambda x)^{\beta-1}\,dx=(\lambda\,t)^{\beta}
+  \]</span></p></li>
+<li><p>The survivor function <span class="math display">\[
+  S(t) = \exp[-H(t)] = \exp[-(\lambda t)^\beta]
+  \]</span></p></li>
+<li><p>The density function <span class="math display">\[
+  f(t) = h(t)\, S(t) = \lambda\beta\, (\lambda t)^{\beta-1}\exp[-(\lambda t)^\beta]
+  \]</span></p></li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>Density function of Weibull distribution <span class="math inline">\((\lambda=1.0)\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>Density function of Weibull distribution <span class="math inline">\((\lambda=2.0)\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li>
+<p>Show that the <span class="math inline">\(r^\text{th}\)</span> moment of Weibull distribution <span class="math display">\[E(T^r) = \lambda^{-r}\Gamma{(1 + r/\beta)}\]</span></p>
+<ul>
+<li>Obtain the expressions of <span class="math inline">\(E(T)\)</span> and <span class="math inline">\(V(T)\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>The <span class="math inline">\(p^{\text{th}}\)</span> quantile can be obtained as <span class="math display">\[
+\begin{aligned}
+F(t) &amp;= 1-e^{-(\lambda t_p)^{\beta}}=p \\
+\Rightarrow\ t_p &amp; =\alpha[-\log(1-p)]^{1/\beta}, \qquad \text{where} \,\, \alpha=1/\lambda
+\end{aligned}
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(\alpha = 1/\lambda\)</span> is known as the scale parameter of the distribution</p></li>
+<li><p>The shape of the distribution depends on <span class="math inline">\(\beta\)</span>, which is known as the shape parameter</p></li>
+</ul>
+</li>
+<li>
+<p>It can be shown that <span class="math inline">\(\alpha\)</span> is the .632 quantile of the distribution irrespective of the value of <span class="math inline">\(\beta\)</span></p>
+<ul>
+<li>i.e.&nbsp;<span class="math inline">\(\alpha\)</span> is greater than the median of the distribution!</li>
+</ul>
+</li>
+</ul></section><section id="the-extreme-value-distribution" class="level3"><h3 class="anchored" data-anchor-id="the-extreme-value-distribution">The Extreme Value Distribution</h3>
+<ul>
+<li><p>Let <span class="math inline">\(T\)</span> follows a Weibull distribution <span class="math display">\[
+  T\sim \text{Weib}(\alpha, \beta)\;\;\text{with}\;\; \alpha = 1/\lambda
+  \]</span></p></li>
+<li><p>Extreme value distribution (also known as Gumbel distribution) is closely related to Weibull distribution</p></li>
+<li><p>If lifetime <span class="math inline">\(T\)</span> follows a Weibull distribution then log-lifetime <span class="math inline">\(Y = \log T\)</span> follows an extreme value distribution</p></li>
+<li><p>Extreme value distribution has two parameters, which have one-to-one connection with the Weibull distribution parameters!</p></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><strong>Exercise</strong>: If <span class="math inline">\(T\sim \text{Weib}(\alpha, \beta)\)</span>, obtain the pdf of <span class="math inline">\(Y=\log T\)</span></p>
+<ul>
+<li>
+<em>Hints.</em> <span class="math inline">\(J = \frac{dt}{dy} = e^y\)</span> and <span class="math display">\[
+    f_Y(y) = f_T(e^y)\;\vert\, J\,\vert    
+      \]</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><span class="math inline">\(T \sim \text{Weib}(\alpha, \beta)\;\;\Leftrightarrow\;\;Y = \log T\sim \text{EV}(u, b)\)</span></p>
+<ul>
+<li><p><span class="math inline">\(u = \log\alpha\)</span> and</p></li>
+<li><p><span class="math inline">\(b = (1/\beta)\)</span></p></li>
+</ul>
+</li>
+<li>
+<p>The pdf of <span class="math inline">\(Y\)</span> <span class="math display">\[
+  f(y) = (1/b)\exp\Big[\frac{y-u}{b}-\exp\Big(\frac{y-u}{b}\Big) \Big]\;\;-\infty&lt; y &lt;\infty
+  \]</span></p>
+<ul>
+<li>
+<span class="math inline">\(-\infty &lt; u &lt; \infty\)</span> and <span class="math inline">\(b&gt;0\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>The survivor function <span class="math display">\[
+  \begin{aligned}
+  S(y) &amp;= \int_y^{\infty} f(x) \,dx \\
+  &amp; = \int_y^{\infty} (1/b)\exp\Big[\frac{x-u}{b}-\exp\Big(\frac{x-u}{b}\Big) \Big]\,dx \\
+  &amp; = \exp\Big[-\exp\Big(\frac{y - u}{b}\Big)\Big]
+  \end{aligned}
+  \]</span></p></li>
+<li><p>The cumulative hazard function <span class="math display">\[
+  H(y) = \exp\Big(\frac{y-u}{b}\Big)
+  \]</span></p></li>
+<li><p>The hazard function <span class="math display">\[
+  h(y) = \frac{d\,H(y)}{dy} = (1/b)\exp\Big(\frac{y-u}{b}\Big)
+  \]</span></p></li>
+</ul>
+<hr>
+<section id="standard-extreme-value-distribution" class="level4"><h4 class="anchored" data-anchor-id="standard-extreme-value-distribution">Standard extreme value distribution</h4>
+<ul>
+<li>If <span class="math inline">\(Y\sim \text{EV}(u, b)\)</span>, then <span class="math display">\[
+  \frac{Y-u}{b} \sim \text{EV}(0, 1),
+  \]</span> the <em>standard extreme value distribution</em>.</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>The density function of extreme value distribution with <span class="math inline">\(u=0\)</span> and <span class="math inline">\(b=1\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>The density function of extreme value distribution with <span class="math inline">\(u=0\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li>The moment generating function of <span class="math inline">\(EV(u, b)\)</span> <span class="math display">\[
+  \begin{aligned}
+  M_Y(\theta) = E[e^{\theta Y}] &amp;= \int_{-\infty}^\infty e^{\theta y} \,f(y)\, dy\\
+  &amp; = \int_{-\infty}^\infty e^{\theta y}\,(1/b)\,\exp\Big[\frac{y-u}{b} - \exp\Big(\frac{y-u}{b}\Big)\Big]dy
+  \end{aligned}
+  \]</span>
+</li>
+</ul>
+<p><span class="math display">\[
+=  \int_{-\infty}^\infty e^{\theta(u + bz)}\exp\big[z  - \exp(z)\big]dz
+\qquad [ \text{let} \,\,\, \frac{y-u}{b} = z]
+\]</span></p>
+<p><span class="math display">\[
+= \int_0^\infty e^{\theta u}\, x^{\theta b}\, e^{-x}\, dx = e^{\theta u}\,\Gamma{(\theta b + 1)},
+\qquad [\text{let} \,\,\, e^z =x]
+\]</span></p>
+<hr>
+<ul>
+<li><p>If <span class="math inline">\(Y\sim EV(u, b)\)</span> <span class="math display">\[
+  M(\theta) = e^{\theta u}\, \Gamma(\theta b + 1)
+  \]</span></p></li>
+<li><p>If <span class="math inline">\(Y\sim EV(0, 1)\)</span> <span class="math display">\[
+  M(\theta) =  \Gamma(\theta + 1)
+  \]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li><p>Moments of standard extreme value distribution <span class="math inline">\(Z\sim EV(0, 1)\)</span> <span class="math display">\[
+  \begin{aligned}
+  E(Z) &amp;= \frac{d}{d\theta}M(\theta)\big\vert_{\theta=0}=\Gamma'(1)=-\gamma\;\; (\text{Euler's constant})\\
+  V(Z) &amp; = \Gamma''(1) - \gamma^2 = \pi^2/6
+  \end{aligned}
+  \]</span></p></li>
+<li><p>For <span class="math inline">\(Y \sim EV(u, b)\)</span>, show that <span class="math display">\[
+  E(Y) =u - \gamma b\;\;\text{and}\;\; V(Y) = b^2(\pi^2/6)
+  \]</span></p></li>
+</ul>
+<hr></section><section id="the-ptextth-quantile-of-extreme-value-distribution" class="level4"><h4 class="anchored" data-anchor-id="the-ptextth-quantile-of-extreme-value-distribution">The <span class="math inline">\(p^\text{th}\)</span> quantile of extreme value distribution</h4>
+<p><span class="math display">\[
+\begin{aligned}
+F(y_p) &amp; = p \\
+S(y_p) &amp;= 1-p \\
+\exp\Big[-\exp\Big(\frac{y_p-u}{b}\Big) \Big] &amp;= (1-p)\\
+%\frac{y_p-u}{b} &amp; = \log\big[-\log(1-p)] \\
+y_p &amp; =  u + b\log\big[-\log(1-p)]
+\end{aligned}
+\]</span></p>
+<ul>
+<li>Show that the location parameter <span class="math inline">\(u\)</span> is the .632 quantile of <span class="math inline">\(Y\sim EV(u, b)\)</span>
+</li>
+</ul></section></section><section id="the-log-normal-distribution" class="level3"><h3 class="anchored" data-anchor-id="the-log-normal-distribution">The Log-normal Distribution</h3>
+<ul>
+<li><p>The lifetime <span class="math inline">\(T\)</span> is said to be log-normally distributed if log-lifetime <span class="math inline">\(Y=\log T\)</span> is normally distributed.</p></li>
+<li><p>The parameters of normal distribution <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> are also considered as the parameters of log-normal distribution <span class="math display">\[
+\begin{aligned}
+Y &amp;=\log T \sim N(\mu, \sigma^2) \\
+\Rightarrow\; T &amp;= \exp(Y)\sim \log N(\mu, \sigma^2)
+\end{aligned}
+\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>Let <span class="math inline">\(Y=\log T \sim N(\mu, \sigma^2)\)</span>, show that the density function of <span class="math inline">\(T=\exp(Y)\)</span> is <span class="math display">\[
+  \begin{aligned}
+  f_T(t) &amp;= f_Y(\log T) \bigg\vert \frac{dy}{dt}\bigg\vert \\
+  &amp; = \frac{1}{\sigma t\sqrt{2\pi}}\exp\Bigg[-\frac{1}{2}\Bigg(\frac{\log t - \mu}{\sigma}\Bigg)^2 \Bigg]
+  \end{aligned}
+  \]</span>
+<ul>
+<li>
+<span class="math inline">\(t&gt;0\)</span>, <span class="math inline">\(\sigma&gt;0\)</span>, and <span class="math inline">\(-\infty &lt; \mu &lt; \infty\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>The survivor function of <span class="math inline">\(T=\exp(Y)\)</span> <span class="math display">\[
+  S(t) = 1 - \Phi\bigg(\frac{\log t - \mu}{\sigma}\bigg)
+  \]</span></p>
+<ul>
+<li>
+<span class="math inline">\(\Phi(\cdot)\;\rightarrow\)</span> distribution function of <span class="math inline">\(N(0, 1)\)</span>
+</li>
+</ul>
+</li>
+<li><p>The hazard function is defined as <span class="math inline">\(f(t)/S(t)\)</span>, which takes the value 0 at <span class="math inline">\(t=0\)</span>, increases to a maximum and then decreases, approaching 0 as <span class="math inline">\(t\to \infty\)</span>.</p></li>
+</ul>
+<hr>
+<ul>
+<li><p>It can be shown <span class="math display">\[
+  \begin{aligned}
+  E(T) &amp;= \exp(\mu + \sigma^2/2)\\
+  V(T)&amp;=[\exp(\sigma^2)-1][\exp(2\mu + \sigma^2)]
+  \end{aligned}
+  \]</span></p></li>
+<li>
+<p>For log-normal distribution</p>
+<ul>
+<li><p><span class="math inline">\(\exp(\mu)\;\rightarrow\)</span> the scale parameter</p></li>
+<li><p><span class="math inline">\(1/\sigma\;\rightarrow\)</span> the shape parameter</p></li>
+</ul>
+</li>
+<li><p>Show that for <span class="math inline">\(T\sim \log N(\mu,\sigma^2)\)</span> <span class="math display">\[
+  t_{.5} = \exp(\mu)
+  \]</span></p></li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>Density function of log-normal distribution with <span class="math inline">\(\mu=0\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>Hazard function of log-normal distribution with <span class="math inline">\(\mu=0\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="the-log-logistic-distribution" class="level3"><h3 class="anchored" data-anchor-id="the-log-logistic-distribution">The Log-logistic distribution</h3>
+<ul>
+<li><p>If <span class="math inline">\(Y = \log T\)</span> follows a logistic distribution then <span class="math inline">\(T\)</span> follows a log-logistic distribution</p></li>
+<li><p>The probability density function of a logistic distribution is a unimodal, bell-shaped curve symmetric around its mean, and for location parameter <span class="math inline">\(u\)</span> and scale parameter <span class="math inline">\(b\)</span> it is given by</p></li>
+</ul>
+<p><span class="math display">\[
+f(y) = \frac{e^{(y-u)/b}}{b \,[1 + e^{(y-u)/b}]^2}.
+\]</span></p>
+<ul>
+<li>
+<span class="math inline">\(-\infty &lt; y &lt;\infty\)</span>, <span class="math inline">\(-\infty &lt; u &lt; \infty\)</span>, <span class="math inline">\(b&gt;0\)</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>The survivor function of a logistic distribution is <span class="math display">\[
+\begin{aligned}
+S(y)=\int_{y}^{\infty} f(x)\,dx &amp;= \int_{y}^{\infty} \frac{e^{(x-u)/b}}{b\,[1+e^{(x-u)/b}]^{2}}\,dx. \\
+&amp; = \cdots \\
+&amp;=\frac{1}{\big[1 + e ^ {(y-u)/b}\big]}
+\end{aligned}
+\]</span></p></li>
+<li><p>The hazard function of logistic distribution is <span class="math display">\[
+h(y) = \frac{f(y)}{S(y)} = \frac{e^{(y-u)/b}}{b \,[1 + e^{(y-u)/b}]}.
+\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>The pdf of log-logistic distribution <span class="math display">\[
+\begin{aligned}
+f_T(t) &amp;= f_Y(\log T)\,\Big\vert \frac{dy}{dt}\Big\vert\\
+    &amp; = \frac{\beta}{\alpha} \frac{(t/\alpha)^{\beta-1}}{\big[1+ (t/\alpha)^\beta\big]^2}
+\end{aligned}
+\]</span></p>
+<ul>
+<li>
+<span class="math inline">\(\alpha = \exp(u)\)</span> and <span class="math inline">\(\beta = 1/b\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>The survivor function of <span class="math inline">\(T\sim \text{LLogis}(\alpha, \beta)\)</span> is <span class="math display">\[
+\begin{aligned}
+S(t) &amp;= \int_t^\infty \frac{\beta}{\alpha}\frac{(x/\alpha)^{\beta-1}}{\big[1+ (x/\alpha)^\beta\big]^2}\, dx
+\end{aligned}
+\]</span></p>
+<ul>
+<li>Let <span class="math inline">\((x/\alpha)^\beta=y\)</span> <span class="math display">\[
+    \begin{aligned}
+    S(t) &amp;= \int_{(t/\alpha)^\beta}^\infty \frac{1}{(1+ y)^2}\, dy\\
+    &amp; = \frac{-1}{1+ y}\Bigg\vert_{(t/\alpha)^\beta}^\infty\\
+    &amp; = \big[1+ (t/\alpha)^\beta \big]^{-1}
+    \end{aligned}
+    \]</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>The pdf <span class="math display">\[
+  f(t) = \frac{\beta}{\alpha}\frac{(t/\alpha)^{\beta-1}}{\big[1+ (t/\alpha)^\beta\big]^2}
+  \]</span></p></li>
+<li><p>The survivor function <span class="math display">\[
+  S(t) = \big[1+ (t/\alpha)^\beta \big]^{-1}
+  \]</span></p></li>
+<li><p>The hazard function <span class="math display">\[
+  h(t)= \frac{\beta}{\alpha} \frac{(t/\alpha)^{\beta-1}}{\big[1+ (t/\alpha)^\beta\big]}
+  \]</span></p></li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>The density function of log-logistic distribution with <span class="math inline">\(u=0\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>The hazard function of log-logistic distribution with <span class="math inline">\(u=0\)</span></figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li>Show that for <span class="math inline">\(T\sim \text{LLogis}(\alpha, \beta)\)</span>, provided <span class="math inline">\(\beta&gt;r\)</span> <span class="math display">\[
+\begin{aligned}
+E(T^{r})
+&amp;= \int_{0}^{\infty} t^{r}\;
+\frac{\beta}{\alpha}\,
+\frac{(t/\alpha)^{\beta-1}}{\big(1+(t/\alpha)^{\beta}\big)^2}
+\, dt. \\
+&amp;= \cdots \\
+&amp;= \alpha^r\,\Gamma \bigg(\frac{r}{\beta} +1\bigg)\Gamma \bigg(1-\frac{r}{\beta}\bigg)
+\end{aligned}
+\]</span>
+</li>
+</ul>
+<p>You might have to recognize and use a Beta integral.</p>
+<ul>
+<li><p>Beta (first kind): for <span class="math inline">\(0&lt;x&lt;1\)</span>, <span class="math display">\[
+\int_{0}^{1} x^{\alpha-1}(1-x)^{\beta-1}\,dx
+= \mathrm{B}(\alpha,\beta)
+= \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}.
+\]</span></p></li>
+<li><p>Beta function (second kind / Beta prime): <span class="math display">\[
+\int_{0}^{\infty}
+\frac{x^{a-1}}{(1+x)^{a+b}}\,dx
+= \frac{\Gamma(a)\,\Gamma(b)}{\Gamma(a+b)},
+\quad a&gt;0,\,b&gt;0.
+\]</span></p></li>
+</ul>
+<hr>
+<section id="log-logistic-hazard-shape" class="level4"><h4 class="anchored" data-anchor-id="log-logistic-hazard-shape">Log-logistic hazard shape</h4>
+<ul>
+<li><p>For <span class="math inline">\(\beta&gt;1\)</span>: <span class="math inline">\(h(0)=0\)</span>, increases to a maximum, then decreases to <span class="math inline">\(0\)</span> as <span class="math inline">\(t\to\infty\)</span> (unimodal hazard).</p></li>
+<li><p>For <span class="math inline">\(\beta=1\)</span>: <span class="math inline">\(h(t)=1/(\alpha+t)\)</span>, strictly decreasing.</p></li>
+<li><p>For <span class="math inline">\(0&lt;\beta&lt;1\)</span>: <span class="math inline">\(h(t)\)</span> is monotone decreasing (starts at <span class="math inline">\(\infty\)</span>).</p></li>
+</ul></section></section><section id="the-gamma-distribution" class="level3"><h3 class="anchored" data-anchor-id="the-gamma-distribution">The Gamma Distribution</h3>
+<ul>
+<li>The gamma distribution has a <em>pdf</em> of the form <span class="math display">\[
+f(t) = \frac{\lambda(\lambda t)^{k-1}\,e^{-\lambda t}}{\Gamma(k)}\;\;\;t&gt;0
+\]</span>
+<ul>
+<li>shape <span class="math inline">\(k&gt;0\)</span>
+</li>
+<li>rate <span class="math inline">\(\lambda &gt;0\)</span> (scale <span class="math inline">\(1/\lambda\)</span>)</li>
+</ul>
+</li>
+<li>For <span class="math inline">\(k=1\)</span>, gamma distribution reduces to exponential distribution</li>
+</ul>
+<hr>
+<ul>
+<li>
+<em>Regularized lower incomplete gamma</em> function</li>
+</ul>
+<p><span class="math display">\[
+I(k, x) = \frac{1}{\Gamma(k)}\int_0^x u^{k-1}\, e^{-u}\, du
+\]</span></p>
+<hr>
+<ul>
+<li><p>Survivor function <span class="math display">\[
+S(t) = \int_t^\infty  \frac{\lambda(\lambda x)^{k-1}\,e^{-\lambda x}}{\Gamma(k)}\, dx
+\]</span></p></li>
+<li><p>Let <span class="math inline">\(y=\lambda x\)</span> <span class="math display">\[
+S(t) = \frac{1}{\Gamma(k)}\int_{\lambda t}^\infty y^{k-1}\,e^{-y}\,dy=1-I(k, \lambda t)
+\]</span></p></li>
+</ul>
+<hr>
+<section id="gamma-hazard-shape" class="level4"><h4 class="anchored" data-anchor-id="gamma-hazard-shape">Gamma hazard shape</h4>
+<p>The hazard function <span class="math display">\[
+h(t) = \frac{f(t)}{S(t)}
+\]</span></p>
+<ul>
+<li>For <span class="math inline">\(k&gt;1\)</span>: <span class="math inline">\(h(0)=0\)</span>, <span class="math inline">\(h(t)\)</span> increases, <span class="math inline">\(\displaystyle \lim_{t\to\infty}h(t)=\lambda\)</span>.</li>
+<li>For <span class="math inline">\(k=1\)</span>: <span class="math inline">\(h(t)\equiv \lambda\)</span>.</li>
+<li>For <span class="math inline">\(0&lt;k&lt;1\)</span>: <span class="math inline">\(h(t)\)</span> decreases, <span class="math inline">\(\displaystyle \lim_{t\to 0}h(t)=\infty\)</span>, <span class="math inline">\(\displaystyle \lim_{t\to\infty}h(t)=\lambda\)</span>.</li>
+</ul>
+<p>In short: Gamma has increasing hazard rate for <span class="math inline">\(k&gt;1\)</span>, constant for <span class="math inline">\(k=1\)</span>, and decreasing hazard rate for <span class="math inline">\(0&lt;k&lt;1\)</span></p>
+<hr>
+<ul>
+<li><p>The distribution with <span class="math inline">\(\lambda=1\)</span> is called one-parameter gamma distribution, denoted by <span class="math inline">\(Ga(k)\)</span>, and has pdf <span class="math display">\[
+f(t) = \frac{t^{k-1}\,e^{-t}}{\Gamma(k)}\;\;\;t&gt;0
+\]</span></p></li>
+<li>
+<p>If <span class="math inline">\(T\)</span> follows a gamma distribution with scale parameter <span class="math inline">\(\lambda^{-1}\)</span> and shape parameter <span class="math inline">\(k\)</span>, then show that <span class="math inline">\(\lambda T\sim Ga(k)\)</span></p>
+<ul>
+<li>
+<em>Hints</em>. <span class="math inline">\(Y=\lambda T\)</span> and <span class="math inline">\(f_Y(y) = f_T(y/\lambda)\, \vert dt/dy \vert\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>If <span class="math inline">\(Y\sim Ga(k)\)</span> then <span class="math inline">\(2Y\sim \chi^2_{(2k)}\)</span></p></li>
+<li>
+<p>Let <span class="math inline">\(T_1, \ldots, T_n\)</span> are iid and exponentially distributed with parameter <span class="math inline">\(\lambda\)</span></p>
+<ul>
+<li>
+<span class="math inline">\(\sum_{i=1}^n T_i\)</span> follows a gamma distribution with parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(n\)</span>
+</li>
+</ul>
+</li>
+<li><p>The moment generating function of <span class="math inline">\(Y\sim \text{Ga}(k)\)</span> (rate 1) is</p></li>
+</ul>
+<p><span class="math display">\[
+M_Y(\theta)=(1-\theta)^{-k},\ \ \theta&lt;1.
+\]</span></p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>Density function of standard gamma distribution</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch01_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="384"></p>
+<figcaption>Hazard function of standard gamma distribution</figcaption></figure>
+</div>
+</div>
+</div>
+</section></section><section id="log-location-scale-models" class="level3"><h3 class="anchored" data-anchor-id="log-location-scale-models">Log-Location-scale Models</h3>
+<p><strong>Definition: Location Scale Family</strong> A location-scale family is a family of distributions formed by <em>translation</em> and <em>rescaling</em> of a standard family member.</p>
+<ul>
+<li>
+<p>A parametric location-scale model for a random variable <span class="math inline">\(Y\)</span> is a distribution with pdf of the form <span class="math display">\[
+f(y) = \frac{1}{b}\,\,f_0\bigg(\frac{y-u}{b}\bigg)\;\;-\infty&lt;y&lt;\infty
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(-\infty&lt;u&lt;\infty\)</span>, location parameter</p></li>
+<li><p><span class="math inline">\(b&gt;0\)</span>, scale parameter</p></li>
+<li><p><span class="math inline">\(f_0(z)\)</span> is a specified pdf on <span class="math inline">\((-\infty, \infty)\)</span></p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>The cumulative distribution function of <span class="math inline">\(Y\)</span> <span class="math display">\[
+\begin{aligned}
+F(y) &amp;= \int_{-\infty}^y (1/b)\, f_0\bigg(\frac{x-u}{b}\bigg)\,dx \\[.25em]
+&amp; = \int^{(y-u)/b}_{-\infty}  f_0(z)\,dz \\[.25em]
+&amp; = F_0\bigg(\frac{y-u}{b}\bigg)
+\end{aligned}
+\]</span></p></li>
+<li><p>Similarly, the survivor function of <span class="math inline">\(Y\)</span> <span class="math display">\[
+S(y) = 1 - F_0\bigg(\frac{y-u}{b}\bigg) = S_0\bigg(\frac{y-u}{b}\bigg)
+\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>The distribution of the standardized variable <span class="math inline">\(Z = (Y-u)/b\)</span></p>
+<ul>
+<li><p>Probability density function of <span class="math inline">\(Z\)</span> <span class="math display">\[
+f_Z(z) = f_Y\bigg(\frac{y-u}{b}\bigg)\,\Big\vert \frac{dy}{dz}\Big\vert = (1/b)\,f_0(z)\,(b) = f_0(z)    
+\]</span></p></li>
+<li><p>Survivor function of <span class="math inline">\(Z\)</span> <span class="math display">\[
+S_Z(z) = \int_z^\infty f_0(x)\, dx = S_0(z)
+\]</span></p></li>
+<li><p>Cumulative density function of <span class="math inline">\(Z\)</span> <span class="math display">\[
+F_Z(z) = F_0(z)
+\]</span></p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>There is an one-to-one correspondence between some lifetime and log-lifetime distributions</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+
+</div>
+</div>
+<ul>
+<li><p>Parameters of <em>lifetime</em> distributions <span class="math display">\[\text{scale ($\alpha$) and shape ($\beta$)}\]</span></p></li>
+<li><p>Parameters of <em>log-lifetime</em> distributions <span class="math display">\[\text{location ($u=\log\alpha$) and scale ($b = 1/\beta$)}\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li><p>For the standardized log-lifetimes <span class="math inline">\(Z=(Y-u)/b\)</span></p></li>
+<li><p>The density, cumulative density, and survivor functions can be expressed in terms of <span class="math inline">\(f_0(\cdot)\)</span>, <span class="math inline">\(F_0(\cdot)\)</span>, and <span class="math inline">\(S_0(\cdot)\)</span>, respectively</p></li>
+<li><p>For example, the survivor functions of log-lifetimes are defined as <span class="math display">\[
+\begin{aligned}
+S_0(z) &amp;= \exp(-e^z) \;\longrightarrow\;\text{extreme value}\\[.25em]
+S_0(z) &amp;= 1- \Phi(z) \;\longrightarrow\;\text{normal}\\[.25em]
+S_0(z) &amp;= (1 + e^z)^{-1} \;\longrightarrow\;\text{logistic}
+\end{aligned}
+\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>Using the transformation <span class="math inline">\(T=\exp(Y)\)</span>, lifetime distributions can be obtained from each of the distributions of location-scale family <span class="math display">\[
+\begin{aligned}
+S_T(t) &amp;= P(T\geq t)\\[.25em]
+&amp; = P(\log T \geq \log t) \\[.25em]
+%&amp; = P\bigg(\frac{Y - u}{b} \geq \frac{\log t - u }{b}\bigg) \\[.25em]
+&amp; = S_0\bigg(\frac{\log t -u}{b} \bigg) \\[.25em]
+%&amp; = S_0\bigg(\log\Big(\frac{t}{\alpha}\Big)^\beta\bigg)\\[.25em]
+&amp; = S_0^\star\bigg(\Big(\frac{t}{\alpha}\Big)^\beta\bigg)
+\end{aligned}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(S_0^\star(x) = S_0(\log x)\)</span></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>Obtain the survivor function of <span class="math inline">\(T\sim \text{Weib}(\alpha, \beta)\)</span> from <span class="math inline">\(Y\sim EV(u, b)\)</span> <span class="math display">\[
+\begin{aligned}
+S(t) &amp; = S_0^\star\Big(\big({t}/{\alpha}\big)^\beta\Big) \\[.25em]
+&amp; = S_0\Big(\log \big({t}/{\alpha}\big)^\beta\Big)\\[.25em]
+&amp; = \exp\Big(-e^{\log\big(t/\alpha\big)^\beta}\Big)\\[.25em]
+&amp; = \exp\Big(-{\big(t/\alpha\big)^\beta}\Big)
+\end{aligned}
+\]</span></p></li>
+<li><p>Similarly, obtain the expressions of survivor function of log-logistic and log-normal distribution using the relationship <span class="math inline">\(S(\cdot)=S_0^\star(\cdot)\)</span></p></li>
+</ul></section></section><section id="regression-models" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="regression-models">
+<span class="header-section-number">1.4</span> Regression Models</h2>
+<ul>
+<li><p>Regression models are used to understand the relationship between lifetime and a set of covariates (e.g.&nbsp;age, gender, disease status, values of bio-markers, etc.), some of which may depend on time</p></li>
+<li>
+<p>Regression models considered for lifetimes can be divided into two broad categories</p>
+<ul>
+<li><p>Parametric models</p></li>
+<li><p>Semiparametric models</p></li>
+</ul>
+</li>
+</ul>
+<section id="parametric-regression-models" class="level3"><h3 class="anchored" data-anchor-id="parametric-regression-models">Parametric Regression Models</h3>
+<ul>
+<li><p>Parametric models discussed in this chapter (e.g.&nbsp;Weibull, log-logistic, etc.) can be considered for modeling lifetime</p></li>
+<li><p>In parametric regression model, one of the parameters of the assumed lifetime distribution is expressed as a function of available covariates</p></li>
+</ul>
+<hr>
+<ul>
+<li><p>Let <span class="math inline">\(T\)</span> be the lifetime and <span class="math inline">\(\mathbf{x}=(x_1, \ldots, x_p)'\)</span> be the available <span class="math inline">\(p\)</span> covariates</p></li>
+<li><p>Assume <span class="math inline">\(T\sim \text{Exp}(\theta)\)</span> and since <span class="math inline">\(\theta&gt;0\)</span>, a reasonable model for <span class="math inline">\(\theta\)</span> would be <span class="math display">\[\theta(\mathbf{x}) = \exp\big(\boldsymbol{\beta}'\mathbf{x}\big), \qquad \text{where}\; \boldsymbol{\beta} = (\beta_1, \ldots, \beta_p)'\]</span></p></li>
+<li><p>The model specification <span class="math inline">\(\theta(\mathbf{x}) = \exp\big(\boldsymbol{\beta}'\mathbf{x}\big)\)</span> ensures <span class="math inline">\(\theta(\mathbf{x}) \geq 0\)</span> for any set of values of <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\mathbf{x}\)</span></p></li>
+<li><p>For the given set of covariates <span class="math inline">\(\mathbf{x}\)</span>, the survivor function is defined as <span class="math display">\[
+S(t\,\vert\, \mathbf{x}) = \exp(-t/\theta(\mathbf{x}))
+\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li><p>If <span class="math inline">\(Y=\log T\)</span> follows a distribution of location-scale family, the model <span class="math inline">\(u(\mathbf{x}) = \boldsymbol{\beta}'\mathbf{x}\)</span> would be useful, <span class="math inline">\(-\infty &lt;u(\mathbf{x})&lt;\infty\)</span></p></li>
+<li>
+<p>The corresponding survivor function has the form <span class="math display">\[
+S_Y(y\,\vert\, \mathbf{x}) = P(Y\geq y\,\vert\,\mathbf{x}) = S_0\bigg(\frac{y-u(\mathbf{x})}{b}\bigg)
+\]</span></p>
+<ul>
+<li>For example, if <span class="math inline">\(S_0(\cdot)\)</span> is the survivor function of standard normal distribution, then the model <span class="math inline">\(u(\mathbf{x}) = \boldsymbol{\beta}'\mathbf{x}\)</span> represents the multiple linear regression model!</li>
+</ul>
+</li>
+</ul></section><section id="semiparametric-regression-models" class="level3"><h3 class="anchored" data-anchor-id="semiparametric-regression-models">Semiparametric Regression Models</h3>
+<ul>
+<li><p>In semiparametric regression model, the dependence of <span class="math inline">\(Y\)</span> or <span class="math inline">\(T\)</span> on <span class="math inline">\(\mathbf{x}\)</span> is specified by a parametric function without making any distributional assumption regarding <span class="math inline">\(Y\)</span> or <span class="math inline">\(T\)</span></p></li>
+<li><p>For lifetime data, the most famous semiparametric regression model is Cox’s proportional hazards model <span class="citation" data-cites="cox1972regression">(<a href="#ref-cox1972regression" role="doc-biblioref">Cox 1972</a>)</span></p></li>
+<li>
+<p>Cox’s model considers the hazard function of <span class="math inline">\(T\)</span> given <span class="math inline">\(\mathbf{x}\)</span> of the form <span class="math display">\[
+h(t\,\vert\, \mathbf{x}) = h_0(t)\,\exp(\boldsymbol{\beta}'\mathbf{x})
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(h_0(t)\,\longrightarrow\)</span> arbitrary “baseline” hazard function</p></li>
+<li><p>Time-dependent covariates can be included in Cox’s proportional hazards model</p></li>
+</ul>
+</li>
+</ul></section><section id="exercises" class="level3"><h3 class="anchored" data-anchor-id="exercises">Exercises</h3>
+<ol type="1">
+<li>Obtain graphs of probability density, survivor, and cumulative hazard functions of the following distributions using R codes.</li>
+</ol>
+<ol type="a">
+<li>Weibull distribution with
+<ol type="i">
+<li>scale parameter 10, and shape parameter 1.5 and</li>
+<li>scale parameter 10, and shape parameter 0.95</li>
+</ol>
+</li>
+<li>Logistic distribution with
+<ol type="i">
+<li>location parameter 10 and scale parameter 1.5 and</li>
+<li>location parameter 10 and scale parameter 0.75</li>
+</ol>
+</li>
+</ol></section><section id="acknowledgements" class="level3"><h3 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h3>
+<p>This lecture is adapted from materials created by <a href="https://isrt.ac.bd/people/mlatif/">Dr.&nbsp;Mahbub Latif</a></p>
+</section><section id="references" class="level3">
+
+
+
+</section></section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-cox1972regression" class="csl-entry" role="listitem">
+Cox, David R. 1972. <span>“Regression Models and Life-Tables.”</span> <em>Journal of the Royal Statistical Society: Series B (Methodological)</em> 34 (2): 187–202.
+</div>
+<div id="ref-gehan1965generalized" class="csl-entry" role="listitem">
+Gehan, Edmund A. 1965. <span>“A Generalized Wilcoxon Test for Comparing Arbitrarily Singly-Censored Samples.”</span> <em>Biometrika</em> 52 (1-2): 203–24.
+</div>
+<div id="ref-nelson1972graphical" class="csl-entry" role="listitem">
+Nelson, Wayne. 1972. <span>“Graphical Analysis of Accelerated Life Test Data with the Inverse Power Law Model.”</span> <em>IEEE Transactions on Reliability</em> 21 (1): 2–11.
+</div>
+</div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ast305\.netlify\.app");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../life/00-course-overview.html" class="pagination-link" aria-label="Course Overview">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Course Overview</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../life/ch02.html" class="pagination-link" aria-label="2 Observed Schemes, Censoring, and Likelihood">
+        <span class="nav-page-text">2 Observed Schemes, Censoring, and Likelihood</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,3848 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Md Rasel Biswas">
+<title>Chapter 3 – Lifetime Data Analysis I</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../life/rsurvival.html" rel="next">
+<link href="../life/ch02.html" rel="prev">
+<link href="../style/favicon-305.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-bc185b5c5bdbcb35c2eb49d8a876ef70.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7ef368ce27ca25031ef31c838a764c5c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-eeca75137c9ecfab76bf624b15b559e8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-7ef368ce27ca25031ef31c838a764c5c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="../site_libs/plotly-binding-4.11.0/plotly.js"></script><script src="../site_libs/typedarray-0.1/typedarray.min.js"></script><script src="../site_libs/jquery-3.5.1/jquery.min.js"></script><link href="../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script><link href="../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+<meta property="og:title" content="Chapter 3 – Lifetime Data Analysis I">
+<meta property="og:description" content="(AST305) Lifetime Data Analysis I">
+<meta property="og:image" content="https://ast305.netlify.app/life/ch03_files/figure-html/fig-line-1.png">
+<meta property="og:site_name" content="Lifetime Data Analysis I">
+<meta property="og:image:height" content="240">
+<meta property="og:image:width" content="1056">
+<meta name="twitter:title" content="Chapter 3 – Lifetime Data Analysis I">
+<meta name="twitter:description" content="(AST305) Lifetime Data Analysis I">
+<meta name="twitter:image" content="https://ast305.netlify.app/life/ch03_files/figure-html/fig-line-1.png">
+<meta name="twitter:image-height" content="240">
+<meta name="twitter:image-width" content="1056">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../life/ch03.html">3 Some Nonparametric and Graphical Procedures</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Lifetime Data Analysis I</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/00-course-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1 Basic Concepts and Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2 Observed Schemes, Censoring, and Likelihood</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch03.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">3 Some Nonparametric and Graphical Procedures</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/rsurvival.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">{survival} package</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4 Inference Procedures for Parametric Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch05a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5A Inference Procedures for Log-location-scale Distributions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../life/ch05b.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5B Inference Procedures for Log-location-scale Distributions</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#some-nonparametric-and-graphical-procedures" id="toc-some-nonparametric-and-graphical-procedures" class="nav-link active" data-scroll-target="#some-nonparametric-and-graphical-procedures"><span class="header-section-number">3</span> Some Nonparametric and Graphical Procedures</a>
+  <ul class="collapse">
+<li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">3.1</span> Introduction</a></li>
+  <li>
+<a href="#nonparametric-estimation-of-a-survivor-function-and-quantiles" id="toc-nonparametric-estimation-of-a-survivor-function-and-quantiles" class="nav-link" data-scroll-target="#nonparametric-estimation-of-a-survivor-function-and-quantiles"><span class="header-section-number">3.2</span> Nonparametric Estimation of a Survivor Function and Quantiles</a>
+  <ul class="collapse">
+<li><a href="#nonparametric-estimation-of-a-survivor-function" id="toc-nonparametric-estimation-of-a-survivor-function" class="nav-link" data-scroll-target="#nonparametric-estimation-of-a-survivor-function">Nonparametric estimation of a survivor function</a></li>
+  <li><a href="#censored-sample" id="toc-censored-sample" class="nav-link" data-scroll-target="#censored-sample">Censored sample</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#kaplan-meier-estimator" id="toc-kaplan-meier-estimator" class="nav-link" data-scroll-target="#kaplan-meier-estimator">Kaplan-Meier estimator</a>
+  <ul class="collapse">
+<li><a href="#kaplan-meier-estimator-1" id="toc-kaplan-meier-estimator-1" class="nav-link" data-scroll-target="#kaplan-meier-estimator-1">Kaplan-Meier estimator</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#kaplanmeier-estimator-as-an-mle" id="toc-kaplanmeier-estimator-as-an-mle" class="nav-link" data-scroll-target="#kaplanmeier-estimator-as-an-mle">Kaplan–Meier estimator as an MLE</a>
+  <ul class="collapse">
+<li><a href="#likelihood-at-the-event-times" id="toc-likelihood-at-the-event-times" class="nav-link" data-scroll-target="#likelihood-at-the-event-times">Likelihood at the event times</a></li>
+  <li><a href="#mle-of-the-discrete-hazards" id="toc-mle-of-the-discrete-hazards" class="nav-link" data-scroll-target="#mle-of-the-discrete-hazards">MLE of the discrete hazards</a></li>
+  <li><a href="#from-hazards-to-the-survivor-function" id="toc-from-hazards-to-the-survivor-function" class="nav-link" data-scroll-target="#from-hazards-to-the-survivor-function">From hazards to the survivor function</a></li>
+  <li><a href="#standard-errors-greenwood" id="toc-standard-errors-greenwood" class="nav-link" data-scroll-target="#standard-errors-greenwood">Standard errors (Greenwood)</a></li>
+  <li><a href="#connection-to-continuous-time" id="toc-connection-to-continuous-time" class="nav-link" data-scroll-target="#connection-to-continuous-time">Connection to continuous time</a></li>
+  <li><a href="#back-to-the-example" id="toc-back-to-the-example" class="nav-link" data-scroll-target="#back-to-the-example">Back to the Example</a></li>
+  </ul>
+</li>
+  <li><a href="#survival-package-in-r" id="toc-survival-package-in-r" class="nav-link" data-scroll-target="#survival-package-in-r"><code>survival</code> package in R</a></li>
+  <li>
+<a href="#nelson-aalen-estimator" id="toc-nelson-aalen-estimator" class="nav-link" data-scroll-target="#nelson-aalen-estimator">Nelson-Aalen estimator</a>
+  <ul class="collapse">
+<li><a href="#cumulative-hazard-and-its-estimator" id="toc-cumulative-hazard-and-its-estimator" class="nav-link" data-scroll-target="#cumulative-hazard-and-its-estimator">Cumulative hazard and its estimator</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#cis-for-survival-probabilities" id="toc-cis-for-survival-probabilities" class="nav-link" data-scroll-target="#cis-for-survival-probabilities">CIs for survival probabilities</a>
+  <ul class="collapse">
+<li><a href="#plain-wald-ci-using-greenwood" id="toc-plain-wald-ci-using-greenwood" class="nav-link" data-scroll-target="#plain-wald-ci-using-greenwood">Plain Wald CI (using Greenwood)</a></li>
+  <li><a href="#ci-via-variance-stabilizing-transformations" id="toc-ci-via-variance-stabilizing-transformations" class="nav-link" data-scroll-target="#ci-via-variance-stabilizing-transformations">CI via variance-stabilizing transformations</a></li>
+  <li><a href="#example-of-log-log-ci" id="toc-example-of-log-log-ci" class="nav-link" data-scroll-target="#example-of-log-log-ci">Example of Log-log CI</a></li>
+  <li><a href="#bootstrap-ci" id="toc-bootstrap-ci" class="nav-link" data-scroll-target="#bootstrap-ci">Bootstrap CI</a></li>
+  <li><a href="#example-remission-data" id="toc-example-remission-data" class="nav-link" data-scroll-target="#example-remission-data">Example: Remission data</a></li>
+  </ul>
+</li>
+  <li><a href="#cis-for-quantiles" id="toc-cis-for-quantiles" class="nav-link" data-scroll-target="#cis-for-quantiles">CIs for quantiles</a></li>
+  <li>
+<a href="#descriptive-and-diagnostic-plots" id="toc-descriptive-and-diagnostic-plots" class="nav-link" data-scroll-target="#descriptive-and-diagnostic-plots"><span class="header-section-number">3.3</span> Descriptive and diagnostic plots</a>
+  <ul class="collapse">
+<li><a href="#plots-of-survivor-functions" id="toc-plots-of-survivor-functions" class="nav-link" data-scroll-target="#plots-of-survivor-functions">Plots of survivor functions</a></li>
+  <li><a href="#hazard-plots" id="toc-hazard-plots" class="nav-link" data-scroll-target="#hazard-plots">Hazard plots</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  </ul><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="ch03.pdf"><i class="bi bi-file-pdf"></i>Beamer</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Chapter 3</h1>
+<p class="subtitle lead">(AST305) Lifetime Data Analysis I</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Md Rasel Biswas </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="some-nonparametric-and-graphical-procedures" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> Some Nonparametric and Graphical Procedures</h1>
+<section id="introduction" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="introduction">
+<span class="header-section-number">3.1</span> Introduction</h2>
+<ul>
+<li><p>Graphs and simple data summaries are important for both description and analysis of data.</p></li>
+<li><p>They are closely related to nonparametric estimates of distributional characteristics; many graphs are just plots of some estimate.</p></li>
+<li><p>This chapter introduces nonparametric estimation and procedures for portraying univariate lifetime data.</p></li>
+<li><p>Tools such as frequency tables and histograms, empirical distribution functions, probability plots, and data density plots are familiar across different branches of statistics.</p></li>
+<li><p>For lifetime data, the presence of censoring makes it necessary to modify the standard methods.</p></li>
+</ul>
+<hr>
+<ul>
+<li><p>To illustrate, let us consider one of the most elementary procedures in statistics, the formation of a relative-frequency table.</p></li>
+<li><p>Suppose we have a complete (i.e., uncensored) sample of <span class="math inline">\(n\)</span> lifetimes from some population.</p></li>
+<li><p>Divide the time axis <span class="math inline">\([0, \infty)\)</span> into <span class="math inline">\(k+1\)</span> intervals <span class="math inline">\(I_j=\left[a_{j-1}, a_j\right), j=1, \ldots, k+1\)</span>, where <span class="math inline">\(0=a_0&lt;a_1&lt;\ldots&lt;a_k&lt;a_{k+1}=\infty\)</span>; with <span class="math inline">\(a_k\)</span> being the upper limit on observation.</p></li>
+<li><p>Let <span class="math inline">\(d_j\)</span> be the observed number of lifetimes that lie in <span class="math inline">\(I_j\)</span>.</p></li>
+<li><p>A frequency table is just a list of the intervals and their associated frequencies, <span class="math inline">\(d_j\)</span>, or relative frequencies, <span class="math inline">\(d_j / n\)</span>.</p></li>
+<li><p>A relative-frequency histogram, consisting of rectangles with bases on <span class="math inline">\(\left[a_{j-1}, a_j\right.\)</span> ) and areas <span class="math inline">\(d_j / n(j=1, \ldots, k)\)</span>; is often drawn to portray this.</p></li>
+</ul>
+<hr>
+<ul>
+<li><p>When data are censored, however, it is generally not possible to form the frequency table, because if a lifetime is censored, we do not know which interval, <span class="math inline">\(I_j\)</span>, it lies in. As a result, we cannot determine the <span class="math inline">\(d_j\)</span>.</p></li>
+<li><p>Section 3.6 describes how to deal with frequency tables when data are censored; this is referred to as life table methodology.</p></li>
+<li><p>First, however, we develop methods for ungrouped data.</p></li>
+<li>
+<p>Section 3.2 discusses nonparametric estimation of distribution, survivor, or cumulative hazard functions under right censoring.</p>
+<ul>
+<li>This also forms the basis for descriptive and diagnostic plots, which are presented in Section 3.3.</li>
+</ul>
+</li>
+<li><p>Sections 3.4 and 3.5 deal with the estimation of hazard functions and with nonparametric estimation from some other types of incomplete data.</p></li>
+</ul></section><section id="nonparametric-estimation-of-a-survivor-function-and-quantiles" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="nonparametric-estimation-of-a-survivor-function-and-quantiles">
+<span class="header-section-number">3.2</span> Nonparametric Estimation of a Survivor Function and Quantiles</h2>
+<section id="recall-parametric-estimation-of-survivor-function" class="level4"><h4 class="anchored" data-anchor-id="recall-parametric-estimation-of-survivor-function">Recall: Parametric estimation of survivor function</h4>
+<p>This method assumes a parametric model (e.g., exponential distribution) of the data and we estimate the parameter first, then form the estimator of the survival function. In Parametric approach, we assume that we model the distribution as an exponential distribution with unknown parameter <span class="math inline">\(\lambda\)</span>. Then we find an estimator of <span class="math inline">\(\lambda\)</span>, which is <span class="math inline">\(\widehat{\lambda}\)</span>. Then we estimate the survival function using <span class="math display">\[
+\widehat{S}(t)= e^{-\widehat{\lambda} t}
+\]</span></p>
+<hr></section><section id="nonparametric-estimation-of-a-survivor-function" class="level3"><h3 class="anchored" data-anchor-id="nonparametric-estimation-of-a-survivor-function">Nonparametric estimation of a survivor function</h3>
+<ul>
+<li>As an example, consider the following sample of <span class="math inline">\(n\)</span> <strong>complete observations</strong> <span class="math display">\[\{t_1', \ldots, t_n'\}\]</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><em>Empirical survivor function</em> (ESF) for a specific value <span class="math inline">\(t&gt;0\)</span> is defined as <span class="math display">\[\begin{align}
+{\color{purple}\hat{S}(t)=\widehat{Pr}(T\geqslant t) =\frac{\text{number of observations $\geqslant\; t$ }}{n}}
+\end{align}\]</span></p>
+<ul>
+<li><p><span class="math inline">\(\hat{S}(t)\)</span> is a step function that decreases by <span class="math inline">\((1/n)\)</span> just after each observed lifetime if all observations are distinct</p></li>
+<li><p>Generally, the ESF drops by <span class="math inline">\((d/n)\)</span> just past <span class="math inline">\(t\)</span> if <span class="math inline">\(d\)</span> lifetimes equal to <span class="math inline">\(t\)</span></p></li>
+</ul>
+</li>
+<li><p>For a specific value <span class="math inline">\(t&gt;0\)</span>, ESF can also be defined as <span class="math display">\[\begin{align}
+{\color{purple} \hat{S}(t^+)=\widehat{Pr}(T&gt;t) = \frac{\text{number of observations $&gt;\; t$ }}{n}}
+\end{align}\]</span></p></li>
+</ul>
+<hr>
+<section id="acute-myeloid-leukemia-aml" class="level4"><h4 class="anchored" data-anchor-id="acute-myeloid-leukemia-aml">Acute myeloid leukemia (AML)</h4>
+<ul>
+<li>
+<p>AML patients who reached a remission status after the treatment of chemotherapy were randomly assigned to one of the two treatments</p>
+<ul>
+<li><p>maintenance chemotherapy</p></li>
+<li><p>no-maintenance chemotherapy (control group)</p></li>
+</ul>
+</li>
+<li>
+<p>Time of interest: Length of remission (in weeks)</p>
+<ul>
+<li><p><em>maintained</em>: 13, <span class="math inline">\(161^+\)</span>, 9, <span class="math inline">\(13^+\)</span>, 18, <span class="math inline">\(28^+\)</span>, 31, 23, 34, <span class="math inline">\(45^+\)</span>, 48</p></li>
+<li><p><em>control</em>: 5, 8, 12, 5, 30, 33, 8, <span class="math inline">\(16^+\)</span>, 23, 27, 43, 45</p></li>
+</ul>
+</li>
+</ul>
+<p><em>Does maintenance chemotherapy prolong the time until relapse?</em></p>
+<hr>
+<ul>
+<li>Estimate the survival function for the following sample of 11 <strong>complete observations</strong> of control group (<span class="math inline">\(n=11\)</span>)</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small"><tbody><tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">45</td>
+</tr></tbody></table>
+</div>
+</div>
+<hr>
+<ul>
+<li>Estimates of survival function for <span class="math inline">\(t=0, 4, 5, 8, \ldots\)</span> <span class="math display">\[
+\begin{aligned}
+\hat{S}(0^+) &amp; = \widehat{Pr}(T &gt; 0)  = (11 /{11}) =  1\\[.25em]
+\hat{S}(5^+) &amp; = \widehat{Pr}(T &gt;  5)  = (9 /{11}) =  0.818\\[.25em]
+\hat{S}(8^+) &amp; = \widehat{Pr}(T&gt; 8)  = (7 /{11}) =  0.636\\[.25em]
+\hat{S}(12^+) &amp; =  \widehat{Pr}(T&gt; 12)  = (6/{11}) = 0.545\;\;\text{and so on}
+\end{aligned}
+\]</span>
+<ul>
+<li>Find <span class="math inline">\(\hat{S}(9)\)</span> or <span class="math inline">\(\hat{S}(9^+)\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>Sorted lifetimes</strong> <span class="math display">\[5, \,5, \,8, \,8,\, 12,\,  23,\, 27,\, 30,\, 33,\,    43,\, 45\]</span></p>
+<ul>
+<li>Estimated survivor function <span class="math display">\[\begin{align}
+{\color{purple} \hat{S}(t^+_j) = \frac{r_{j}}{n}}
+\end{align}\]</span>
+</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+    r_{j}= \sum_{i=1}^n I(t_i'&gt;t_j)\,&amp;\rightarrow \;\text{number of observations}\; &gt;\,t_j\\[.25em]
+    n\,&amp;\rightarrow \;\text{total number of observations}
+\end{aligned}
+\]</span></p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(r_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\hat{S}(t^+_j)\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0.818</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0.636</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.545</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.455</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.364</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.273</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.182</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.091</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-891a81fccf6660f3dd86" style="width:100%;height:366px;"></div>
+<script type="application/json" data-for="htmlwidget-891a81fccf6660f3dd86">{"x":{"visdat":{"2c8b439870a6":["function () ","plotlyVisDat"]},"cur_data":"2c8b439870a6","attrs":{"2c8b439870a6":{"x":{},"y":{},"mode":"lines","line":{"shape":"hv","color":"steelblue"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"time","tickvals":[0,5,8,12,23,27,30,33,43,45]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Ŝ(t⁺)"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0,5,8,12,23,27,30,33,43,45],"y":[1,0.81818181818181823,0.63636363636363635,0.54545454545454541,0.45454545454545453,0.36363636363636365,0.27272727272727271,0.18181818181818182,0.090909090909090912,0],"mode":"lines","line":{"color":"steelblue","shape":"hv"},"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><p>Nonparametric estimate of survivor function (Empirical Survivor Function - ESF)</p>
+</div>
+</div>
+<hr></section><section id="exercise" class="level4"><h4 class="anchored" data-anchor-id="exercise">Exercise</h4>
+<p>The following are lifetimes of 21 lung cancer patients receiving control treatment (with no censoring): <span class="math display">\[
+1,1,2,2,3,4,4,5,5,8,8,8,8,11,11,12,12,15,17,22,23
+\]</span></p>
+<ul>
+<li><p>Draw the ESF</p></li>
+<li><p>How would we estimate <span class="math inline">\(\mathrm{S}(10)\)</span>, the probability that an individual survives to time 10 or later?</p></li>
+</ul>
+<hr>
+<p>Let’s get back to the AML example:</p>
+<p>Sorted lifetimes: <span class="math inline">\(5, \,5, \,8, \,8,\, 12,\,  23,\, 27,\, 30,\, 33,\,    43,\, 45\)</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{S}(t^+_j)\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.818</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.636</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.545</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.455</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.364</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.273</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.182</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.091</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><span class="math display">\[
+\begin{aligned}
+n_j &amp; = \text{number of subjects alive (or at risk) just before time}\,\, t_j \\
+d_j &amp; = \text{number of subjects failed at time}\,\, t_j
+\end{aligned}
+\]</span></p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{p}_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\hat{S}(t^+_j)\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.818</td>
+<td style="text-align: right;">0.818</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.778</td>
+<td style="text-align: right;">0.636</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.857</td>
+<td style="text-align: right;">0.545</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.833</td>
+<td style="text-align: right;">0.455</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.800</td>
+<td style="text-align: right;">0.364</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.750</td>
+<td style="text-align: right;">0.273</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.667</td>
+<td style="text-align: right;">0.182</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: right;">0.091</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><span class="math display">\[
+\begin{aligned}
+{\color{purple}\hat{p}_j} &amp; {\color{purple}= \widehat{Pr}(T &gt; t_j\,\vert \,T \geq t_j)} \\
+&amp;= 1 - \frac{d_j}{n_j}\notag
+\end{aligned}
+\]</span></p>
+<hr>
+<p><strong>Relationship between <span class="math inline">\(\hat{p}_j\)</span> and <span class="math inline">\(\hat{S}(t_j^+)\)</span></strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{p}_j\)</span></th>
+<th></th>
+<th style="text-align: right;"><span class="math inline">\(\hat{S}(t^+_j)\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.000</td>
+<td>1.000 =</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.818</td>
+<td>1.000*0.818 =</td>
+<td style="text-align: right;">0.818</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.778</td>
+<td>1.000<em>0.818</em>0.778 =</td>
+<td style="text-align: right;">0.636</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.857</td>
+<td>’’</td>
+<td style="text-align: right;">0.545</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.833</td>
+<td>’’</td>
+<td style="text-align: right;">0.455</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.800</td>
+<td>’’</td>
+<td style="text-align: right;">0.364</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.750</td>
+<td>’’</td>
+<td style="text-align: right;">0.273</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.667</td>
+<td>’’</td>
+<td style="text-align: right;">0.182</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.500</td>
+<td>’’</td>
+<td style="text-align: right;">0.091</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+<td>’’</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<ul>
+<li>Sorted unique lifetimes <span class="math display">\[5, \; 8, \;12, \; 23, \;27, \;30, \;33,  \;  43, \;45\]</span>
+</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+P(T&gt;8) &amp; = P(T&gt;8\,\vert\, T\geq 8) {\color{red}P(T\geq 8)} \\[.15em]
+&amp; = P(T&gt;8\,\vert\, T\geq 8) {\color{red}P(T&gt; 5)}\\[.15em]
+&amp; = P(T&gt;8\,\vert\, T\geq 8) P(T&gt; 5\,\vert\,T\geq 5) P(T\geq 5)\\[.15em]
+&amp; = P(T&gt;8\,\vert\, T\geq 8) P(T&gt; 5\,\vert\,T\geq 5)   P(T\geq 0)\\[.15em]
+&amp; = 0.778 \times 0.818 \times 1.0 = 0.636
+\end{aligned}
+\]</span></p>
+<hr>
+<ul>
+<li>Sorted unique lifetimes <span class="math display">\[5, \; 8, \;12, \; 23, \;27, \;30, \;33,  \;  43, \;45\]</span>
+</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+P(T&gt;10) &amp; = P(T&gt;10\,\vert\, T\geq 10) {\color{red}P(T\geq 10)} \\[.15em]
+&amp; = P(T&gt;10\,\vert\, T\geq 10) {\color{red}P(T&gt; 8)}\\[.15em]
+&amp; = P(T&gt;10\,\vert\, T\geq 10) P(T&gt; 8\,\vert\,T\geq 8) P(T\geq 8)\\[.15em]
+&amp; = P(T&gt;10\,\vert\, T\geq 10) P(T&gt; 8\,\vert\,T\geq 8)  P(T&gt; 5\,\vert\,T\geq 5)  P(T\geq 0)\\[.15em]
+&amp; = 1.0\times 0.778 \times 0.818 \times 1.0 = 0.636
+\end{aligned}
+\]</span></p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{p}_j\)</span></th>
+<th></th>
+<th style="text-align: right;"><span class="math inline">\(\hat{S}(t^+)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(I_j\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.000</td>
+<td>1.000 =</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: center;">[0, 5)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.818</td>
+<td>1.000*0.818 =</td>
+<td style="text-align: right;">0.818</td>
+<td style="text-align: center;">[5, 8)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.778</td>
+<td>1.000<em>0.818</em>0.778 =</td>
+<td style="text-align: right;">0.636</td>
+<td style="text-align: center;">[8, 12)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.857</td>
+<td>’’</td>
+<td style="text-align: right;">0.545</td>
+<td style="text-align: center;">[12, 23)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.833</td>
+<td>’’</td>
+<td style="text-align: right;">0.455</td>
+<td style="text-align: center;">[23, 27)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.800</td>
+<td>’’</td>
+<td style="text-align: right;">0.364</td>
+<td style="text-align: center;">[27, 30)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.750</td>
+<td>’’</td>
+<td style="text-align: right;">0.273</td>
+<td style="text-align: center;">[30, 33)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.667</td>
+<td>’’</td>
+<td style="text-align: right;">0.182</td>
+<td style="text-align: center;">[33, 43)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.500</td>
+<td>’’</td>
+<td style="text-align: right;">0.091</td>
+<td style="text-align: center;">[43, 45)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+<td>’’</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: center;">[45, Inf)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<p>Notations:</p>
+<ul>
+<li><p>Observed times: <span class="math inline">\(\;\;t_1', t_2', \ldots, t_n'\)</span></p></li>
+<li><p>Ordered observed unique time points: <span class="math inline">\(\;\; t_{1} &lt; t_{2} &lt; \cdots &lt; t_{k}\)</span></p></li>
+<li><p>Intervals <span class="math display">\[
+\begin{aligned}
+I_1 &amp;= \big[t_{1}, t_{2}\big) \\
+I_2 &amp;= \big[t_{2}, t_{3}\big) \\
+I_3 &amp;= \big[t_{3}, t_{4}\big) \\
+\;\;\cdots &amp; \;\;\;\;\;\;\;\;\;\;\cdots \\
+I_{k} &amp; = \big[t_{k}, \infty\big)
+\end{aligned}
+\]</span></p></li>
+<li>
+<p>Intervals are constructed so that each of which starts at an observed lifetime and ends just before the next observed lifetime</p>
+<ul>
+<li>E.g. <span class="math inline">\(I_j = [t_{j}, t_{j+1})\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Sorted unique lifetimes <span class="math display">\[5, \; 8, \;12, \; 23, \;27, \;30, \;33,  \;  43, \;45\]</span>
+</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-line" class="quarto-float quarto-figure quarto-figure-center anchored" width="528">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-line-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="ch03_files/figure-html/fig-line-1.png" id="fig-line" class="img-fluid figure-img" width="528">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-line-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1
+</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li>
+<p>Expressing <span class="math inline">\(\hat{S}(t)\)</span> in terms of <span class="math inline">\(\hat{p}\)</span> <span class="math display">\[
+\begin{aligned}
+\hat{S}(t^+) &amp;= \widehat{Pr}(T&gt; t) = \prod_{{\color{purple}t_j \leqslant t}} \hat{p}_j \\[.25em]
+\hat{S}(t) &amp;= \widehat{Pr}(T\geqslant t) = \prod_{{\color{purple}t_j &lt; t}} \hat{p}_j
+\end{aligned}
+\]</span> This method is known as <strong>Kaplan-Meier</strong> or Product-limit estimator of survivor function.</p>
+<ul>
+<li>We saw that this method is equivalent to the ESF approach:</li>
+</ul>
+</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+{\color{purple} \hat{S}(t^+)=\widehat{Pr}(T&gt;t) = \frac{\text{number of observations &gt; t }}{n}}
+\end{aligned}
+\]</span></p>
+<ul>
+<li>But the advantage of Kaplan-Meier method is that <strong>it can handle censored observations too</strong>.</li>
+</ul></section></section><section id="censored-sample" class="level3"><h3 class="anchored" data-anchor-id="censored-sample">Censored sample</h3>
+<p>If we had censored data, then?</p>
+<p>For the control group of AML example, now include the censored observation <span class="math inline">\({\color{purple}16^+}\)</span>.</p>
+<p><span class="math display">\[5, 8, 12, 5, 30, 33, 8, {\color{purple}16^+}, 23, 27,  43, 45\]</span></p>
+<ul>
+<li><span class="math inline">\(\hat{S}(t) = ??\)</span></li>
+</ul>
+<hr>
+<ul>
+<li>Censored sample: <span class="math inline">\(5, \,8,\, 12,\, 5,\, 30,\, 33,\, 8,\, 16^+,\, 23,\, 27,\,  43,\, 45\)</span>
+</li>
+<li>Sorted censored sample <span class="math display">\[5, \, 5, \,8,\, 8,\, 12,\, 16^+,\, 23,\, 27,\,  30,\, 33,\,   43,\, 45\]</span>
+</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(d_j\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<p><span class="math display">\[{\color{purple} \hat{p}_j = \widehat{Pr}(T&gt; t_j\,\vert\, T\geq t_j) = 1 - \frac{d_j}{n_j}}\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{p}_j\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.833</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.800</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.875</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.833</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.800</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.750</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.500</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<p><span class="math display">\[{\color{purple} \hat{S}(t^+) = \prod_{j:\,t_j\leq t} \hat{p}_j}\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{p}_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{S}(t_j^+)\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.833</td>
+<td style="text-align: center;">0.833</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.800</td>
+<td style="text-align: center;">0.667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.875</td>
+<td style="text-align: center;">0.583</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">0.583</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.833</td>
+<td style="text-align: center;">0.486</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.800</td>
+<td style="text-align: center;">0.389</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.750</td>
+<td style="text-align: center;">0.292</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.667</td>
+<td style="text-align: center;">0.194</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: center;">0.097</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/comest-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>A comparison between estimated survivor function with and without censored observations</figcaption></figure>
+</div>
+</div>
+</div>
+</section></section><section id="kaplan-meier-estimator" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="kaplan-meier-estimator">Kaplan-Meier estimator</h2>
+<section id="kaplan-meier-estimator-1" class="level3"><h3 class="anchored" data-anchor-id="kaplan-meier-estimator-1">Kaplan-Meier estimator</h3>
+<ul>
+<li><p>Let <span class="math inline">\((t_i', \delta_i)\)</span> be a censored random sample of lifetimes <span class="math inline">\(i=1, \ldots, n\)</span></p></li>
+<li><p>Suppose that there are <span class="math inline">\(k\)</span> <span class="math inline">\((k\leq n)\)</span> distinct lifetimes at which deaths (event) occurs <span class="math display">\[t_1&lt; \cdots &lt;t_k\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>Define for <span class="math inline">\(j\)</span>th time <span class="math inline">\(j=1,\ldots, k\)</span></p>
+<ul>
+<li>
+<span class="math inline">\(d_j=\sum_i I(t'_i=t_j, \delta_i=1) \rightarrow\)</span> no.&nbsp;of deaths observed at <span class="math inline">\(t_j\)</span>
+</li>
+</ul>
+<ul>
+<li>
+<span class="math inline">\(n_j=\sum_i I(t'_i \geq t_j)\,\rightarrow\)</span> no.&nbsp;of individuals at risk at time <span class="math inline">\(t_j\)</span>, i.e.&nbsp;number of individuals alive and uncensored just prior time <span class="math inline">\(t_j\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>A nonparametric estimator of survivor function <span class="math inline">\(S(t)\)</span> <span class="math display">\[\begin{align}
+{\color{purple} \hat{S}(t) = \prod_{j:\,t_j&lt;t} \hat{p}_j= \prod_{j:\,t_j&lt;t}\bigg(1-\frac{d_j}{n_j}\bigg) = \prod_{j:\,t_j&lt;t}\frac{n_j-d_j}{n_j}}
+\end{align}\]</span></p></li>
+<li><p>It is known as <em>Kaplan-Meier</em> (KM) or <em>Product-limit</em> (PL) estimator of survivor function <span class="citation" data-cites="kaplan1958nonparametric">(<a href="#ref-kaplan1958nonparametric" role="doc-biblioref">Kaplan and Meier 1958</a>)</span></p></li>
+<li><p>Similarly <span class="math display">\[\begin{align}
+   \hat{S}(t^+) = \prod_{{\color{purple} j:\,t_j\leqslant t}} \hat{p}_j
+\end{align}\]</span></p></li>
+</ul>
+<hr>
+<div class="cell" data-layout-align="center" data-outwidth="70%">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><embed src="images/km-paper.pdf" class="quarto-figure quarto-figure-center" style="height:50.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>The paper was published in <em>the Journal of the American Statistical Association</em> in 1958</p></li>
+<li><p>Number of citations 68,242 (Google Scholar, 27 September 2025)</p></li>
+</ul>
+<hr>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Edward L Kaplan (1920–2006)</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="images/Kaplan.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>Paul Meier (1924–2011)</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="images/300h.jpg" class="img-fluid figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></section><section id="kaplanmeier-estimator-as-an-mle" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="kaplanmeier-estimator-as-an-mle">Kaplan–Meier estimator as an MLE</h2>
+<p>We only look at <strong>event times</strong> where at least one failure occurs.</p>
+<ul>
+<li><p>Let the ordered distinct event times be<br><span class="math inline">\(t_{1} &lt; t_{2} &lt; \cdots &lt; t_{k}\)</span>.</p></li>
+<li>
+<p>At each event time <span class="math inline">\(t_{j}\)</span>:</p>
+<ul>
+<li>
+<span class="math inline">\(d_j\)</span> = number of failures that happen exactly at <span class="math inline">\(t_{j}\)</span><br>
+</li>
+<li>
+<span class="math inline">\(n_j\)</span> = number <strong>at risk just before</strong> <span class="math inline">\(t_{j}\)</span><br>
+(alive and not yet censored, and have not failed earlier)</li>
+</ul>
+</li>
+<li><p><strong>Discrete hazard at the event time</strong> <span class="math display">\[
+h_j \;=\; P\!\big(T = t_{j} \mid T \ge t_{j}\big).
+\]</span> This is the conditional chance that someone who has survived up to <span class="math inline">\(t_{j}\)</span> fails at <span class="math inline">\(t_{j}\)</span>.</p></li>
+</ul>
+<section id="likelihood-at-the-event-times" class="level3"><h3 class="anchored" data-anchor-id="likelihood-at-the-event-times">Likelihood at the event times</h3>
+<p>Given <span class="math inline">\(n_j\)</span> people at risk at <span class="math inline">\(t_{j}\)</span>, each either fails at <span class="math inline">\(t_{j}\)</span> or survives past <span class="math inline">\(t_{j}\)</span>.<br>
+If the conditional probability of failing at <span class="math inline">\(t_{j}\)</span> is <span class="math inline">\(h_j\)</span>, then <span class="math display">\[
+d_j \sim \text{Binomial}(n_j,\, h_j).
+\]</span></p>
+<p>Across the distinct event times the contributions multiply, so the likelihood is <span class="math display">\[
+L(\mathbf{h}) \;=\; \prod_{j=1}^{k} h_j^{\,d_j}\,(1-h_j)^{\,n_j-d_j},
+\]</span> where <span class="math inline">\(\mathbf{h}=(h_1,\ldots,h_k)\)</span>.</p>
+</section><section id="mle-of-the-discrete-hazards" class="level3"><h3 class="anchored" data-anchor-id="mle-of-the-discrete-hazards">MLE of the discrete hazards</h3>
+<p>Maximizing each binomial term separately gives <span class="math display">\[
+\hat{h}_j \;=\; \frac{d_j}{n_j},
+\qquad j=1,\ldots,k.
+\]</span></p>
+</section><section id="from-hazards-to-the-survivor-function" class="level3"><h3 class="anchored" data-anchor-id="from-hazards-to-the-survivor-function">From hazards to the survivor function</h3>
+<p>The survivor function at a time <span class="math inline">\(t\)</span> is the chance of getting <strong>past</strong> <span class="math inline">\(t\)</span>.<br>
+Between event times the survivor is constant. Just after <span class="math inline">\(t_{j}\)</span> it equals the product of “survive this event time” factors: <span class="math display">\[
+\hat{S}(t) \;=\; \prod_{t_{j} &lt; t} \bigl(1-\hat{h}_j\bigr)
+\;=\; \prod_{t_{j} &lt; t} \Bigl(1 - \frac{d_j}{n_j}\Bigr).
+\]</span></p>
+<p>If you want the right-limit <span class="math inline">\(\hat{S}(t^+)\)</span> at or past <span class="math inline">\(t\)</span>, include the factor at <span class="math inline">\(t\)</span> as well: <span class="math display">\[
+\hat{S}(t^+) \;=\; \prod_{t_{j} \le t} \Bigl(1 - \frac{d_j}{n_j}\Bigr).
+\]</span></p>
+<p>These are exactly the <strong>Kaplan–Meier (product-limit)</strong> formulas.</p>
+</section><section id="standard-errors-greenwood" class="level3"><h3 class="anchored" data-anchor-id="standard-errors-greenwood">Standard errors (Greenwood)</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Greenwood Variance Formula</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Derivation</a></li>
+</ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>A widely used variance estimate for <span class="math inline">\(\hat{S}(t^+)\)</span> is <span class="math display">\[
+\widehat{\mathrm{Var}}\!\big(\hat{S}(t^+)\big)
+\;=\;
+\hat{S}(t^+)^{2}
+\sum_{t_{j} \le t}
+\frac{d_j}{\,n_j\,(n_j-d_j)\,}.
+\]</span></p>
+<p>You can form Wald-type intervals for <span class="math inline">\(S(t)\)</span>, or use a log–log transform for better behavior near <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>.</p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<section id="variance-of-the-km-estimator-greenwoods-formula" class="level5"><h5 class="anchored" data-anchor-id="variance-of-the-km-estimator-greenwoods-formula">Variance of the KM estimator: Greenwood’s formula</h5>
+<p>To understand the uncertainty in <span class="math inline">\(\hat{S}(t^+)\)</span>, we derive an approximate variance estimator.</p>
+<p>We start from the KM representation: <span class="math display">\[
+\hat{S}(t^+) \;=\; \prod_{t_{j} \le t}
+\Bigl(1 - \frac{d_j}{n_j}\Bigr),
+\]</span> where at each event time <span class="math inline">\(t_{j}\)</span>:</p>
+<ul>
+<li>
+<span class="math inline">\(n_j\)</span> = number at risk just before <span class="math inline">\(t_{j}\)</span>
+</li>
+<li>
+<span class="math inline">\(d_j\)</span> = number of failures at <span class="math inline">\(t_{j}\)</span>
+</li>
+</ul>
+<hr></section><section id="step-1.-approximate-the-variance-on-the-log-scale" class="level5"><h5 class="anchored" data-anchor-id="step-1.-approximate-the-variance-on-the-log-scale">Step 1. Approximate the variance on the log scale</h5>
+<p>Define <span class="math display">\[
+\ell(t) = \log \hat{S}(t^+) = \sum_{t_{j} \le t} \log\Bigl(1 - \frac{d_j}{n_j}\Bigr).
+\]</span></p>
+<p>At each event time, the count of failures satisfies: <span class="math display">\[
+d_j \sim \text{Binomial}(n_j,\, h_j),
+\quad
+\hat{h}_j = \frac{d_j}{n_j},
+\quad
+\hat{p}_j = 1 - \hat{h}_j.
+\]</span></p>
+<p>Using the delta method: <span class="math display">\[
+\mathrm{Var}\!\left[\log \hat{p}_j\right] \approx
+\frac{\hat{h}_j}{\,n_j(1-\hat{h}_j)}.
+\]</span></p>
+<p>Assuming approximate independence across event times: <span class="math display">\[
+\widehat{\mathrm{Var}}\bigl(\ell(t)\bigr)
+\approx
+\sum_{t_{j} \le t}
+\frac{\hat{h}_j}{\,n_j(1-\hat{h}_j)}.
+\]</span></p>
+<hr></section><section id="step-2.-transform-variance-back-to-survivor-scale" class="level5"><h5 class="anchored" data-anchor-id="step-2.-transform-variance-back-to-survivor-scale">Step 2. Transform variance back to survivor scale</h5>
+<p>Since <span class="math inline">\(\hat{S}(t^+) = \exp\{\ell(t)\}\)</span>, <span class="math display">\[
+\widehat{\mathrm{Var}}\bigl(\hat{S}(t^+)\bigr)
+\approx
+\hat{S}(t^+)^2\,
+\widehat{\mathrm{Var}}\bigl(\ell(t)\bigr).
+\]</span></p>
+<p>Substitute <span class="math inline">\(\hat{h}_j = d_j/n_j\)</span>: <span class="math display">\[
+\widehat{\mathrm{Var}}\bigl(\hat{S}(t^+)\bigr)
+=
+\hat{S}(t^+)^2
+\sum_{t_{j} \le t}
+\frac{d_j/n_j}{\,n_j(1-d_j/n_j)}.
+\]</span></p>
+<p>Algebra simplifies each term: <span class="math display">\[
+\frac{d_j/n_j}{\,n_j(1-d_j/n_j)}
+=
+\frac{d_j}{n_j(n_j-d_j)}.
+\]</span></p>
+<hr></section><section id="greenwoods-formula" class="level5"><h5 class="anchored" data-anchor-id="greenwoods-formula">Greenwood’s formula</h5>
+<p><span class="math display">\[
+\boxed{
+\widehat{\mathrm{Var}}\bigl(\hat S(t^+)\bigr)
+=
+\hat S(t^+)^{2}
+\sum_{t_{j} \le t}
+\frac{d_j}{\,n_j\,(n_j-d_j)}
+}
+\]</span></p>
+<ul>
+<li>Standard error of <span class="math inline">\(\hat S(t^+)\)</span>:<br><span class="math display">\[
+\mathrm{SE}\!\bigl(\hat{S}(t^+)\bigr)
+=
+\sqrt{\widehat{\mathrm{Var}}\bigl(\hat{S}(t^+)\bigr)}
+\]</span>
+</li>
+</ul>
+<p>This variance estimator is fundamental for constructing confidence intervals for survivor probabilities.</p>
+</section>
+</div>
+</div>
+</div>
+</section><section id="connection-to-continuous-time" class="level3"><h3 class="anchored" data-anchor-id="connection-to-continuous-time">Connection to continuous time</h3>
+<p>If lifetimes are continuous, failures occur at isolated points.<br>
+Treat those event times as above and define <span class="math inline">\(h_j\)</span> as the <strong>conditional jump</strong> in failure probability at <span class="math inline">\(t_{j}\)</span>.<br>
+Maximizing the same product of binomials yields the same KM estimator.</p>
+<hr></section><section id="back-to-the-example" class="level3"><h3 class="anchored" data-anchor-id="back-to-the-example">Back to the Example</h3>
+<ul>
+<li>Censored sample: <span class="math inline">\(5, \,8,\, 12,\, 5,\, 30,\, 33,\, 8,\, 16^+,\, 23,\, 27,\,  43,\, 45\)</span>
+</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{S}(t_j^+)\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.833</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.583</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.583</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.486</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.389</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.292</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.194</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.097</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<p><span class="math display">\[\color{purple} \widehat{\text{Var}}\big(\hat{S}(t^+)\big) = \big[\hat{S}(t^+)\big]^2 \sum_{j: \,t_j\leq t} \frac{d_j}{n_j (n_j - d_j)}\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{S}(t_j^+)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\frac{d_j}{n_j(n_j-d_j)}\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.833</td>
+<td style="text-align: center;">0.017</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.667</td>
+<td style="text-align: center;">0.025</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.583</td>
+<td style="text-align: center;">0.018</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.583</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.486</td>
+<td style="text-align: center;">0.033</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.389</td>
+<td style="text-align: center;">0.050</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.292</td>
+<td style="text-align: center;">0.083</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.194</td>
+<td style="text-align: center;">0.167</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.097</td>
+<td style="text-align: center;">0.500</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;">Inf</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<p><span class="math display">\[\color{purple} \widehat{\text{Var}}\big(\hat{S}(t^+)\big) = \big[\hat{S}(t^+)\big]^2 \sum_{j: \,t_j\leq t} \frac{d_j}{n_j (n_j - d_j)}\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{S}(t_j^+)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\frac{d_j}{n_j(n_j-d_j)}\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\sum_{j: t_j \leq t}\frac{d_j}{n_j(n_j-d_j)}\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.833</td>
+<td style="text-align: center;">0.017</td>
+<td style="text-align: center;">0.017</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.667</td>
+<td style="text-align: center;">0.025</td>
+<td style="text-align: center;">0.042</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.583</td>
+<td style="text-align: center;">0.018</td>
+<td style="text-align: center;">0.060</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.583</td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;">0.060</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.486</td>
+<td style="text-align: center;">0.033</td>
+<td style="text-align: center;">0.093</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.389</td>
+<td style="text-align: center;">0.050</td>
+<td style="text-align: center;">0.143</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.292</td>
+<td style="text-align: center;">0.083</td>
+<td style="text-align: center;">0.226</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.194</td>
+<td style="text-align: center;">0.167</td>
+<td style="text-align: center;">0.393</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.097</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: center;">0.893</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;">Inf</td>
+<td style="text-align: center;">Inf</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<p><span class="math display">\[\color{purple} \widehat{\text{Var}}\big(\hat{S}(t^+)\big) = \big[\hat{S}(t^+)\big]^2 \sum_{j: \,t_j\leq t} \frac{d_j}{n_j (n_j - d_j)}\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{S}(t_j^+)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\frac{d_j}{n_j(n_j-d_j)}\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\sum_{j: t_j \leq t}\frac{d_j}{n_j(n_j-d_j)}\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\widehat{\text{Var}}(\hat{S}(t^+))\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.833</td>
+<td style="text-align: center;">0.017</td>
+<td style="text-align: center;">0.017</td>
+<td style="text-align: center;">0.012</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.667</td>
+<td style="text-align: center;">0.025</td>
+<td style="text-align: center;">0.042</td>
+<td style="text-align: center;">0.019</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.583</td>
+<td style="text-align: center;">0.018</td>
+<td style="text-align: center;">0.060</td>
+<td style="text-align: center;">0.020</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.583</td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;">0.060</td>
+<td style="text-align: center;">0.020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.486</td>
+<td style="text-align: center;">0.033</td>
+<td style="text-align: center;">0.093</td>
+<td style="text-align: center;">0.022</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.389</td>
+<td style="text-align: center;">0.050</td>
+<td style="text-align: center;">0.143</td>
+<td style="text-align: center;">0.022</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.292</td>
+<td style="text-align: center;">0.083</td>
+<td style="text-align: center;">0.226</td>
+<td style="text-align: center;">0.019</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.194</td>
+<td style="text-align: center;">0.167</td>
+<td style="text-align: center;">0.393</td>
+<td style="text-align: center;">0.015</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.097</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: center;">0.893</td>
+<td style="text-align: center;">0.008</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;">Inf</td>
+<td style="text-align: center;">Inf</td>
+<td style="text-align: center;">NaN</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section></section><section id="survival-package-in-r" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="survival-package-in-r">
+<code>survival</code> package in R</h2>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
+<span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">8</span>, <span class="fl">12</span>, <span class="fl">5</span>, <span class="fl">30</span>, <span class="fl">33</span>, <span class="fl">8</span>, <span class="fl">16</span>, <span class="fl">23</span>, <span class="fl">27</span>,  <span class="fl">43</span>, <span class="fl">45</span><span class="op">)</span>,</span>
+<span>  status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">7</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span> </span>
+<span><span class="va">surv_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">surv_model</span>, conf.int <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="ch03_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">surv_model</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call: survfit(formula = Surv(time, status) ~ 1, data = dat)
+
+ time n.risk n.event survival std.err lower 95% CI upper 95% CI
+    5     12       2    0.833   0.108        0.647         1.00
+    8     10       2    0.667   0.136        0.447         0.99
+   12      8       1    0.583   0.142        0.362         0.94
+   23      6       1    0.486   0.148        0.268         0.88
+   27      5       1    0.389   0.147        0.185         0.82
+   30      4       1    0.292   0.139        0.115         0.74
+   33      3       1    0.194   0.122        0.057         0.66
+   43      2       1    0.097   0.092        0.015         0.62
+   45      1       1    0.000     NaN           NA           NA</code></pre>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">survminer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span><span class="va">surv_model</span>, data <span class="op">=</span> <span class="va">dat</span>, </span>
+<span>              surv.median.line <span class="op">=</span> <span class="st">"hv"</span>, conf.int <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="ch03_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="384"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="nelson-aalen-estimator" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="nelson-aalen-estimator">Nelson-Aalen estimator</h2>
+<section id="cumulative-hazard-and-its-estimator" class="level3"><h3 class="anchored" data-anchor-id="cumulative-hazard-and-its-estimator">Cumulative hazard and its estimator</h3>
+<ul>
+<li><p>Cumulative hazard: <span class="math display">\[
+H(t) = \int_0^t h(s)\,ds
+\]</span></p></li>
+<li><p><strong>Nelson-Aalen (NA) estimator</strong> of <span class="math inline">\(H(t)\)</span> using the KM notations (event times <span class="math inline">\(t_j\)</span>, risk set <span class="math inline">\(n_j\)</span>, deaths <span class="math inline">\(d_j\)</span>): <span class="math display">\[
+\hat H(t) = \sum_{t_j \le t} \frac{d_j}{n_j}, \qquad n_j&gt;0.
+\]</span></p></li>
+<li><p>A useful companion estimator of survival derived from NA is <span class="math display">\[
+\hat S_{\mathrm{NA}}(t) = \exp\{-\hat H(t)\}.
+\]</span> In continuous-time settings with small event-time jumps, <span class="math inline">\(\hat S_{\mathrm{NA}}(t)\)</span> is often close to the KM curve.</p></li>
+</ul>
+<hr>
+<ul>
+<li>The variance of <span class="math inline">\(\hat{H}(t)\)</span> can be obtained as <span class="math display">\[\begin{align}
+\widehat{\text{Var}}\big[\hat{H}(t)\big] &amp;=\sum_{j:\,t_j\leq t} \text{Var}\Big(\frac{d_j}{n_j}\Big) \notag \\
+&amp; = \sum_{j:\,t_j\leq t}\Big(\frac{d_j}{n_j}\Big)\Big(1-\frac{d_j}{n_j}\Big)\Big(\frac{1}{n_j}\Big)\notag \\
+&amp; = \sum_{j:\,t_j\leq t} \frac{d_j (n_j - d_j)}{n_j^3}
+\end{align}\]</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li>Censored sample <span class="math display">\[5, 8, 12, 5, 30, 33, 8, 16^+, 23, 27,  43, 45\]</span>
+</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: center;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">23</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">27</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">33</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">43</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">45</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<p><span class="math inline">\(\hat{h}_j = P(T = t_j\,\vert\, T\geq t_j) = \frac{d_j}{n_j}\)</span> and <span class="math inline">\(\hat{H}(t) = \sum_{j:\,t_j\leq t} \hat{h}_j\)</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{h}_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{H}(t_j)\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.167</td>
+<td style="text-align: center;">0.167</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.200</td>
+<td style="text-align: center;">0.367</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.125</td>
+<td style="text-align: center;">0.492</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;">0.492</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.167</td>
+<td style="text-align: center;">0.658</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.200</td>
+<td style="text-align: center;">0.858</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.250</td>
+<td style="text-align: center;">1.108</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.333</td>
+<td style="text-align: center;">1.442</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: center;">1.942</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">2.942</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/anest-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Nelson-Aalen estimator</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<p><span class="math display">\[{\color{purple}\text{se}(\hat{H}(t)) = \sqrt{\sum_{j:\,t_j\leq t} \frac{d_j (n_j - d_j)}{n_j^3}}}\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{h}_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{H}(t_j)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(se(\hat{H}(t_j))\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.167</td>
+<td style="text-align: center;">0.167</td>
+<td style="text-align: center;">0.108</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.200</td>
+<td style="text-align: center;">0.367</td>
+<td style="text-align: center;">0.166</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.125</td>
+<td style="text-align: center;">0.492</td>
+<td style="text-align: center;">0.203</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;">0.492</td>
+<td style="text-align: center;">0.203</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.167</td>
+<td style="text-align: center;">0.658</td>
+<td style="text-align: center;">0.254</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.200</td>
+<td style="text-align: center;">0.858</td>
+<td style="text-align: center;">0.310</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.250</td>
+<td style="text-align: center;">1.108</td>
+<td style="text-align: center;">0.379</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.333</td>
+<td style="text-align: center;">1.442</td>
+<td style="text-align: center;">0.466</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.500</td>
+<td style="text-align: center;">1.942</td>
+<td style="text-align: center;">0.585</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">2.942</td>
+<td style="text-align: center;">0.585</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section></section><section id="cis-for-survival-probabilities" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="cis-for-survival-probabilities">CIs for survival probabilities</h2>
+<ul>
+<li>
+<p>Nonparametric methods can also be used to construct confidence intervals for different lifetime distribution characteristics, such as</p>
+<ul>
+<li><p>Survival probabilities <span class="math inline">\(S(t)\)</span></p></li>
+<li><p>Quantiles <span class="math inline">\(t_p\)</span></p></li>
+</ul>
+</li>
+<li><p>The methods of constructing confidence intervals are based on the following property of MLE <span class="math inline">\(\hat{\theta}\)</span> <span class="math display">\[
+\sqrt{n}(\hat{\theta} - \theta)\sim N(0, \sigma^2)\;\Rightarrow\;(\hat{\theta} - \theta)\sim N\big(0, \text{var}(\hat\theta)\big)
+\]</span></p></li>
+</ul>
+<section id="plain-wald-ci-using-greenwood" class="level3"><h3 class="anchored" data-anchor-id="plain-wald-ci-using-greenwood">Plain Wald CI (using Greenwood)</h3>
+<p>Let <span class="math inline">\(\hat S(t^+)\)</span> be the KM estimate and <span class="math display">\[\widehat{\mathrm{Var}}\big(\hat S(t^+)\big)=\hat S(t^+)^{2}
+\sum_{t_j\le t} \frac{d_j}{n_j(n_j-d_j)}\]</span></p>
+<p>Then a <span class="math inline">\((1-\alpha)100\%\)</span> CI is <span class="math display">\[
+\hat S(t^+) \, \pm\, z_{1-\alpha/2}\, \sqrt{\widehat{\mathrm{Var}}\big(\hat S(t^+)\big)}.
+\]</span></p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{S}(t_j^+)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\widehat{\text{Var}}(\hat{S}(t^+))\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.833</td>
+<td style="text-align: center;">0.012</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.667</td>
+<td style="text-align: center;">0.019</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.583</td>
+<td style="text-align: center;">0.020</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.583</td>
+<td style="text-align: center;">0.020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.486</td>
+<td style="text-align: center;">0.022</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.389</td>
+<td style="text-align: center;">0.022</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.292</td>
+<td style="text-align: center;">0.019</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.194</td>
+<td style="text-align: center;">0.015</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.097</td>
+<td style="text-align: center;">0.008</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.000</td>
+<td style="text-align: center;">NaN</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<ul>
+<li>95% confidence interval of <span class="math inline">\(S(15^+)\)</span>
+</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\hat{S}(15^+) \pm z_{.975}\,\hat{\sigma}_s(15^+) &amp; = 0.583 \pm (1.960)(\sqrt{0.020}) \\
+&amp; = 0.583 \pm 0.279 \\
+&amp; = (0.304, 0.862)
+\end{aligned}
+\]</span></p>
+<p><strong>Drawback of Plain CI:</strong> for small samples or when <span class="math inline">\(S(t)\)</span> is near 0 or 1, Wald CIs may exceed <span class="math inline">\((0,1)\)</span>.</p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/pl-cens1-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>PL estimate and corresponding 95% CI of <span class="math inline">\(S(15^+)\)</span> using the censored sample</figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="ci-via-variance-stabilizing-transformations" class="level3"><h3 class="anchored" data-anchor-id="ci-via-variance-stabilizing-transformations">CI via variance-stabilizing transformations</h3>
+<ul>
+<li>Let <span class="math inline">\(\psi(t)=g\big[S(t)\big]\)</span> where <span class="math inline">\(g\)</span> maps <span class="math inline">\((0,1)\to\mathbb{R}\)</span>.</li>
+</ul>
+<p>Common choices (with inverse <span class="math inline">\(g^{-1})\)</span>:</p>
+<ul>
+<li>
+<strong>Log–log:</strong> <span class="math inline">\(g(p)=\log[-\log p], \quad g^{-1}(u)=\exp(-e^{u})\)</span>
+</li>
+<li>
+<strong>Logit:</strong> <span class="math inline">\(g(p)=\log\big(p/(1-p)\big), \quad g^{-1}(u)=\exp(u)/[1+\exp(u)]\)</span>
+</li>
+<li>
+<strong>Log:</strong> <span class="math inline">\(g(p)=\log p,\quad g^{-1}(u)=e^{u}\)</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>Delta method: <span class="math display">\[
+\widehat{\mathrm{Var}}\big(\hat\psi(t)\big)
+= \big\{g'\big(\hat S(t)\big)\big\}^2 \, \widehat{\mathrm{Var}}\big(\hat S(t)\big).
+\]</span></p></li>
+<li><p>Then <span class="math inline">\((1-\alpha)100\%\)</span> CI for <span class="math inline">\(\psi(t)\)</span>: <span class="math display">\[\hat\psi(t)\pm z_{1-\alpha/2} \, \sqrt{\widehat{\mathrm{Var}}\big(\hat\psi(t)\big)} \quad \Rightarrow \quad[\psi_L,\, \psi_U]\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>Finally, <span class="math inline">\((1-\alpha)100\%\)</span> CI for <span class="math inline">\(S(t)\)</span> is <span class="math inline">\(\big[g^{-1}(\psi_L),\, \, g^{-1}(\psi_U)\big]\)</span> that stays inside <span class="math inline">\((0,1)\)</span>. That is,</li>
+</ul>
+<p><span class="math display">\[\begin{align*}
+    &amp; \psi_L \leqslant \psi(t)\leqslant \psi_U\\[.25em]
+    &amp; \psi_L \leqslant g\big[{S}(t)\big]\leqslant \psi_U\\[.25em]
+    &amp; g^{-1}\big(\psi_L\big) \leqslant {S}(t)\leqslant g^{-1}\big(\psi_U\big)
+\end{align*}\]</span></p>
+<hr></section><section id="example-of-log-log-ci" class="level3"><h3 class="anchored" data-anchor-id="example-of-log-log-ci">Example of Log-log CI</h3>
+<ul>
+<li>
+<p><strong>95% CI of <span class="math inline">\(\psi(t) = g\big[S(t)\big] = \log\big[-\log\big(S(t)\big)\big]\)</span> is</strong> <span class="math display">\[\hat{\psi}(t) \pm \hat{\sigma}_{\psi}\,z_{.975}\]</span></p>
+<ul>
+<li><p><span class="math inline">\(\hat{\psi}(t) = \log\big[-\log\big(\hat{S}(t)\big)\big]\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\sigma}_{\psi}(t) = \sqrt{\bigg[\frac{1}{ \hat{S}(t)\,\log\big(\hat{S}(t)\big)}\bigg]^{2} \,\hat{\sigma}^2_{S}(t)}\)</span></p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\hat{S}(t_j^+)\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\widehat{\text{Var}}(\hat{S}(t^+))\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.667</td>
+<td style="text-align: center;">0.019</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0.583</td>
+<td style="text-align: center;">0.020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.583</td>
+<td style="text-align: center;">0.020</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><span class="math display">\[\begin{aligned}
+\hat{\psi}(15^+) &amp;= \log\big[-\log\big(\hat{S}(15)\big)\big]=\log\big[-\log\big(0.583\big)\big]=
+\textcolor{purple}{-0.618} \\[.25em]
+\hat{\sigma}_{\psi}(15^+) &amp;= \sqrt{\Big[{ \hat{S}(15)\,\log\big(\hat{S}(15)\big)}\Big]^{-2} \,\hat{\sigma}^2_{S}(15)} \\[.25em]
+&amp; = \sqrt{\Big[{(0.583)\log(0.583)}\Big]^{-2}(0.020)} \\[.25em]
+&amp; = \textcolor{purple}{0.453}\end{aligned}\]</span></p>
+<hr>
+<ul>
+<li><strong>95% CI of <span class="math inline">\(\psi(15^+) =  \log\big[-\log\big(S(15^+)\big)\big]\)</span> is</strong></li>
+</ul>
+<p><span class="math display">\[\begin{aligned}
+\hat{\psi}(15^+) &amp;\pm \hat{\sigma}_{\psi}(15^+)\,z_{.975} \\[.25em]
+-0.618 &amp;\pm  (0.453)(1.960)\\[.25em]
+-0.618 &amp;\pm  0.887\\[.25em]
+-1.505 &amp;\leqslant \psi(15^+) \leqslant   0.269
+\end{aligned}\]</span></p>
+<hr>
+<ul>
+<li>
+<strong>95% CI of <span class="math inline">\(S(15^+)\)</span> can be obtained as</strong> <span class="math display">\[\begin{aligned}
+-1.505 &amp; \leqslant \psi(15^+) \leqslant   
+0.269 \\[.25em]
+-1.505  &amp; \leqslant \log\Big(-\log\big[S(15^+)\big]\Big) \leqslant   
+0.269 \\[.25em]
+{\color{purple}-e^{0.269}} &amp; \leqslant \log\big[S(15^+)\big] \leqslant   {\color{purple}-e^{-1.505}} \\[.25em]
+\exp\big(-e^{0.269}\big) &amp; \leqslant S(15^+) \leqslant   \exp\big(-e^{-1.505}\big) \\[.25em]
+0.270 &amp; \leqslant S(15^+) \leqslant   0.801 \\[.25em]
+\end{aligned}\]</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><strong>95% CI of <span class="math inline">\(S(15^+)\)</span></strong></p>
+<ul>
+<li><p>Plain CI <span class="math display">\[\begin{align}
+0.304 \leqslant S(15^+) \leqslant  0.862
+\end{align}\]</span></p></li>
+<li><p>Log-log CI <span class="math display">\[\begin{align}
+0.270 \leqslant S(15^+) \leqslant  0.801
+\end{align}\]</span></p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/pl-cens2-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>KM estimate and 95% CIs: Wald (plain) and log–log</figcaption></figure>
+</div>
+</div>
+</div>
+<section id="homework" class="level4"><h4 class="anchored" data-anchor-id="homework">Homework</h4>
+<ul>
+<li>Compute the 95% CI for <span class="math inline">\(S(15^+)\)</span> using
+<ol type="i">
+<li>
+<strong>logit</strong> and (ii) <strong>log</strong> transformations, and compare to the plain and log–log CIs.</li>
+</ol>
+</li>
+</ul></section></section><section id="bootstrap-ci" class="level3"><h3 class="anchored" data-anchor-id="bootstrap-ci">Bootstrap CI</h3>
+<ul>
+<li><p>The <strong>nonparametric bootstrap</strong> can be used to approximate the sampling distributions of the pivotal quantities <span class="math inline">\(Z_1\)</span> and <span class="math inline">\(Z_2\)</span>.</p></li>
+<li><p>The <span class="math inline">\((\alpha/2)\)</span>- and <span class="math inline">\((1-\alpha/2)\)</span>-quantiles of the bootstrap distribution yield a <span class="math inline">\((1-\alpha)100\%\)</span> confidence interval for <span class="math inline">\(S(t)\)</span>.</p></li>
+</ul>
+<hr>
+<section id="steps-for-obtaining-bootstrap-cis" class="level4"><h4 class="anchored" data-anchor-id="steps-for-obtaining-bootstrap-cis">Steps for obtaining bootstrap CIs</h4>
+<ol start="0" type="1">
+<li><p>Let the observed data be <span class="math inline">\(\{(t_i, \delta_i),\, i=1,\ldots,n\}\)</span>.<br>
+The Kaplan–Meier estimator <span class="math inline">\(\hat S(t)\)</span> and its standard error <span class="math inline">\(\hat\sigma_s(t)\)</span> are treated as MLEs of <span class="math inline">\(S(t)\)</span> and its SE.</p></li>
+<li><p><strong>Resample:</strong><br>
+Draw a bootstrap sample <span class="math inline">\(\{(t_i^\star, \delta_i^\star),\, i=1,\ldots,n\}\)</span> by sampling <strong>with replacement</strong> from the observed pairs <span class="math inline">\(\{(t_i, \delta_i)\}\)</span>.</p></li>
+<li><p><strong>Recompute estimates:</strong><br>
+For each bootstrap sample, compute the product-limit estimate <span class="math inline">\(\hat S^\star(t)\)</span> and its SE <span class="math inline">\(\hat\sigma_s^\star(t)\)</span>.</p></li>
+<li><p><strong>Form pivotal statistic:</strong><br><span class="math display">\[
+Z_1^\star = \frac{\hat S^\star(t) - \hat S(t)}{\hat\sigma_s^\star(t)}.
+\]</span></p></li>
+<li><p><strong>Repeat</strong> Steps 1–3 a large number of times (<span class="math inline">\(B &gt; 1000\)</span>) to obtain the bootstrap replicates<br><span class="math display">\[
+Z_{1,1}^\star, Z_{1,2}^\star, \ldots, Z_{1,B}^\star.
+\]</span></p></li>
+</ol>
+<hr>
+<ol start="5" type="1">
+<li><p><strong>Quantiles of the bootstrap distribution:</strong><br>
+Let <span class="math inline">\(z^\star_{(qB)}\)</span> denote the <span class="math inline">\((qB)\)</span>th smallest value of <span class="math inline">\(\{Z_{1,1}^\star,\ldots,Z_{1,B}^\star\}\)</span>.<br>
+This estimates the <span class="math inline">\(q\)</span>-quantile of the distribution of <span class="math inline">\(Z_1\)</span>.</p></li>
+<li><p><strong>Bootstrap confidence interval:</strong><br>
+The <span class="math inline">\((q_2 - q_1)100\%\)</span> CI of <span class="math inline">\(S(t)\)</span> is given by <span class="math display">\[
+\boxed{
+\hat S(t)
+- z^\star_{(q_2B)}\,\hat\sigma_s(t)
+&lt; S(t) &lt;
+\hat S(t)
+- z^\star_{(q_1B)}\,\hat\sigma_s(t)
+}
+\]</span> For a 95% CI, use <span class="math inline">\(q_2 = 0.975\)</span> and <span class="math inline">\(q_1 = 0.025\)</span>.</p></li>
+</ol>
+<hr></section><section id="homework-1" class="level4"><h4 class="anchored" data-anchor-id="homework-1">Homework</h4>
+<ul>
+<li>Obtain a <strong>bootstrap confidence interval</strong> for <span class="math inline">\(S(15^+)\)</span> using <span class="math inline">\(B = 1000\)</span> replications.</li>
+<li>Compare it to the intervals based on <span class="math inline">\(Z_1\)</span> (plain) and <span class="math inline">\(Z_2\)</span> (log–log) methods.</li>
+</ul></section></section><section id="example-remission-data" class="level3"><h3 class="anchored" data-anchor-id="example-remission-data">Example: Remission data</h3>
+<ul>
+<li><p>The following data are on lengths of remission for two groups (placebo and 6-MP) of leukemia patients</p></li>
+<li><p>Objective was to examine whether the drug 6-MP is more effective than placebo</p></li>
+</ul>
+<p><img src="images/table-1-3.jpg" class="img-fluid"></p>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>PL estimates and CIs (no transformation) for 6-MP group</caption>
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\hat{S}(t_j^+)\)</span></th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.857</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">0.707</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.807</td>
+<td style="text-align: right;">0.087</td>
+<td style="text-align: right;">0.636</td>
+<td style="text-align: right;">0.977</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.753</td>
+<td style="text-align: right;">0.096</td>
+<td style="text-align: right;">0.564</td>
+<td style="text-align: right;">0.942</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.690</td>
+<td style="text-align: right;">0.107</td>
+<td style="text-align: right;">0.481</td>
+<td style="text-align: right;">0.900</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.627</td>
+<td style="text-align: right;">0.114</td>
+<td style="text-align: right;">0.404</td>
+<td style="text-align: right;">0.851</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.538</td>
+<td style="text-align: right;">0.128</td>
+<td style="text-align: right;">0.286</td>
+<td style="text-align: right;">0.789</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.448</td>
+<td style="text-align: right;">0.135</td>
+<td style="text-align: right;">0.184</td>
+<td style="text-align: right;">0.712</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>PL estimates and CIs (no transformation) for placebo group</caption>
+<thead><tr class="header">
+<th style="text-align: right;"><span class="math inline">\(t_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(n_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(d_j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\hat{S}(t_j^+)\)</span></th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">lower</th>
+<th style="text-align: right;">upper</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.905</td>
+<td style="text-align: right;">0.064</td>
+<td style="text-align: right;">0.779</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.810</td>
+<td style="text-align: right;">0.086</td>
+<td style="text-align: right;">0.642</td>
+<td style="text-align: right;">0.977</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.762</td>
+<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">0.580</td>
+<td style="text-align: right;">0.944</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.667</td>
+<td style="text-align: right;">0.103</td>
+<td style="text-align: right;">0.465</td>
+<td style="text-align: right;">0.868</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.571</td>
+<td style="text-align: right;">0.108</td>
+<td style="text-align: right;">0.360</td>
+<td style="text-align: right;">0.783</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.381</td>
+<td style="text-align: right;">0.106</td>
+<td style="text-align: right;">0.173</td>
+<td style="text-align: right;">0.589</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.286</td>
+<td style="text-align: right;">0.099</td>
+<td style="text-align: right;">0.092</td>
+<td style="text-align: right;">0.479</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.190</td>
+<td style="text-align: right;">0.086</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">0.358</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.143</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.293</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.095</td>
+<td style="text-align: right;">0.064</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.221</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.048</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.139</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">NaN</td>
+<td style="text-align: right;">NaN</td>
+<td style="text-align: right;">NaN</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="ch03_files/figure-html/remission-est-1.png" class="img-fluid figure-img" width="528"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/remission-CI-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>No transformation was used to obtain CIs</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/remission-CI-logit-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Logit transformation was used to obtain CIs</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/remission-CI-loglog-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Log-log transformation was used to obtain CIs</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/remission-CI-log-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Log transformation was used to obtain CIs</figcaption></figure>
+</div>
+</div>
+</div>
+</section></section><section id="cis-for-quantiles" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="cis-for-quantiles">CIs for quantiles</h2>
+<ul>
+<li><p>For lifetime distribution, the quantiles <span class="math inline">\(t_p\)</span> are of more interest than mean of the distribution, e.g., the median <span class="math inline">\(t_{.50}\)</span> is used as the measure of location for lifetime distribution</p></li>
+<li><p>Median has some advantages over mean as a measure of location for lifetime distributions</p></li>
+<li><p>Median always exist (provided <span class="math inline">\(S(\infty) &lt; .5\)</span>) and it is easier to estimate when data are censored</p></li>
+</ul>
+<hr>
+<section id="estimates-of-quantiles" class="level4"><h4 class="anchored" data-anchor-id="estimates-of-quantiles">Estimates of quantiles</h4>
+<ul>
+<li><p>Nonparametric estimates of <span class="math inline">\(t_p\)</span> can be obtained from the PL estimates <span class="math inline">\(\hat{S}(t)\)</span></p></li>
+<li><p>For a step function <span class="math inline">\(\hat{S}(t)\)</span>, the corresponding inverse function <span class="math inline">\(\hat{S}^{-1}(1-p)\)</span> is not uniquely defined</p></li>
+<li><p>The estimate <span class="math inline">\(\hat{t}_p\)</span> could be either an intervals of times (<span class="math inline">\(t\)</span>’s) or a specific value of times (<span class="math inline">\(t\)</span>’s) depending on the point at which the line <span class="math inline">\(\hat{S}(t)=1-p\)</span> intersect the step function <span class="math inline">\(\hat{S}(t)\)</span> <span class="math display">\[\begin{align}
+{\color{purple} \hat{t}_p = \min\big\{t_i: \hat{S}(t_i) \leqslant 1 - p\big\}}
+\end{align}\]</span></p></li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/remission-est-q-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Estimated quartiles of the length of remission time for the two treatment groups</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Estimated quartiles for two treatment groups</caption>
+<thead><tr class="header">
+<th style="text-align: right;">prob</th>
+<th style="text-align: right;">6-MP</th>
+<th style="text-align: right;">placebo</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr></section><section id="confidence-intervals-of-quantiles" class="level4"><h4 class="anchored" data-anchor-id="confidence-intervals-of-quantiles">Confidence intervals of quantiles</h4>
+<ul>
+<li>
+<span class="math inline">\(100(1-\alpha)\%\)</span> confidence interval of <span class="math inline">\(t_p\)</span> can be obtained by inverting the corresponding confidence interval of survival function <span class="math inline">\(S(t)\)</span>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/quentile-ci-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>95% CI of median <span class="math inline">\((t_{.5})\)</span> remission time for placebo group of patients</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Estimated two-sided 95% CI of different quartiles for two treatment groups</caption>
+<thead><tr class="header">
+<th style="text-align: right;">prob</th>
+<th style="text-align: left;">6-MP</th>
+<th style="text-align: left;">placebo</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.25</td>
+<td style="text-align: left;"><span class="math inline">\((6, 23)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\((2, 8)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.50</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"><span class="math inline">\((4, 11)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.75</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;"><span class="math inline">\((8, 17)\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li>Confidence intervals for second and third quartiles cannot be estimated from this data set for the “6-MP” group because <span class="math inline">\(\hat{S}(\infty) &lt;.5\)</span>
+</li>
+</ul></section></section><section id="descriptive-and-diagnostic-plots" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="descriptive-and-diagnostic-plots">
+<span class="header-section-number">3.3</span> Descriptive and diagnostic plots</h2>
+<ul>
+<li><p>Plots of PL <span class="math inline">\(\big(\hat{S}(t)\big)\)</span> or Nelson-Aalen <span class="math inline">\(\big(\hat{H}(t)\big)\)</span> estimates can be used to provide good description of univariate lifetime data</p></li>
+<li><p>These estimates are useful to assess the appropriateness of a parametric model</p></li>
+</ul>
+<section id="plots-of-survivor-functions" class="level3"><h3 class="anchored" data-anchor-id="plots-of-survivor-functions">Plots of survivor functions</h3>
+<ul>
+<li><p>Data: <span class="math inline">\(\{(t_i, \delta_i), i = 1, \ldots, n\}\)</span></p></li>
+<li><p><span class="math inline">\(\hat{S}(t)\,\rightarrow\)</span> PL estimate of survivor function <span class="math inline">\(S(t)\)</span></p></li>
+<li><p>Assume lifetimes follow a distribution with survivor function <span class="math inline">\(S(t; \boldsymbol{{\theta}})\)</span> and <span class="math inline">\(F(t;\boldsymbol{{\theta}})\)</span> is the corresponding distribution function, where <span class="math inline">\(\boldsymbol{{\theta}}\)</span> is the parameter vector, e.g.&nbsp;for exponential distribution <span class="math display">\[
+S(t; \theta) = e^{-t/\theta}\;\;\;\;\;\;\; t\geqslant 0, \;\; \theta &gt; 0
+\]</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>Let <span class="math inline">\({{\hat{\symbf\theta}}}\)</span> is an estimate of <span class="math inline">\(\symbf{{\theta}}\)</span> and <span class="math inline">\(S(t; {{\hat{\symbf\theta}}})\)</span> is the estimate of survivor function <span class="math inline">\(S(t; {\symbf{{\theta}}})\)</span>, e.g.&nbsp;for exponential distribution <span class="math display">\[
+S(t; \hat{\theta}) = e^{-t/\hat{\theta}}
+\]</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>If the model assumption (i.e.&nbsp;lifetimes follow a distribution with survivor function <span class="math inline">\(S(t; \symbf{\theta})\)</span>) is appropriate then <span class="math inline">\(S(t; \hat{\symbf\theta})\)</span> should not be very far from <span class="math inline">\(\hat{S}(t)\)</span></p></li>
+<li><p>A comparison between <span class="math inline">\(S(t; \hat{\symbf{\theta}})\)</span> and <span class="math inline">\(\hat{S}(t)\)</span> can be used as a model assessment tool</p></li>
+<li><p>A plot of <span class="math inline">\(S(t; \hat{\symbf{\theta}})\)</span> and <span class="math inline">\(\hat{S}(t)\)</span> on the same graph can be used to compare graphically</p></li>
+</ul>
+<hr>
+<section id="example-3.3.1-ball-bearing-data" class="level4"><h4 class="anchored" data-anchor-id="example-3.3.1-ball-bearing-data">Example 3.3.1: Ball bearing data</h4>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>The number of revolutions (in million) before failure for each of 23 ball bearings</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">17.88</td>
+<td style="text-align: right;">41.52</td>
+<td style="text-align: right;">48.40</td>
+<td style="text-align: right;">54.12</td>
+<td style="text-align: right;">68.64</td>
+<td style="text-align: right;">84.12</td>
+<td style="text-align: right;">105.12</td>
+<td style="text-align: right;">128.04</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">28.92</td>
+<td style="text-align: right;">42.12</td>
+<td style="text-align: right;">51.84</td>
+<td style="text-align: right;">55.56</td>
+<td style="text-align: right;">68.64</td>
+<td style="text-align: right;">93.12</td>
+<td style="text-align: right;">105.84</td>
+<td style="text-align: right;">173.40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">33.00</td>
+<td style="text-align: right;">45.60</td>
+<td style="text-align: right;">51.96</td>
+<td style="text-align: right;">67.80</td>
+<td style="text-align: right;">68.88</td>
+<td style="text-align: right;">98.64</td>
+<td style="text-align: right;">127.92</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>PL estimate of survival for ball bearing data</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li>
+<p>Assume Weibull and log-normal models for analyzing ball bearing data and want to assess which of these two models is appropriate for the data</p>
+<ul>
+<li><p>Weibull model <span class="math display">\[
+S(t; \alpha, \beta) = e^{-(t/\alpha)^\beta}\;\;\;\;t\geqslant 0, \alpha &gt;0, \beta &gt;0
+\]</span></p></li>
+<li><p>Log-normal model <span class="math display">\[
+S(t; \mu, \sigma) = 1 - \Phi\bigg(\frac{\log t - \mu}{\sigma}\bigg) \;\;\;\;t\geqslant 0,  -\infty&lt;\mu&lt;\infty, \sigma &gt; 0
+\]</span></p></li>
+</ul>
+</li>
+</ul>
+<hr></section><section id="estimated-survivor-functions" class="level4"><h4 class="anchored" data-anchor-id="estimated-survivor-functions">Estimated survivor functions</h4>
+<ul>
+<li><p>Weibull model <span class="math display">\[
+  S(t; \hat\alpha, \hat\beta) = e^{-(t/81.87)^{2.10}}
+  \]</span></p></li>
+<li><p>Log-normal model <span class="math display">\[
+  S(t; \hat\mu, \hat\sigma) = 1 - \Phi\bigg(\frac{\log t - 4.15}{0.52}\bigg)
+  \]</span></p></li>
+</ul>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Estimated survivor functions using Weibull and log-normal models</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-compwln" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-compwln-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="ch03_files/figure-html/fig-compwln-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="528">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-compwln-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Comparison of Weibull and log-normal models with respect to PL estimates
+</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li><p><a href="#fig-compwln" class="quarto-xref">Figure&nbsp;3.2</a> shows that there is a good agreement between nonparametric PL estimates <span class="math inline">\(\hat{S}(t)\)</span> and both the Weibull and log-normal models</p></li>
+<li><p>Either Weibull or log-normal can be assumed to analyze ball bearing data</p></li>
+</ul>
+<hr></section><section id="probability-plots" class="level4"><h4 class="anchored" data-anchor-id="probability-plots">Probability plots</h4>
+<ul>
+<li><p>Let <span class="math inline">\(t_1 &lt;\cdots &lt; t_k\)</span> are <span class="math inline">\(k\)</span> distinct failure times, and <span class="math inline">\(S(t_j; \symbf{\hat{\theta}})\)</span> and <span class="math inline">\(\hat{S}(t_j)\)</span> are corresponding parametric and non-parametric estimates of survivor function</p></li>
+<li><p>Probability-probability (P-P) plot is defined as the scatter plot of <span class="math display">\[\big\{S(t_j; \symbf{\hat{\theta}}), \;\hat{S}(t_j)\big\}, \;\;j = 1, \ldots, k\]</span></p></li>
+<li><p>If the assumed parametric model <span class="math inline">\(S(t; \symbf{\theta})\)</span> is appropriate then all the points in the resulting scatter plot should lie around a straight line with slope one</p></li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Estimate of survivor function with nonparametric (PL) and parametric (Weibull, and log-normal) methods for smallest 10 failure times of ball bearing data</caption>
+<thead><tr class="header">
+<th style="text-align: center;">time</th>
+<th style="text-align: center;">PL</th>
+<th style="text-align: center;">Weibull</th>
+<th style="text-align: center;">Log-normal</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">17.88</td>
+<td style="text-align: center;">0.978</td>
+<td style="text-align: center;">0.960</td>
+<td style="text-align: center;">0.992</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">28.92</td>
+<td style="text-align: center;">0.935</td>
+<td style="text-align: center;">0.894</td>
+<td style="text-align: center;">0.934</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">33.00</td>
+<td style="text-align: center;">0.891</td>
+<td style="text-align: center;">0.862</td>
+<td style="text-align: center;">0.895</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">41.52</td>
+<td style="text-align: center;">0.848</td>
+<td style="text-align: center;">0.787</td>
+<td style="text-align: center;">0.792</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">42.12</td>
+<td style="text-align: center;">0.804</td>
+<td style="text-align: center;">0.781</td>
+<td style="text-align: center;">0.784</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">45.60</td>
+<td style="text-align: center;">0.761</td>
+<td style="text-align: center;">0.747</td>
+<td style="text-align: center;">0.737</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">48.40</td>
+<td style="text-align: center;">0.717</td>
+<td style="text-align: center;">0.718</td>
+<td style="text-align: center;">0.698</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">51.84</td>
+<td style="text-align: center;">0.674</td>
+<td style="text-align: center;">0.682</td>
+<td style="text-align: center;">0.651</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">51.96</td>
+<td style="text-align: center;">0.630</td>
+<td style="text-align: center;">0.681</td>
+<td style="text-align: center;">0.649</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">54.12</td>
+<td style="text-align: center;">0.587</td>
+<td style="text-align: center;">0.658</td>
+<td style="text-align: center;">0.620</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/pp-weib-lln-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>P-P plot for comparing Weibull and log-normal models</figcaption></figure>
+</div>
+</div>
+</div>
+<hr></section><section id="quantile-quantile-q-q-plot" class="level4"><h4 class="anchored" data-anchor-id="quantile-quantile-q-q-plot">Quantile-Quantile (Q-Q) plot</h4>
+<ul>
+<li><p>Quantile-quantile (Q-Q) plot compares observed quantiles and the corresponding quantiles estimated from the assumed parametric model <span class="math inline">\(S(t; \symbf{\theta})\)</span></p></li>
+<li><p>Observed quantiles are observed distinct failure time <span class="math inline">\(t_j\)</span> corresponding to the PL estimates <span class="math inline">\(\hat{S}_j\)</span></p></li>
+</ul>
+<hr>
+<ul>
+<li><p><span class="math inline">\(t(\hat{S}_j, {\symbf{\theta}})\)</span> are the quantiles corresponding to <span class="math inline">\(\hat{S}_j\)</span> obtained from the model <span class="math inline">\(S(t; \symbf{\theta})\)</span> <span class="math display">\[
+t(p, \symbf{\theta}) = \begin{cases}
+\alpha \big[-\log(1-p)\big]^{1/\beta}&amp; \text{Weibull}\\
+\exp\big[\mu + \sigma\Phi^{-1}(p)\big] &amp;\text{Log-normal}
+\end{cases}
+\]</span></p></li>
+<li><p>Q-Q plot is defined as the scatter plot of <span class="math inline">\(t(\hat{S}_j, \hat{\symbf{\theta}})\)</span> versus <span class="math inline">\(t_j\)</span></p></li>
+</ul>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/qq_weib_lln-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Q-Q plot for comparing Weibull and log-normal models</figcaption></figure>
+</div>
+</div>
+</div>
+<hr></section><section id="linearization-method" class="level4"><h4 class="anchored" data-anchor-id="linearization-method">Linearization method</h4>
+<ul>
+<li><p>This method is based on linearizing the survivor or distribution function of the assumed parametric model</p></li>
+<li><p>There exists functions <span class="math inline">\(g_1(\cdot)\)</span> and <span class="math inline">\(g_2(\cdot)\)</span> such that <span class="math inline">\(g_1\big[S(t; \symbf{\theta})\big]\)</span> is a linear function of <span class="math inline">\(g_2(t)\)</span></p></li>
+<li><p>If the parametric model <span class="math inline">\(S(t; \symbf{\theta})]\)</span> is appropriate, the plot of <span class="math inline">\(g_1\big[\hat{S}(t)\big]\)</span> versus <span class="math inline">\(g_2(t)\)</span> should be roughly linear, where <span class="math inline">\(\hat{S}(t)\)</span> is the PL estimate</p></li>
+<li><p>This method does not require to estimate the parameter <span class="math inline">\(\symbf{\theta}\)</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>Exponential distribution <span class="math display">\[\begin{align}
+S(t; \alpha) = e^{-t/\alpha} \;\Rightarrow\; \log\big[S(t;\alpha\big] = -t/\alpha
+\end{align}\]</span></p>
+<ul>
+<li><p><span class="math inline">\(\log\big[S(t; \alpha)\big]\)</span> is a linear function of <span class="math inline">\(t\)</span>, so a plot of <span class="math inline">\(\log \hat{S}(t)\)</span> versus <span class="math inline">\(t\)</span> should be linear through the origin if the exponential model is appropriate</p></li>
+<li><p>A graphical estimate of <span class="math inline">\(\alpha\)</span> can be obtained when the plot is roughly linear by fitting a straight line through the points</p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>A plot of <span class="math inline">\(\log(\hat{S}(t))\)</span> versus <span class="math inline">\(t\)</span> to assess whether exponential model is appropriate for ball bearing data</figcaption></figure>
+</div>
+</div>
+</div>
+<hr>
+<ul>
+<li>
+<p>Weibull distribution <span class="math display">\[\begin{align}
+S(t; \alpha, \beta) &amp;= e^{-(t/\alpha)^\beta} \notag \\
+\Rightarrow \; \log\big[-\log S(t;\alpha, \beta)\big] &amp;= \beta\log t - \beta\log \alpha
+\end{align}\]</span></p>
+<ul>
+<li><p>A plot of <span class="math inline">\(\log\big[-\log\hat{S}(t)\big]\)</span> versus <span class="math inline">\(\log t\)</span> should roughly linear if a Weibull model is appropriate</p></li>
+<li><p>When the plot is approximately linear, graphical estimates of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> can be obtained by intercept and slope of the fitted straight line through the points</p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/unnamed-chunk-45-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>A plot of <span class="math inline">\(\log[-\log(\hat{S}(t))]\)</span> versus <span class="math inline">\(\log(t)\)</span> to asses whether Weibull model is appropriate for ball bearing data</figcaption></figure>
+</div>
+</div>
+</div>
+<hr></section><section id="location-scale-family" class="level4"><h4 class="anchored" data-anchor-id="location-scale-family">Location-scale family</h4>
+<ul>
+<li><p>In general, linearization method of assessing the appropriateness of the assumed parametric model can be defined for location-scale family of models</p></li>
+<li><p>Let transformed lifetime <span class="math inline">\(Y = g(T)\)</span> has a location-scale distribution, e.g.&nbsp;<span class="math inline">\(g(\cdot)=\log(\cdot)\)</span></p></li>
+</ul>
+<hr>
+<ul>
+<li>Survivor function of <span class="math inline">\(Y\)</span> can be defined as <span class="math display">\[\begin{align}
+Pr(Y \geqslant y) &amp; = Pr\bigg(\frac{Y-u}{b}\geqslant \frac{y-u}{b}\bigg)\notag\\
+&amp; = Pr\bigg(Z \geqslant \frac{y- u}{b}\bigg) = S_0\bigg(\frac{y-u}{b}\bigg)\notag \\
+&amp; = Pr(T\geqslant t) = S(t)
+\end{align}\]</span>
+<ul>
+<li>
+<span class="math inline">\(t = g^{-1}(y)\)</span>, <span class="math inline">\(-\infty &lt;u&lt;\infty\)</span>, <span class="math inline">\(b&gt;0\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>It can be shown that <span class="math display">\[
+\begin{aligned}
+S_0\bigg(\frac{y-u}{b}\bigg) &amp;= S(t) \\
+\Rightarrow\;S_0^{-1}\Big[S(t)\Big] &amp;= \frac{y}{b} -\frac{u}{b}
+\end{aligned}
+\]</span> is a linear of <span class="math inline">\(y=g(t)\)</span></p></li>
+<li><p>A plot of <span class="math inline">\(S_0^{-1}\big[\hat{S}(t)\big]\)</span> versus <span class="math inline">\(g(t)\)</span> should be roughly linear if the assumed family of models is appropriate.</p></li>
+</ul>
+<hr>
+<ul>
+<li>Expressions of <span class="math inline">\(S_0(\cdot)\)</span> and <span class="math inline">\(S_0^{-1}(\cdot)\)</span> for log-location-scale family of models <span class="math display">\[
+\begin{aligned}
+S_0(z) &amp;= \begin{cases}
+\exp(-e^z) &amp;\text{Extreme value}\\
+(1 + e^z)^{-1} &amp;\text{Logistic} \\
+1 - \Phi(z) &amp; \text{Normal}
+\end{cases} \\[.5em]
+S_0^{-1}(p) &amp;= \begin{cases}
+\log\big(-\log(p)\big) &amp;\text{Extreme value}\\
+\log \frac{1-p}{p} &amp;\text{Logistic} \\
+\Phi^{-1}(1-p) &amp; \text{Normal}
+\end{cases}
+\end{aligned}
+\]</span>
+</li>
+<li>For all these three distributions, <span class="math inline">\(y=g(t)=\log(t)\)</span>
+</li>
+</ul>
+<hr>
+<ul>
+<li>In general, for distinct failure times, a plot of points <span class="math display">\[
+(\log(t_j), S_0^{-1}(\hat{S}_j)), \;j=1, \ldots, k
+\]</span> can be used to assess whether the assumed location-scale model is appropriate</li>
+</ul>
+<hr>
+<ul>
+<li><p>Graphical estimates of <span class="math inline">\(u\)</span> and <span class="math inline">\(b\)</span> can be obtained from the lines fitted to the points, where <span class="math inline">\(b^{-1}\)</span> and <span class="math inline">\(u\)</span> are estimated by the slope and <span class="math inline">\(\log(t)\)</span>-intercept, respectively</p></li>
+<li><p>Graphical estimates can be used as initial values of the optimization routines that are used for estimating model parameters</p></li>
+<li><p>Since these plots are subject to sampling variations, these are often used for informal model assessment</p></li>
+</ul>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="ch03_files/figure-html/qq-log-loc-1.png" class="img-fluid figure-img" width="528"></p>
+<figcaption>Comparison of models of log-location-scale family</figcaption></figure>
+</div>
+</div>
+</div>
+</section></section><section id="hazard-plots" class="level3"><h3 class="anchored" data-anchor-id="hazard-plots">Hazard plots</h3>
+<ul>
+<li>
+<p>The plotting procedures described for survivor functions <span class="math inline">\(S(t)\)</span> can also be described for cumulative hazards function <span class="math inline">\(H(t)\)</span></p>
+<ul>
+<li><p>Survivor function of Weibull distribution <span class="math display">\[
+\begin{aligned}
+S(t; \alpha, \beta) &amp;= e^{-(t/\alpha)^{\beta}} \\[.25em]
+\;\Rightarrow\; \log[-\log S(t;\alpha, \beta)] &amp;= \beta\log(t) - \beta\log(\alpha)
+\end{aligned}
+\]</span></p></li>
+<li><p>Cumulative hazard function of Weibull distribution <span class="math display">\[
+\begin{aligned}
+H(t; \alpha, \beta) &amp; = \Big(\frac{t}{\alpha}\Big)^\beta \\[.25em]
+\log H(t; \alpha, \beta) &amp; = \beta \log(t) - \beta\log(\alpha)
+\end{aligned}
+\]</span></p></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>An alternative of plotting <span class="math inline">\(\log[-\log \hat{S}(t)]\)</span> versus <span class="math inline">\(\log(t)\)</span> would be to plot <span class="math inline">\(\log \hat{H}(t)\)</span> versus <span class="math inline">\(\log(t)\)</span> can be used to assess the appropriateness of the Weibull model for the data at hand</p>
+<ul>
+<li><p><span class="math inline">\(\hat{S}(t)\;\rightarrow\)</span> PL estimate</p></li>
+<li><p><span class="math inline">\(\hat{H}(t)\;\rightarrow\)</span> Nelson-Aalen estimate</p></li>
+</ul>
+</li>
+<li><p>The plots based on survivor function and cumulative hazard function could differ slightly, specially for a large <span class="math inline">\(t\)</span>, because <span class="math inline">\(-\log \hat{S}(t)\neq \hat{H}(t)\)</span> for discrete data</p></li>
+</ul></section><section id="references" class="level3 unnumbered">
+
+
+
+</section></section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-kaplan1958nonparametric" class="csl-entry" role="listitem">
+Kaplan, Edward L, and Paul Meier. 1958. <span>“Nonparametric Estimation from Incomplete Observations.”</span> <em>Journal of the American Statistical Association</em> 53 (282): 457–81.
+</div>
+</div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/ast305\.netlify\.app");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../life/ch02.html" class="pagination-link" aria-label="2 Observed Schemes, Censoring, and Likelihood">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2 Observed Schemes, Censoring, and Likelihood</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../life/rsurvival.html" class="pagination-link" aria-label="{survival} package">
+        <span class="nav-page-text">{survival} package</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
